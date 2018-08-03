@@ -60,7 +60,7 @@ public class TestCapabilities
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/""); //pixel 1 trstn
 		appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Galaxy s7");
 		//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P"); //removed to avoid emulation
-		appiumSettings.setCapability("app", /*this.GetApp()*/"C:\\Users\\WoodmDav\\localDocuments\\Android_AppUITesting.apk");
+		appiumSettings.setCapability("app", /*this.GetApp()*/"C:\\Users\\WoodmDav\\localDocuments\\myCode\\GIT\\Nasa Test Engine 1\\Nasa Test Engine 1\\src\\main\\resources\\Android_AppUITesting.apk");
 		appiumSettings.setCapability("automationName", "UiAutomator2");
 		
 		//David: run directly from local app, might run faster?

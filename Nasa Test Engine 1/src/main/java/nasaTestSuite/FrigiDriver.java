@@ -9,6 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -41,9 +42,10 @@ import javax.xml.xpath.XPathConstants;
 import io.appium.java_client.android.AndroidDriver;
 
 public class FrigiDriver {
-	private final int OPEN_WAIT = 120;
-	private final int UPDATE_WAIT = 240;
-	private final int BUTTON_WAIT = 60;
+	public final int OPEN_WAIT = 120;
+	public final int UPDATE_WAIT = 240;
+	public final int POWER_SECS = 30;
+	public final int BUTTON_WAIT = 60;
 	int oneMinute = 60;
 
 	private URL testServerAddress; 
@@ -157,44 +159,44 @@ public class FrigiDriver {
 	}
 	
 //	//still needs work
-//	public void typeSignIn() {//David
-//		WebElement emailField = null;
-//		WebElement passField = null;
-//
-//		WebDriverWait wait = new WebDriverWait(driver,20);
-//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.emailField)));
-//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.passField)));
-//		
-////		boolean looping = true;
-////		while(looping) {
-////			try {
-////				emailField = FindByID("email", true, driver);
-////				passField = FindByID("password", true, driver);
-////				looping = false;
-////				System.out.println("ID SUCCESS!!! :D");
-////			}catch(Exception e){
-////				//David: Loops forever if sign in fails
-////			}
-////		}
-//		
-//		 
-//		if(emailField == null || passField == null)
-//		{
-//			List<MobileElement> editableFields = driver.findElementsByClassName("android.widget.EditText");
-//			print("Result size " + editableFields.size());
-//			editableFields.get(0).sendKeys("eluxtester1@gmail.com");
-//			editableFields.get(0).click();
-//			editableFields.get(1).click();
-//			editableFields.get(1).sendKeys("123456");
-//		}else{
-//			emailField.sendKeys("eluxtester@gmail.com");
-//			emailField.click();
-//			passField.sendKeys("123456");
-//			passField.click();
-//
-//			System.out.println("Find By ID is working");
+	public void typeSignIn() {//David
+		WebElement emailField = null;
+		WebElement passField = null;
+
+		WebDriverWait wait = new WebDriverWait(driver,20);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.emailField)));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.passField)));
+		
+//		boolean looping = true;
+//		while(looping) {
+//			try {
+//				emailField = FindByID("email", true, driver);
+//				passField = FindByID("password", true, driver);
+//				looping = false;
+//				System.out.println("ID SUCCESS!!! :D");
+//			}catch(Exception e){
+//				//David: Loops forever if sign in fails
+//			}
 //		}
-//	}
+		
+		 
+		if(emailField == null || passField == null)
+		{
+			List<MobileElement> editableFields = driver.findElementsByClassName("android.widget.EditText");
+			print("Result size " + editableFields.size());
+			editableFields.get(0).sendKeys("eluxtester1@gmail.com");
+			editableFields.get(0).click();
+			editableFields.get(1).click();
+			editableFields.get(1).sendKeys("123456");
+		}else{
+			emailField.sendKeys("eluxtester@gmail.com");
+			emailField.click();
+			passField.sendKeys("123456");
+			passField.click();
+
+			System.out.println("Find By ID is working");
+		}
+	}
 	
 	public void clickSignIn2() {
 		WebElement signInButton = null;
@@ -263,8 +265,8 @@ public class FrigiDriver {
 	
 	public void clickByXpath(String xPath, int waitSecs){
 		myWait(xPath, waitSecs);
-		WebElement humidPlusElm = findByXPath(xPath, false, driver);
-		humidPlusElm.click();
+		WebElement elem = findByXPath(xPath, false, driver);
+		elem.click();
 	}
 	
 	public void myWait(String xPath, int waitSecs) {
@@ -392,7 +394,7 @@ public class FrigiDriver {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.invisibilityOf(thinking));
 		}catch(WebDriverException e) {
-			e.printStackTrace();
+			e.getMessage();
 			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
 		}
 	}

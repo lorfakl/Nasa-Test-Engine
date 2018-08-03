@@ -14,11 +14,26 @@ import io.appium.java_client.remote.AndroidMobileCapabilityType;
 
 public class testStuff {
 	public static void main(String[] args) {
-
-		FrigiDriver frigi = new FrigiDriver();
-		frigi.startApp(20);
-		frigi.UpdateApp();
-		frigi.clickSignIn1();
+		
+		System.out.println("test");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+//		FrigiDriver frigi = new FrigiDriver();
+//		frigi.startApp(20);
+//		frigi.UpdateApp();
+//		frigi.clickSignIn1();
 	}
 	
 	private static void divideByZero() {
