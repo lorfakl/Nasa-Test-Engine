@@ -50,19 +50,23 @@ public class TestCapabilities
 	public DesiredCapabilities AssignAppiumCapabilities()
 	{
 		String appPath = new File("").getAbsolutePath();
-		appPath = appPath.concat("\\nasaTestSuite\\Android_AppUITesting.apk");
+		FrigiDriver.print(appPath);
+		appPath = appPath.concat("\\src\\main\\resources\\Android_AppUITesting.apk");
 		DesiredCapabilities appiumSettings = new DesiredCapabilities();
-		appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0.1");//S7
-		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.0");//S8
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"8.1.0");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.1.2"); //pixel 1 
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/""); //pixel 1 trstn
-		appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Galaxy s7");
-		//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P"); //removed to avoid emulation
-		appiumSettings.setCapability("app", /*this.GetApp()*/"C:\\Users\\WoodmDav\\localDocuments\\myCode\\GIT\\Nasa Test Engine 1\\Nasa Test Engine 1\\src\\main\\resources\\Android_AppUITesting.apk");
-		appiumSettings.setCapability("automationName", "UiAutomator2");
 		
+		if(appPath.contains("Users")) //test if running on local machine
+		{
+			appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
+			appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"8.1.0");//S8
+			appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Pixel 2XL");
+			//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P"); //removed to avoid emulation
+			appiumSettings.setCapability("app", appPath);
+			appiumSettings.setCapability("automationName", "UiAutomator2");
+		}
+		else
+		{
+			return appiumSettings;
+		}
 		//David: run directly from local app, might run faster?
 		//com.ELXSmart
 		//com.ELXSmart.ELXSmart

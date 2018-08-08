@@ -89,7 +89,7 @@
 	<dependency>
 	    <groupId>org.seleniumhq.selenium</groupId>
 	    <artifactId>selenium-java</artifactId>
-	    <version>3.12.0</version>
+	    <version>3.13.0</version>
 	</dependency>
 	
   	<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -97,24 +97,6 @@
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-lang3</artifactId>
 	    <version>3.7</version>
-	</dependency>
-  	<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
-	<dependency>
-	    <groupId>io.cucumber</groupId>
-	    <artifactId>cucumber-junit</artifactId>
-	    <version>3.0.2</version>
-	</dependency>
-  	<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
-	<dependency>
-	    <groupId>io.cucumber</groupId>
-	    <artifactId>cucumber-java</artifactId>
-	    <version>3.0.2</version>
-	</dependency>
-  	<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-core -->
-	<dependency>
-	    <groupId>io.cucumber</groupId>
-	    <artifactId>cucumber-core</artifactId>
-	    <version>3.0.2</version>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/io.appium/java-client -->
 	<dependency>

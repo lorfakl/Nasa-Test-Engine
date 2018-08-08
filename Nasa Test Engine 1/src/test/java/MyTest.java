@@ -19,18 +19,21 @@ public class MyTest {
 		static int oneMinute = 60;
 		
 		@Test//("^Appium server is running$")
-		public void appium_server_is_running()  {//David
+		public void appium_server_is_running()  
+		{//David
 
 		    // Write code here that turns the phrase above into concrete actions
 		}
 
 		@Test//("^Phone or emulator are ready$")
-		public void phone_or_emulator_are_ready()  {//David
+		public void phone_or_emulator_are_ready()  
+		{//David
 		    // Write code here that turns the phrase above into concrete actions
 		}
 
 		@BeforeClass//("^This code opens the app$")
-		public static void launchMyTest(){//David
+		public static void launchMyTest()
+		{//David
 			System.out.println("Launching App");//delete later
 			//this.frigi = new FrigiDriver(20); //David: param is implicit time THIS BROKE SO HARD  NULLPOINTER LATER ON AT SIGN IN CAUSE UNKNOWN. Found out it was being reset between scenarios.
 			//frigi.startApp(20); original working code
@@ -57,9 +60,11 @@ public class MyTest {
 		
 		//humidscen
 		@Test
-		public void dehumPowerOn() {
+		public void dehumPowerOn() 
+		{
 			System.out.println("Testing: dehum power on");
-			if(dehum.isPowerOn()) {//if power is on turn it off so we can test power on function
+			if(dehum.isPowerOn()) 
+			{//if power is on turn it off so we can test power on function
 				dehum.powerButton();
 			}
 			dehum.powerButton();
@@ -69,11 +74,13 @@ public class MyTest {
 		
 		//Humidity will change to 'CONT' if 85, 35 if 'CONT', or it will just increase by 5
 		@Test//("^Humidity will change to 'CONT' if (\\d+), (\\d+) if 'CONT', or it will just increase by (\\d+)$")
-		public void humidityUp(){
+		public void humidityUp()
+		{
 			System.out.println("Testing: dehum humidity up");
 			
 			System.out.println("HumidPRE1: " + dehum.isPowerOn());
-			if(!dehum.isPowerOn()) {//if power is not on, turn it on
+			if(!dehum.isPowerOn()) 
+			{//if power is not on, turn it on
 				dehum.powerButton();
 			}
 //			if(frigi.getScreen() == "dehum") {
@@ -81,7 +88,8 @@ public class MyTest {
 //			}
 			System.out.println("HumidPRE2: " + dehum.isPowerOn());
 			
-			try {
+			try 
+			{
 				dehum.refreshHumidity();
 				dehum.clickHumidPlus();
 				frigi.thinkWait();
@@ -91,26 +99,36 @@ public class MyTest {
 				dehum.refreshHumidity();
 				System.out.println("DEBUG1");
 				int actualHumidity = dehum.getHumidity();
-				if(expectedHumidity == 90) {
+				if(expectedHumidity == 90) 
+				{
 					System.out.println("Handle CONT logic StepDef");
 					
-				}else if(expectedHumidity == 5){
+				}
+				else if(expectedHumidity == 5)
+				{
 					System.out.println("Handle CONT logic StepDef");
-				}else if(40 < expectedHumidity && expectedHumidity < 85) {
+				}
+				else if(40 < expectedHumidity && expectedHumidity < 85) 
+				{
 					System.out.println("DEHUM PASS");
 					System.out.println("Expected Humidity: " + expectedHumidity);
 					System.out.println("Actual Humidity: " + expectedHumidity);
-					if(actualHumidity != expectedHumidity) {
+					if(actualHumidity != expectedHumidity) 
+					{
 						System.out.println("Expected Humidity: " + expectedHumidity);
 						System.out.println("Actual Humidity: " + expectedHumidity);
 						fail();
 					}
-				}else {
+				}
+				else 
+				{
 					System.out.println("ERROR: Plus Button Pressed - Unexpected humidity");
 				}
 				System.out.println("PASS: Scenario: feature Dehumidifier Humidity Control - function UP");
 				System.out.println("DEBUG2");
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				e.printStackTrace();
 				System.out.println("delete catch after debugging");
 			}
@@ -161,8 +179,10 @@ public class MyTest {
 //		}
 		
 		@Test
-		public void powerOff() {
-			if(!dehum.isPowerOn()) {
+		public void powerOff() 
+		{
+			if(!dehum.isPowerOn()) 
+			{
 				dehum.powerButton();
 			}
 			

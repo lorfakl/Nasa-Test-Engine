@@ -1,31 +1,8 @@
 package main.java.nasaTestSuite;
 
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import io.appium.java_client.FindsByAndroidUIAutomator;
-import io.appium.java_client.MobileBy;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-import main.java.nasaTestSuite.TestCapabilities;
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
-
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.String;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,12 +10,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Sequence;
-import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import javax.swing.JOptionPane;
-import javax.xml.xpath.XPathConstants;
+import org.openqa.selenium.support.ui.*;
+//import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 
 public class FrigiDriver {
@@ -119,14 +95,19 @@ public class FrigiDriver {
 	
 	
 
-	public void UpdateApp() {
+	public void UpdateApp() 
+	{
 		Boolean looping = true;
-		while(looping) { //David: removed wait time
-			try {
+		while(looping) 
+		{ //David: removed wait time
+			try 
+			{
 				WebElement updateButton = driver.findElementById("android:id/button2");
 				updateButton.click();
 				looping = false;
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				//David: This will loop for infinity if the update button never shows up
 			}
 		}
@@ -188,7 +169,8 @@ public class FrigiDriver {
 			editableFields.get(0).click();
 			editableFields.get(1).click();
 			editableFields.get(1).sendKeys("123456");
-		}else{
+		}
+		else{
 			emailField.sendKeys("eluxtester@gmail.com");
 			emailField.click();
 			passField.sendKeys("123456");
@@ -344,7 +326,8 @@ public class FrigiDriver {
 		return driver.findElementById(xpath);
 	}
 	
-	public String getText(WebElement element) {
+	public String getText(WebElement element) 
+	{
 		return element.getText();
 	}
 	
@@ -379,7 +362,7 @@ public class FrigiDriver {
 			e.printStackTrace();
 		}
 	}
-	private void print(String msg)
+	public static void print(String msg)
 	{
 		System.out.println(msg);
 	}
@@ -387,13 +370,17 @@ public class FrigiDriver {
 	/**
 	 * Stops the driver while the app is thinking
 	 */
-	public void thinkWait() {
+	public void thinkWait() 
+	{
 		myWait(MyXPath.thinking,30);
 		WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
-		try {
+		try 
+		{
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.invisibilityOf(thinking));
-		}catch(WebDriverException e) {
+		}
+		catch(WebDriverException e) 
+		{
 			e.getMessage();
 			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
 		}
@@ -403,19 +390,24 @@ public class FrigiDriver {
 	
 	
 	//GETTERS SETTERS
-	public AndroidDriver getDriver() {
+	public AndroidDriver getDriver() 
+	{
 		return driver;
 	}
-	public boolean isBoolAppStart() {
+	public boolean isBoolAppStart() 
+	{
 		return boolAppStart;
 	}
-	public void setBoolAppStart(boolean boolAppStart) {
+	public void setBoolAppStart(boolean boolAppStart) 
+	{
 		this.boolAppStart = boolAppStart;
 	}
-	public boolean isBoolAppUpdated() {
+	public boolean isBoolAppUpdated() 
+	{
 		return boolAppUpdated;
 	}
-	public void setBoolAppUpdated(boolean boolAppUpdated) {
+	public void setBoolAppUpdated(boolean boolAppUpdated) 
+	{
 		this.boolAppUpdated = boolAppUpdated;
 	}
 }

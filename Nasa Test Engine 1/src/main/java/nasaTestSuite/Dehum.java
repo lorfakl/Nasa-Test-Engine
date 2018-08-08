@@ -9,7 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 
-public class Dehum extends FrigiDriver{
+public class Dehum extends FrigiDriver
+{
 	private boolean powerOn;
 	private Date timer;
 	private int humidity;//0 means cont
@@ -28,7 +29,8 @@ public class Dehum extends FrigiDriver{
 
 
 	//Humidity PLUS
-	public void clickHumidPlus() {
+	public void clickHumidPlus() 
+	{
 		WebDriverWait wait = new WebDriverWait(driver,20);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidPlusButton)));
 		WebElement humidPlusElm = findByXPath(MyXPath.humidPlusButton, false, driver);
@@ -36,7 +38,8 @@ public class Dehum extends FrigiDriver{
 	}
 	
 	//Humidity MINUS
-	public void clickHumidMinus() {
+	public void clickHumidMinus() 
+	{
 		WebDriverWait wait = new WebDriverWait(driver,20);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidMinusButton)));
 		WebElement humidPlusElm = findByXPath(MyXPath.humidMinusButton, false, driver);
@@ -44,7 +47,8 @@ public class Dehum extends FrigiDriver{
 	}
 	
 	//Humidity Speed Down
-	public void clickHumidSpeedUp() {
+	public void clickHumidSpeedUp() 
+	{
 		WebDriverWait wait = new WebDriverWait(driver,20);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.dSpeedUp)));
 		WebElement humidPlusElm = findByXPath(MyXPath.dSpeedUp, false, driver);
@@ -52,7 +56,8 @@ public class Dehum extends FrigiDriver{
 	}
 	
 	//Humidity Speed Down
-	public void clickHumidSpeedDown() {
+	public void clickHumidSpeedDown() 
+	{
 		WebDriverWait wait = new WebDriverWait(driver,20);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.dSpeedDown)));
 		WebElement humidPlusElm = findByXPath(MyXPath.dSpeedDown, false, driver);
@@ -60,7 +65,8 @@ public class Dehum extends FrigiDriver{
 	}
 	
 	//State
-	public void refreshHumidity() {
+	public void refreshHumidity() 
+	{
 		System.out.println("Refeshing Humidity");
 		myWait(MyXPath.targHumidity, 20);
 //		WebDriverWait wait = new WebDriverWait(driver,20);
@@ -90,18 +96,21 @@ public class Dehum extends FrigiDriver{
 		//first check for CONT as it is a seperate xpath
 		myWait(MyXPath.contHumidity, 30);
 		WebElement elem2 = findByXPath(MyXPath.contHumidity, false, driver);
-		if(elem2.isEnabled()) {
+		if(elem2.isEnabled()) 
+		{
 			System.out.println("CONT is displayed");
 			humidity = 0;
 		}
 		//check number valued humidity xpaths
 		String firstHalf = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.ListView/android.view.View[";
 		String secondHalf = "]/android.view.View[1]";
-		for(int i = 2; i <= 12; i++) {
+		for(int i = 2; i <= 12; i++) 
+		{
 			String currentXPath = firstHalf + i + secondHalf;
 			System.out.println("Current XPath: " + currentXPath);
 			elem2 = findByXPath(currentXPath, false, driver);
-			if(elem2.isEnabled()) {
+			if(elem2.isEnabled()) 
+			{
 				System.out.println("true");
 				humidity = 35 + (i*5);//start a 35 humidity, and for each index go up by five
 				System.out.println("Humidity: " + humidity);
@@ -113,13 +122,16 @@ public class Dehum extends FrigiDriver{
 		System.out.println("Humidity: " + humidity);
 	}
 	
-	public void powerButton() {
+	public void powerButton() 
+	{
 		clickByXpath(MyXPath.powerButton, POWER_SECS);
 		thinkWait();
-		if(powerOn) {
+		if(powerOn) 
+		{
 			System.out.println("Dehum powering down");
 			powerOn = false;
-		}else {
+		}else 
+		{
 			System.out.println("Dehum powering on");
 			powerOn = true;
 		}
@@ -128,39 +140,48 @@ public class Dehum extends FrigiDriver{
 	
 	
 	
-	public void setDriver(AndroidDriver driver) {
+	public void setDriver(AndroidDriver driver) 
+	{
 		this.driver = driver;
 	}
 
-	public Date getTimer() {
+	public Date getTimer() 
+	{
 		return timer;
 	}
 
-	public int getHumidity() {
+	public int getHumidity() 
+	{
 		return humidity;
 	}
 
-	public int getFanSpeed() {
+	public int getFanSpeed() 
+	{
 		return fanSpeed;
 	}
 
-	public String getName() {
+	public String getName() 
+	{
 		return name;
 	}
 
-	public int getNotifications() {
+	public int getNotifications() 
+	{
 		return notifications;
 	}
 
-	public String getTimeZone() {
+	public String getTimeZone() 
+	{
 		return timeZone;
 	}
 
-	public boolean isPowerOn() {
+	public boolean isPowerOn() 
+	{
 		return powerOn;
 	}
 
-	public void setPowerOn(boolean powerOn) {
+	public void setPowerOn(boolean powerOn) 
+	{
 		this.powerOn = powerOn;
 	}
 	
