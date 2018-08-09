@@ -42,10 +42,18 @@ import javax.xml.xpath.XPathConstants;
 import io.appium.java_client.android.AndroidDriver;
 
 public class FrigiDriver {
+//	public final int OPEN_WAIT = 120;
+//	public final int UPDATE_WAIT = 240;
+//	public final int POWER_SECS = 30;
+//	public final int BUTTON_WAIT = 60;
+//	public final int SIGN_IN_WAIT = 30;
+
 	public final int OPEN_WAIT = 120;
 	public final int UPDATE_WAIT = 240;
-	public final int POWER_SECS = 30;
-	public final int BUTTON_WAIT = 60;
+	public final int POWER_SECS = 5;
+	public final int BUTTON_WAIT = 5;
+	public final int SIGN_IN_WAIT = 5;
+	
 	int oneMinute = 60;
 
 	private URL testServerAddress; 
@@ -147,13 +155,13 @@ public class FrigiDriver {
 	}
 	
 	public void typeEmail() {
-		myWait(MyXPath.emailField, oneMinute);
+		myWaitXPath(MyXPath.emailField, oneMinute);
 		WebElement elem = findByXPath(MyXPath.emailField, false, driver);
 		elem.sendKeys("eluxtester1@gmail.com");
 	}
 	
 	public void typePassword() {
-		myWait(MyXPath.passField, oneMinute);
+		myWaitXPath(MyXPath.passField, oneMinute);
 		WebElement elem = findByXPath(MyXPath.passField, false, driver);
 		elem.sendKeys("123456");
 	}
@@ -242,6 +250,7 @@ public class FrigiDriver {
 		//TODO add rac and strombo. try to decrease the i of for loop or replace with waitFor. Try to add navigate functionality
 		return null;//shouldn't get here. 
 	}
+	
 	//srt: JIHAD'S HELPER METHODS
 	private MobileElement grabFromClass(String className,int index, AndroidDriver d)
 	{
@@ -263,17 +272,44 @@ public class FrigiDriver {
 		return results.get(index);
 	}
 	
-	public void clickByXpath(String xPath, int waitSecs){
-		myWait(xPath, waitSecs);
-		WebElement elem = findByXPath(xPath, false, driver);
-		elem.click();
+	public void clickByXpath(String xPath, int waitSecs)
+	{
+		myWaitXPath(xPath, waitSecs);
+		try 
+		{
+			WebElement elem = findByXPath(xPath, false, driver);
+			elem.click();
+		}
+		catch(NullPointerException e)
+		{
+			System.out.println("Failed to find XPath: " + xPath);
+		}
 	}
 	
-	public void myWait(String xPath, int waitSecs) {
-		try {
+	public void myWaitXPath(String xPath, int waitSecs) 
+	{
+		try 
+		{
 			WebDriverWait wait = new WebDriverWait(driver, waitSecs);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
-		}catch (TimeoutException e) {
+		}
+		catch (TimeoutException e) 
+		{
+			System.out.println("XPath Failed: " + xPath);
+			System.out.println("Timed out after " + waitSecs + " second(s)");
+		}
+	}
+	
+	public void myWaitText(String text, int waitSecs) 
+	{
+		try 
+		{
+			WebDriverWait wait = new WebDriverWait(driver, waitSecs);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(text)));
+			wait.until(ExpectedConditions.visibilityOf(driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ text +"\")")));
+		}
+		catch (TimeoutException e) 
+		{
 			System.out.println("Timed out after " + waitSecs + " second(s)");
 		}
 	}
@@ -281,8 +317,10 @@ public class FrigiDriver {
 	public WebElement findByID(String id, boolean looping, AndroidDriver d)
 	{
 		WebElement result = null;
-		if(looping == true) {
-			while(looping) {
+		if(looping == true) 
+		{
+			while(looping) 
+			{
 				try
 				{
 					result = d.findElementById("com.ELXSmart:id/"+id);
@@ -292,7 +330,9 @@ public class FrigiDriver {
 					print("Failed to find Element with ID:" + id);
 				}
 			}
-		}else {
+		}
+		else 
+		{
 			try
 			{
 				result = d.findElementById("com.ELXSmart:id/"+id);
@@ -308,8 +348,10 @@ public class FrigiDriver {
 	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver d)
 	{
 		WebElement result = null;
-		if(looping == true) {
-			while(looping) {
+		if(looping == true) 
+		{
+			while(looping) 
+			{
 				try
 				{
 					result = d.findElementById(xpath);
@@ -319,7 +361,9 @@ public class FrigiDriver {
 					print("Failed to find Element with xPath:" + xpath);
 				}
 			}
-		}else {
+		}
+		else 
+		{
 			try
 			{
 				result = d.findElementByXPath(xpath);
@@ -340,11 +384,12 @@ public class FrigiDriver {
 	
 	public WebElement findByXPath(String xpath)
 	{
-		myWait(xpath, BUTTON_WAIT);
+		myWaitXPath(xpath, BUTTON_WAIT);
 		return driver.findElementById(xpath);
 	}
 	
-	public String getText(WebElement element) {
+	public String getText(WebElement element) 
+	{
 		return element.getText();
 	}
 	
@@ -372,9 +417,12 @@ public class FrigiDriver {
 	
 	private void Sleep(int milli)
 	{
-		try {
+		try 
+		{
 			Thread.sleep(milli);
-		} catch (InterruptedException e) {
+		} 
+		catch (InterruptedException e) 
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -387,35 +435,126 @@ public class FrigiDriver {
 	/**
 	 * Stops the driver while the app is thinking
 	 */
-	public void thinkWait() {
-		myWait(MyXPath.thinking,30);
+	public void thinkWait() 
+	{
+		myWaitXPath(MyXPath.thinking,30);
 		WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
-		try {
+		try 
+		{
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.invisibilityOf(thinking));
-		}catch(WebDriverException e) {
+		}
+		catch(WebDriverException e) 
+		{
 			e.getMessage();
 			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
 		}
+	}
+	
+	public boolean lookForXPath(String xPath, int wait) 
+	{
+		boolean result = false;
+		try 
+		{
+			myWaitXPath(xPath, wait);
+			WebElement elem = findByXPath(xPath, false, driver);
+			result = true;
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			System.out.println("Replace with specific Exception");
+		}
+		return result;
+	}
+	
+	public boolean lookForText(String text, int wait) 
+	{
+		boolean result = false;
+		try 
+		{
+			myWaitText(text, wait);
+			WebElement elem = findByXPath(text, false, driver);
+			result = true;
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			System.out.println("Replace with specific Exception");
+			System.out.println("Failed to find Text: " + text);
+		}
+		return result;
+	}
+	
+	public void openControls(String appliance) 
+	{
+		//assumes signed in
+		//assumes settings button present with all appliances xBUG: settings might not be the same id
+		System.out.println("Opening Controls...");
+		try 
+		{
+			//clickByXpath(MyXPath.backButton, SIGN_IN_WAIT);
+
+			try 
+			{
+				WebDriverWait wait = new WebDriverWait(driver, 10);
+				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.backButton)));
+			}
+			catch (TimeoutException e) 
+			{
+				System.out.println("XPath Failed: " + MyXPath.backButton);
+				System.out.println("Timed out after " + 10 + " second(s)");
+			}
+			WebElement bac = null;
+			try
+			{
+				bac = driver.findElementById(MyXPath.backButton);
+				bac.click();
+			}
+			catch(Exception e)
+			{
+				print("Failed to find back with xPath:" + MyXPath.backButton);
+			}
+			
+			myWaitText(appliance, SIGN_IN_WAIT);
+			WebElement elem = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ appliance +"\")");
+			elem.click();
+			System.out.println("Opening " + appliance);
+		}
+		catch(WebDriverException e) 
+		{
+			e.printStackTrace();
+			//if there are no appliances then we can't open controls
+			if(lookForXPath(MyXPath.addAppliance, SIGN_IN_WAIT)) 
+			{
+				System.out.println("Unable to open controls. Please provision an appliance.");
+			}
+		}
+		
 	}
 	
 	
 	
 	
 	//GETTERS SETTERS
-	public AndroidDriver getDriver() {
+	public AndroidDriver getDriver() 
+	{
 		return driver;
 	}
-	public boolean isBoolAppStart() {
+	public boolean isBoolAppStart() 
+	{
 		return boolAppStart;
 	}
-	public void setBoolAppStart(boolean boolAppStart) {
+	public void setBoolAppStart(boolean boolAppStart) 
+	{
 		this.boolAppStart = boolAppStart;
 	}
-	public boolean isBoolAppUpdated() {
+	public boolean isBoolAppUpdated() 
+	{
 		return boolAppUpdated;
 	}
-	public void setBoolAppUpdated(boolean boolAppUpdated) {
+	public void setBoolAppUpdated(boolean boolAppUpdated) 
+	{
 		this.boolAppUpdated = boolAppUpdated;
 	}
 }
