@@ -41,18 +41,14 @@ import javax.xml.xpath.XPathConstants;
 
 import io.appium.java_client.android.AndroidDriver;
 
-public class FrigiDriver {
-//	public final int OPEN_WAIT = 120;
-//	public final int UPDATE_WAIT = 240;
-//	public final int POWER_SECS = 30;
-//	public final int BUTTON_WAIT = 60;
-//	public final int SIGN_IN_WAIT = 30;
+public class FrigiDriver 
+{
 
 	public final int OPEN_WAIT = 120;
 	public final int UPDATE_WAIT = 240;
-	public final int POWER_SECS = 5;
-	public final int BUTTON_WAIT = 5;
-	public final int SIGN_IN_WAIT = 5;
+	public final int POWER_SECS = 20;
+	public final int BUTTON_WAIT = 20;
+	public final int SIGN_IN_WAIT = 120;
 	
 	int oneMinute = 60;
 
@@ -60,10 +56,14 @@ public class FrigiDriver {
 	private static AndroidDriver driver; //David: why is this static?
 	private boolean boolAppStart = false;
 	private boolean boolAppUpdated = false;
+	private String name = "default";
+	
+	boolean powerOn = false;
 	
 	public Dehum dhum;
 
-	public void startApp(int implicitTime) {
+	public void startApp(int implicitTime) 
+	{
 		TestCapabilities testCap = new TestCapabilities();
 		testCap.AssignAppiumCapabilities();
 		try 
@@ -86,7 +86,7 @@ public class FrigiDriver {
 			driver.quit();
 			System.out.println("StepDef StartApp() CAUGHT: Failed to initialize AndroidDriver driver");
 		}
-		
+		System.out.println("implicit wait may be broken according to appium forum");
 		driver.manage().timeouts().implicitlyWait(implicitTime, TimeUnit.SECONDS);
 		boolAppStart = true;
 		
@@ -127,98 +127,60 @@ public class FrigiDriver {
 	
 	
 
-	public void UpdateApp() {
+	public void UpdateApp() 
+	{
 		Boolean looping = true;
-		while(looping) { //David: removed wait time
-			try {
+		while(looping) 
+		{ //David: removed wait time
+			try 
+			{
 				WebElement updateButton = driver.findElementById("android:id/button2");
 				updateButton.click();
 				looping = false;
-			}catch(Exception e) {
+			}
+			catch(Exception e) 
+			{
 				//David: This will loop for infinity if the update button never shows up
 			}
 		}
 		
 		boolAppUpdated = true;
 	}
-	public void clickSignIn1() {
-		try {
+	public void clickSignIn1() 
+	{
+		try 
+		{
 			boolean looping = true;
-			while(looping) {
+			while(looping) 
+			{
 				MobileElement result = grabFromClass("android.widget.Button",0, driver);
 				result.click();
 				looping = false;
 			}
-		}catch(Exception e) {
+		}
+		catch(Exception e) 
+		{
 			System.out.println("looking for sign in");
 		}
 	}
 	
-	public void typeEmail() {
+	public void typeEmail() 
+	{
 		myWaitXPath(MyXPath.emailField, oneMinute);
 		WebElement elem = findByXPath(MyXPath.emailField, false, driver);
 		elem.sendKeys("eluxtester1@gmail.com");
 	}
 	
-	public void typePassword() {
+	public void typePassword() 
+	{
 		myWaitXPath(MyXPath.passField, oneMinute);
 		WebElement elem = findByXPath(MyXPath.passField, false, driver);
 		elem.sendKeys("123456");
 	}
 	
-//	//still needs work
-	public void typeSignIn() {//David
-		WebElement emailField = null;
-		WebElement passField = null;
-
-		WebDriverWait wait = new WebDriverWait(driver,20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.emailField)));
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.passField)));
-		
-//		boolean looping = true;
-//		while(looping) {
-//			try {
-//				emailField = FindByID("email", true, driver);
-//				passField = FindByID("password", true, driver);
-//				looping = false;
-//				System.out.println("ID SUCCESS!!! :D");
-//			}catch(Exception e){
-//				//David: Loops forever if sign in fails
-//			}
-//		}
-		
-		 
-		if(emailField == null || passField == null)
-		{
-			List<MobileElement> editableFields = driver.findElementsByClassName("android.widget.EditText");
-			print("Result size " + editableFields.size());
-			editableFields.get(0).sendKeys("eluxtester1@gmail.com");
-			editableFields.get(0).click();
-			editableFields.get(1).click();
-			editableFields.get(1).sendKeys("123456");
-		}else{
-			emailField.sendKeys("eluxtester@gmail.com");
-			emailField.click();
-			passField.sendKeys("123456");
-			passField.click();
-
-			System.out.println("Find By ID is working");
-		}
-	}
-	
-	public void clickSignIn2() {
-		WebElement signInButton = null;
-		try {
-			WebDriverWait wait = new WebDriverWait(driver,20);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.signInTwo)));
-			signInButton = findByXPath(MyXPath.signInTwo, false, driver);
-			signInButton.click();
-		}catch(Exception e) {
-			System.out.println("Looking for signin2");
-		}
-	}
-	
-	public String checkScreen() {
+	//Ended up not using this, don't delete for now
+	public String checkScreen() 
+	{
 		//NO APPLIANCES: add-appliance (ID)
 		//RAC: 
 		for(int i = 0; i < 100; i++) {
@@ -259,7 +221,8 @@ public class FrigiDriver {
 		while(looping) {
 			try {
 				results = d.findElementsByClassName(className);
-				if(results.size()>0) {
+				if(results.size()>0) 
+				{
 
 					print("Size of " + className + " Elements: " + results.size());
 					looping = false;
@@ -282,7 +245,8 @@ public class FrigiDriver {
 		}
 	}
 	
-	public void myWaitXPath(String xPath, int waitSecs) {
+	public void myWaitXPath(String xPath, int waitSecs) 
+	{
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, waitSecs);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
@@ -291,15 +255,16 @@ public class FrigiDriver {
 			System.out.println("Timed out after " + waitSecs + " second(s)");
 		}
 	}
-	public void myWaitText(String text, int waitSecs) {
+	public void myWaitText(String text, int waitSecs) 
+	{
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, waitSecs);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(text)));
 			wait.until(ExpectedConditions.visibilityOf(driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ text +"\")")));
 		}catch (TimeoutException e) {
 			System.out.println("Timed out after " + waitSecs + " second(s)");
 		}
 	}
+	
 	public WebElement findByID(String id, boolean looping, AndroidDriver d)
 	{
 		WebElement result = null;
@@ -327,6 +292,31 @@ public class FrigiDriver {
 		return result;
 		
 	}
+	
+	public void clickBackButton() 
+	{
+		System.out.println("Press back button please");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Times up.");
+	}
+	
+	public void clickOffSettings() 
+	{
+		//meant to open settings menu while appliance is off
+		System.out.println("WARNING: clickOffSettings() not yet implemented");
+	}
+	
+	public void clickOnSettings()
+	{
+		//meant to open settings menu while appliance is on
+		System.out.println("WARNING: clickOnSettings() not yet implemented");
+	}
+	
 	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver d)
 	{
 		WebElement result = null;
@@ -360,15 +350,12 @@ public class FrigiDriver {
 //		return driver.findElementById(xpath);
 //	}
 	
-	public WebElement findByXPath(String xpath)
-	{
-		myWaitXPath(xpath, BUTTON_WAIT);
-		return driver.findElementById(xpath);
-	}
+//	public WebElement findByXPath(String xpath)
+//	{
+//		myWaitXPath(xpath, BUTTON_WAIT);
+//		return driver.findElementById(xpath);
+//	}
 	
-	public String getText(WebElement element) {
-		return element.getText();
-	}
 	
 	private void switchWifi(String ssid)
 	{
@@ -421,29 +408,33 @@ public class FrigiDriver {
 		}
 	}
 	
-	public boolean lookForXPath(String xPath, int wait) {
+	public boolean searchForXPath(String xPath, int wait) 
+	{
 		boolean result = false;
 		try {
 			myWaitXPath(xPath, wait);
 			WebElement elem = findByXPath(xPath, false, driver);
 			result = true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Replace with specific Exception");
+		}catch(WebDriverException e) {
+			e.getMessage();
+			System.out.println("XPath not found: " + xPath);
+			System.out.println("Did that print twice?");
 		}
 		return result;
 	}
 	
-	public boolean lookForText(String text, int wait) {
+	public boolean searchForText(String text, int wait) 
+	{
+		System.out.println("Searching for: " + text);
 		boolean result = false;
 		try {
 			myWaitText(text, wait);
-			WebElement elem = findByXPath(text, false, driver);
+			WebElement elem = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ text +"\")");
 			result = true;
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("Replace with specific Exception");
-			System.out.println("Failed to find Text: " + text);
+			System.out.println("Found text: " + text);
+		}catch(WebDriverException e) {
+			//e.printStackTrace();
+			System.out.println("Not Found in Search: " + text);
 		}
 		return result;
 	}
@@ -457,23 +448,26 @@ public class FrigiDriver {
 		{
 			//clickByXpath(MyXPath.backButton, SIGN_IN_WAIT);
 
-			try {
-				WebDriverWait wait = new WebDriverWait(driver, 10);
-				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.backButton)));
-			}catch (TimeoutException e) {
-				System.out.println("XPath Failed: " + MyXPath.backButton);
-				System.out.println("Timed out after " + 10 + " second(s)");
-			}
-			WebElement bac = null;
-			try
-			{
-				bac = driver.findElementById(MyXPath.backButton);
-				bac.click();
-			}
-			catch(Exception e)
-			{
-				print("Failed to find back with xPath:" + MyXPath.backButton);
-			}
+//			try {
+//				
+//				WebDriverWait wait = new WebDriverWait(driver, 10);
+//				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.backButton)));
+//			}catch (TimeoutException e) {
+//				System.out.println("XPath Failed: " + MyXPath.backButton);
+//				System.out.println("Timed out after " + 10 + " second(s)");
+//			}
+//			WebElement bac = null;
+//			try
+//			{
+//				bac = driver.findElementById(MyXPath.backButton);
+//				bac.click();
+//			}
+//			catch(Exception e)
+//			{
+//				print("Failed to find back with xPath:" + MyXPath.backButton);
+//			}
+			
+			clickBackButton();
 			
 			myWaitText(appliance, SIGN_IN_WAIT);
 			WebElement elem = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ appliance +"\")");
@@ -483,7 +477,7 @@ public class FrigiDriver {
 		{
 			e.printStackTrace();
 			//if there are no appliances then we can't open controls
-			if(lookForXPath(MyXPath.addAppliance, SIGN_IN_WAIT)) 
+			if(searchForXPath(MyXPath.addAppliance, SIGN_IN_WAIT)) 
 			{
 				System.out.println("Unable to open controls. Please provision an appliance.");
 			}
@@ -491,23 +485,120 @@ public class FrigiDriver {
 		
 	}
 	
+	////TEST METHODS////
+	public void testPowerOn() 
+	{
+		//appliance.openControls(this.getName());//ASSUME FOR NOW YOU'RE JUST GOING TO BE ON STROMBOLI SCREEN
+		printStartTest("Power on function");
+		if(this.isPowerOn()) {//if power is on turn it off so we can test power on function
+			System.out.println("Appliance was already on. Powering down to verify test.");
+			this.powerButton();
+		}
+		this.powerButton();
+
+		//verify
+		if(this.isPowerOn()) {
+			printEndTest("Power on function", "PASS");
+		}else {
+			printEndTest("Power on function", "FAIL");
+			fail();
+		}
+	}
 	
 	
 	
-	//GETTERS SETTERS
-	public AndroidDriver getDriver() {
+	public void printStartTest(String testName) 
+	{
+		System.out.println("\n\n");
+		System.out.println("==========================================================================");
+		System.out.println("Starting Test - " + testName);
+		System.out.println("==========================================================================");
+	}
+	
+	public void printEndTest(String testName, String result) 
+	{
+		System.out.println("==========================================================================");
+		System.out.println("End Result - " + testName + ": " + result);
+		System.out.println("==========================================================================");
+		System.out.println();
+	}
+	/**
+	 * TODO Currently set up to check name, change name, and verify name all withing settings menu
+	 * Need to implement back button and check name on the CONTROL screen rather than just the settings menu page
+	 */
+	public void testChangeName() {
+		printStartTest("Change Name");
+		openSettings();
+		
+		WebElement currentNameElem = findByXPath(MyXPath.dehumNameValue, false, driver);
+		String prevName = currentNameElem.getText();
+		System.out.println("Previous Name: " + prevName);
+		
+		currentNameElem.sendKeys("strombo renamed");
+		
+		String expectedName = "strombo renamed";
+		String actualName = currentNameElem.getText();
+		
+		System.out.println("Expected name: " + expectedName);
+		System.out.println("Actual name: " + actualName);
+		if(actualName.equals(expectedName)) {
+			printEndTest("Change Name", "PASS");
+		}else {
+			printEndTest("Change Name", "FAIL");
+			fail();
+		}
+	}
+	////ACTIONS////
+	public void openSettings(){
+		clickByXpath(MyXPath.settingsButton, BUTTON_WAIT);
+	}
+	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
+	public void powerButton() 
+	{
+		//assumes isPowerOn() has been used at the start of testing - David
+		clickByXpath(MyXPath.powerButton, POWER_SECS);
+		if(powerOn) 
+		{
+			System.out.println(this.getName() + " powering down");
+			powerOn = false;
+		}else 
+		{
+			System.out.println(this.getName() + " powering on");
+			powerOn = true;
+		}
+		thinkWait();
+	}
+	
+	////GETTERS SETTERS////
+	public boolean isPowerOn() 
+	{
+		powerOn = !searchForText("Off", BUTTON_WAIT);
+		System.out.println("isPowerOn: " + powerOn);
+		return powerOn;
+	}
+	public AndroidDriver getDriver() 
+	{
 		return driver;
 	}
-	public boolean isBoolAppStart() {
+	public String getName() 
+	{
+		return name;
+	}
+
+	public boolean isBoolAppStart() 
+	{
 		return boolAppStart;
 	}
-	public void setBoolAppStart(boolean boolAppStart) {
+	public void setBoolAppStart(boolean boolAppStart) 
+	{
 		this.boolAppStart = boolAppStart;
 	}
-	public boolean isBoolAppUpdated() {
+	public boolean isBoolAppUpdated() 
+	{
 		return boolAppUpdated;
 	}
-	public void setBoolAppUpdated(boolean boolAppUpdated) {
+	public void setBoolAppUpdated(boolean boolAppUpdated) 
+	{
 		this.boolAppUpdated = boolAppUpdated;
 	}
 }
