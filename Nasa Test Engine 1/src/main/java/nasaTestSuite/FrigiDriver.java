@@ -2,6 +2,7 @@ package main.java.nasaTestSuite;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebElement;
@@ -125,7 +126,17 @@ public class FrigiDriver
 //		this.dhum = new Dehum(driver, implicitTime);
 //	}
 	
+	public void webContext() {
+		Set<String> contextNames = driver.getContextHandles();
+		String webView = contextNames.toArray()[1].toString();
+		System.out.println("Switching to web view: " + webView);
+		driver.context(webView);
+	}
 	
+	public void nativeContext() {
+		System.out.println("Switching to native view");
+		driver.context("NATIVE_APP");
+	}
 
 	public void UpdateApp() 
 	{
@@ -164,6 +175,18 @@ public class FrigiDriver
 		}
 	}
 	
+	public void switchToWebView() {
+		Set<String> availableContexts = driver.getContextHandles();
+		System.out.println("Total No of Context Found After we reach to WebView = " + availableContexts.size());
+		for (String context : availableContexts) {
+			if (context.contains("WEBVIEW")) {
+				System.out.println("Context Name is " + context);
+				driver.context(context);
+				break;
+			}
+		}
+	}
+	//TODO FIND METHODS THAT DO NOT FIT INTO THE "APPLIANCE SUPERTYPE" DEFINITION
 	public void typeEmail() 
 	{
 		myWaitXPath(MyXPath.emailField, oneMinute);

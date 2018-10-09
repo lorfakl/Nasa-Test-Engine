@@ -29,26 +29,32 @@ public class StromboliTest
 	@BeforeClass//("^This code opens the app$")
 	public static void launchMyTest()
 	{
-		System.out.println("Launching App3");//delete later
+		System.out.println("Launching App");//delete later
 		//this.frigi = new FrigiDriver(20); //David: param is implicit time THIS BROKE SO HARD  NULLPOINTER LATER ON AT SIGN IN CAUSE UNKNOWN. Found out it was being reset between scenarios.
 		frigi.startApp(1000000);//huge debug wait, was originally 20 seconds
 		
 		strombo.setDriver(frigi.getDriver());  //David: used to start from frigi.startApp(), but I am trying to abstract that class
 		frigi.clickByXpath(MyXPath.updateButton, strombo.UPDATE_WAIT);
 		System.out.println("PASS: Start and update the app");
-		
-		
-		frigi.clickByXpath(MyXPath.signInOne, 240);
-		frigi.clickByXpath(MyXPath.emailField, oneMinute);
-		frigi.typeEmail();
-		frigi.clickByXpath(MyXPath.passField, oneMinute);
-		frigi.typePassword();
-		frigi.clickByXpath(MyXPath.signInTwo, oneMinute);
-		System.out.println("PASS: Sign In");
-		strombo.thinkWait();
-		strombo.isPowerOn();
-	    System.out.println("App Launched");
-	    System.out.println();
+
+	    strombo.switchToWebView();
+	    strombo.clickByXpath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
+//		WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", true, strombo.getDriver());
+//		signInButton.click();
+//		System.out.println(signInButton);
+	    System.out.println("Pass: new xpath click");
+	    
+//		frigi.clickByXpath(MyXPath.signInOne, 240);
+//		frigi.clickByXpath(MyXPath.emailField, oneMinute);
+//		frigi.typeEmail();
+//		frigi.clickByXpath(MyXPath.passField, oneMinute);
+//		frigi.typePassword();
+//		frigi.clickByXpath(MyXPath.signInTwo, oneMinute);
+//		System.out.println("PASS: Sign In");
+//		strombo.thinkWait();
+//		strombo.isPowerOn();
+//	    System.out.println("App Launched");
+//	    System.out.println();
 	}
 	
 	@Test
