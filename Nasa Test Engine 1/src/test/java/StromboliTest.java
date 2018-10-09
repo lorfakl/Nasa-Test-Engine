@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Set;
 
+import org.apache.tools.ant.util.SymbolicLinkUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,11 +35,14 @@ public class StromboliTest
 		frigi.startApp(1000000);//huge debug wait, was originally 20 seconds
 		
 		strombo.setDriver(frigi.getDriver());  //David: used to start from frigi.startApp(), but I am trying to abstract that class
-		frigi.clickByXpath(MyXPath.updateButton, strombo.UPDATE_WAIT);
-		System.out.println("PASS: Start and update the app");
+		System.out.println("temporarily removed update");
+//		frigi.clickByXpath(MyXPath.updateButton, strombo.UPDATE_WAIT);
+//		System.out.println("PASS: Start and update the app");
 
 	    strombo.switchToWebView();
-	    strombo.clickByXpath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
+	    WebElement signInButton = strombo.findByXpath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
+	    System.out.println("Found SignInButton");
+	    strombo.tapOnElement(signInButton);
 //		WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", true, strombo.getDriver());
 //		signInButton.click();
 //		System.out.println(signInButton);
