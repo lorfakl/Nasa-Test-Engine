@@ -42,7 +42,11 @@ public class StromboliTest
 	    strombo.switchToWebView();
 	    WebElement signInButton = strombo.findByXpath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
 	    System.out.println("Found SignInButton");
+	    strombo.useNativeContext();
+	    signInButton.click();
+	    System.out.println("clicked");
 	    strombo.tapOnElement(signInButton);
+	    System.out.println("tapped");
 //		WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", true, strombo.getDriver());
 //		signInButton.click();
 //		System.out.println(signInButton);

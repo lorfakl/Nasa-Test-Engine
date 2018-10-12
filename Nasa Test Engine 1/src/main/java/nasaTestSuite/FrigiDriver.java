@@ -14,6 +14,7 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.cucumber.datatable.dependency.com.fasterxml.jackson.core.io.SegmentedStringWriter;
 import main.java.nasaTestSuite.TestCapabilities;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
@@ -30,7 +31,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.tools.ant.util.SymbolicLinkUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -525,61 +529,49 @@ public class FrigiDriver
 	
 	@SuppressWarnings("deprecation")
 	public void tapOnElement(WebElement element){
-		  float[] elementLocation = getElementCenter(element);
-		  int coordinateX, coordinateY; 
-		  int elementCoordinateX = (int) Math.round(elementLocation[0]);
-		  int elementCoordinateY = (int) Math.round(elementLocation[1]);
-		  driver.context("NATIVE_APP");
-		  TouchAction action = new TouchAction(driver);
-		  action.tap(elementCoordinateX, elementCoordinateX).perform();
-		  useWebContext();
+		float[] elementLocation = getElementCenter(element);
+		int elementCoordinateX, elementCoordinateY; 
+		elementCoordinateX = Math.round(elementLocation[0]);
+		elementCoordinateY = Math.round(elementLocation[1]);
+		driver.context("NATIVE_APP");
+		TouchAction action = new TouchAction(driver);
+		action.tap(elementCoordinateX, elementCoordinateX).perform();
+		switchToWebView();
 	}
 
-	//My changes: 
-	/*
-	1) use our web switch
-	2) change to non-static
-	3) use java's web screen width
-	*/
+	//My changes: nothing, it was never in javascript
 	public float[] getElementCenter(WebElement element){
-		  useWebContext();
-		  
-//		  JavascriptExecutor js = (JavascriptExecutor)driver;
-//		// get webview dimensions
-//		  Long webviewWidth = (Long) js.executeScript("return screen.width");
-//		  Long webviewHeight = (Long)  js.executeScript("return screen.height");
-		  
-		  
-		  int webviewWidth = driver.manage().window().getSize().getWidth();
-		  int webviewHeight = driver.manage().window().getSize().getHeight();
-
-	
+		switchToWebView();
+		JavascriptExecutor js = (JavascriptExecutor)driver;
+		// get webview dimensions
+		Long webviewWidth = (Long) js.executeScript("return screen.width");
+		Long webviewHeight = (Long)  js.executeScript("return screen.height");
 		// get element location in webview
-		  int elementLocationX = element.getLocation().getX();
-		  int elementLocationY = element.getLocation().getY();
+		int elementLocationX = element.getLocation().getX();
+		int elementLocationY = element.getLocation().getY();
 		// get the center location of the element
-		  int elementWidthCenter = element.getSize().getWidth() / 2;
-		  int elementHeightCenter = element.getSize().getHeight() / 2;
-		  int elementWidthCenterLocation = elementWidthCenter + elementLocationX;
-		  int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
+		int elementWidthCenter = element.getSize().getWidth() / 2;
+		int elementHeightCenter = element.getSize().getHeight() / 2;
+		int elementWidthCenterLocation = elementWidthCenter + elementLocationX;
+		int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
 		// switch to native context
-		  driver.context("NATIVE_APP");
-		  float deviceScreenWidth, deviceScreenHeight;
+		driver.context("NATIVE_APP");
+		float deviceScreenWidth, deviceScreenHeight;
 		// offset
-		  int offset = 115;
+		int offset = 115;
 		// get the actual screen dimensions
-		  deviceScreenWidth = driver.manage().window().getSize().getWidth();
-		  deviceScreenHeight = driver.manage().window().getSize().getHeight();
+		deviceScreenWidth = driver.manage().window().getSize().getWidth();
+		deviceScreenHeight = driver.manage().window().getSize().getHeight();
 		// calculate the ratio between actual screen dimensions and webview dimensions
-		  float ratioWidth = deviceScreenWidth / webviewWidth;
-		  float ratioHeight = deviceScreenHeight / webviewHeight;
+		float ratioWidth = deviceScreenWidth / webviewWidth.intValue();
+		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
-		  float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
-		  float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
-		  float[] elementLocation = {elementCenterActualX, elementCenterActualY};
+		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
+		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
+		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		// switch back to webview context
-		  useWebContext();
-		  return elementLocation;
+		switchToWebView();
+		return elementLocation;
 	}
 	
 	////TEST METHODS////
