@@ -14,6 +14,7 @@ import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.LongPressOptions;
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.core.io.SegmentedStringWriter;
 import main.java.nasaTestSuite.TestCapabilities;
 import io.appium.java_client.MobileElement;
@@ -526,29 +527,38 @@ public class FrigiDriver
 		}
 		
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public void tapOnElement(WebElement element){
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
 		elementCoordinateY = Math.round(elementLocation[1]);
 		driver.context("NATIVE_APP");
-		TouchAction action = new TouchAction(driver);
-		action.tap(elementCoordinateX, elementCoordinateX).perform();
+//		TouchAction action = new TouchAction(driver);
+//		action.tap(elementCoordinateX, elementCoordinateX).perform();
+		
+		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
+	    parameterBuilder.add(action);
+	    //noinspection unchecked
+	    return (T) this;
+	    
 		switchToWebView();
 	}
 
-	//My changes: nothing, it was never in javascript
+	//My changes: offset
 	public float[] getElementCenter(WebElement element){
 		switchToWebView();
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		// get webview dimensions
-		Long webviewWidth = (Long) js.executeScript("return screen.width");
-		Long webviewHeight = (Long)  js.executeScript("return screen.height");
+		Long webviewWidth  = (Long) js.executeScript("return screen.width");
+		Long webviewHeight = (Long) js.executeScript("return screen.height");
+		System.out.println("webview width: " + webviewWidth);
+		System.out.println("webview height: " + webviewHeight);
 		// get element location in webview
 		int elementLocationX = element.getLocation().getX();
 		int elementLocationY = element.getLocation().getY();
+		System.out.println("elementLocationX: " + elementLocationX);
+		System.out.println("elementLocationY: " + elementLocationY);
 		// get the center location of the element
 		int elementWidthCenter = element.getSize().getWidth() / 2;
 		int elementHeightCenter = element.getSize().getHeight() / 2;
@@ -558,16 +568,20 @@ public class FrigiDriver
 		driver.context("NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset
-		int offset = 115;
+		int s8offset = 200;//used to be 115
 		// get the actual screen dimensions
-		deviceScreenWidth = driver.manage().window().getSize().getWidth();
+		deviceScreenWidth  = driver.manage().window().getSize().getWidth();
 		deviceScreenHeight = driver.manage().window().getSize().getHeight();
+		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
+		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
 		// calculate the ratio between actual screen dimensions and webview dimensions
 		float ratioWidth = deviceScreenWidth / webviewWidth.intValue();
 		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
 		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
-		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
+		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + s8offset;
+		System.out.println("elementCenterActualX: " + elementCenterActualX);
+		System.out.println("elementCenterActualY: " + elementCenterActualY);
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		// switch back to webview context
 		switchToWebView();

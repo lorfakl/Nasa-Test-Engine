@@ -30,7 +30,7 @@ public class StromboliTest
 	@BeforeClass//("^This code opens the app$")
 	public static void launchMyTest()
 	{
-		System.out.println("Launching App");//delete later
+		System.out.println("Launching App1");//delete later
 		//this.frigi = new FrigiDriver(20); //David: param is implicit time THIS BROKE SO HARD  NULLPOINTER LATER ON AT SIGN IN CAUSE UNKNOWN. Found out it was being reset between scenarios.
 		frigi.startApp(1000000);//huge debug wait, was originally 20 seconds
 		
