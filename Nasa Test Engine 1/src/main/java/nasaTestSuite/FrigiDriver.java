@@ -12,11 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.FindsByAndroidUIAutomator;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.touch.LongPressOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import io.cucumber.datatable.dependency.com.fasterxml.jackson.core.io.SegmentedStringWriter;
 import main.java.nasaTestSuite.TestCapabilities;
+import main.java.nasaTestSuite.MyXPath;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
@@ -26,13 +29,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.IOException;
 import java.lang.String;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.tools.ant.util.SymbolicLinkUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -536,11 +533,12 @@ public class FrigiDriver
 		driver.context("NATIVE_APP");
 //		TouchAction action = new TouchAction(driver);
 //		action.tap(elementCoordinateX, elementCoordinateX).perform();
-		
-		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
-	    parameterBuilder.add(action);
+		MobileDriver mDriver = driver;
+		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();
+
+//		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
+//	    parameterBuilder.add(action);
 	    //noinspection unchecked
-	    return (T) this;
 	    
 		switchToWebView();
 	}
