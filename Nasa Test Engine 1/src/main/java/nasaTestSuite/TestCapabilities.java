@@ -53,6 +53,7 @@ public class TestCapabilities
 		appPath = appPath.concat("\\nasaTestSuite\\Android_AppUITesting.apk");
 		DesiredCapabilities appiumSettings = new DesiredCapabilities();
 		appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
+//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"9.0");//Android 9
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0");//htcm8
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0.1");//S7
 		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.0");//S8

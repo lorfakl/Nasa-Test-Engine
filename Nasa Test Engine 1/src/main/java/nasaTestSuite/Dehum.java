@@ -88,11 +88,6 @@ public class Dehum extends FrigiDriver{
 		}
 	}
 	
-	public void openControls() 
-	{
-		openControls("dehum");
-	}
-	
 	public void setDriver(AndroidDriver driver) 
 	{
 		this.driver = driver;

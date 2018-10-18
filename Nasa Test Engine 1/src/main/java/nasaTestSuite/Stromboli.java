@@ -33,7 +33,11 @@ public class Stromboli extends FrigiDriver
 	
 	public void openControls() 
 	{
-		openControls("strombo");
+		//TODO implement map navigation
+		//Tap Back
+		tapOnElement(findByXPath(MyXPath.backButton, BUTTON_WAIT)); 
+		//Tap Strombo in list
+		tapOnElement(findByXPath(MyXPath.stromboListCard, BUTTON_WAIT));
 	}
 
 	//temp PLUS
@@ -41,7 +45,7 @@ public class Stromboli extends FrigiDriver
 	{
 		WebDriverWait wait = new WebDriverWait(driver, BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboTempUp)));
-		WebElement tempPlusElm = findByXPath(MyXPath.stromboTempUp, false, driver);
+		WebElement tempPlusElm = findByXPath(MyXPath.stromboTempUp, BUTTON_WAIT);
 		tempPlusElm.click();
 		thinkWait();
 	}
@@ -120,33 +124,6 @@ public class Stromboli extends FrigiDriver
 		}
 	}
 	
-	public void refreshMode() 
-	{
-		//0 econ 1 Dry 2 Fan 3 Cool
-		boolean searching = true;
-		if(searchForText("Econ", BUTTON_WAIT) && searching) 
-		{
-			mode = 0;
-			searching = false;
-		} 
-		else if(searchForText("Dry", BUTTON_WAIT) && searching) 
-		{
-			mode = 1;
-			searching = false;
-		} 
-		else if(searchForText("Fan Only", BUTTON_WAIT) && searching) 
-		{
-			mode = 2;
-			searching = false;
-		} 
-		else if(searchForText("Cool", BUTTON_WAIT) && searching) 
-		{
-			mode = 3;
-			searching = false;
-		}
-		System.out.println("RefreshMode: " + mode);//DebugDelete
-	}
-	
 	public void refreshSpeed() 
 	{
 		System.out.println("high,med,low, spelt wrong in code");
@@ -195,11 +172,97 @@ public class Stromboli extends FrigiDriver
 
 	public int getTargTemp() 
 	{
+		try {
+			targTemp = Integer.parseInt(findByXPath(MyXPath.stromboCurrentTemp, BUTTON_WAIT).getAttribute("data-value"));
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
 		return targTemp;
 	}
 
+	public int getNextExpectedMode() {
+		try {
+			mode = Integer.parseInt(findByXPath(MyXPath.stromboCurrentMode, BUTTON_WAIT).getAttribute("data-value"));
+		}
+		catch(Exception e)
+		{
+			e.getMessage();
+		}
+		int nextExpectedMode = -1;
+		switch (mode) {
+	        case 4:  nextExpectedMode = 5;
+	        	break;
+	        case 5:  nextExpectedMode = 3;
+	        	break;
+	        case 3:  nextExpectedMode = 1;
+	        	break;
+			case 1:  nextExpectedMode = 4;
+		    	break;
+			default: System.out.println("Unknown mode: " + mode);
+				break;
+		}
+		return nextExpectedMode;
+	}
+
+	public int getPrevExpectedMode() {
+		mode = Integer.parseInt(findByXPath(MyXPath.stromboCurrentMode, BUTTON_WAIT).getAttribute("data-value"));
+		int nextExpectedMode = -1;
+		switch (mode) {
+	        case 4:  nextExpectedMode = 1; //econ
+	        	break;
+	        case 5:  nextExpectedMode = 4;
+	        	break;
+	        case 3:  nextExpectedMode = 5;
+	        	break;
+			case 1:  nextExpectedMode = 3;
+		    	break;
+			default: System.out.println("Unknown mode: " + mode);
+				break;
+		}
+		return nextExpectedMode;
+	}
+
+	public int getNextExpectedSpeed() {
+		speed = Integer.parseInt(findByXPath(MyXPath.stromboCurrentFanSpeed, BUTTON_WAIT).getAttribute("data-value"));
+		int nextExpectedSpeed = -1;
+		switch (mode) {
+	        case 1:  nextExpectedSpeed = 2;
+	        	break;
+	        case 2:  nextExpectedSpeed = 4;
+	        	break;
+	        case 4:  nextExpectedSpeed = 7;
+	        	break;
+			case 7:  nextExpectedSpeed = 1;
+		    	break;
+			default: System.out.println("Unknown speed: " + speed);
+				break;
+		}
+		return nextExpectedSpeed;
+	}
+
+	public int getPrevExpectedSpeed() {
+		speed = Integer.parseInt(findByXPath(MyXPath.stromboCurrentFanSpeed, BUTTON_WAIT).getAttribute("data-value"));
+		int prevExpectedSpeed = -1;
+		switch (mode) {
+	        case 1:  prevExpectedSpeed = 7;
+	        	break;
+	        case 2:  prevExpectedSpeed = 1;
+	        	break;
+	        case 4:  prevExpectedSpeed = 2;
+	        	break;
+			case 7:  prevExpectedSpeed = 4;
+		    	break;
+			default: System.out.println("Unknown speed: " + speed);
+				break;
+		}
+		return prevExpectedSpeed;
+	}
+	
 	public int getMode() 
 	{
+		mode = Integer.parseInt(findByXPath(MyXPath.stromboCurrentMode, BUTTON_WAIT).getAttribute("data-value"));
 		return mode;
 	}
 	

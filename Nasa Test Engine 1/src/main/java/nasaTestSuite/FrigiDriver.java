@@ -61,8 +61,6 @@ public class FrigiDriver
 	private boolean boolAppUpdated = false;
 	private String name = "default";
 	
-	boolean powerOn = false;
-	
 	public Dehum dhum;
 
 	public void startApp(int implicitTime) 
@@ -181,8 +179,9 @@ public class FrigiDriver
 		Set<String> availableContexts = driver.getContextHandles();
 		System.out.println("Total No of Context Found After we reach to WebView = " + availableContexts.size());
 		for (String context : availableContexts) {
+			System.out.println("Checking: " + context);
 			if (context.contains("WEBVIEW")) {
-				System.out.println("Context Name is " + context);
+				System.out.println("Switching to: " + context);
 				driver.context(context);
 				break;
 			}
@@ -372,7 +371,7 @@ public class FrigiDriver
 	}
 	
 
-	public WebElement findByXpath(String xPath, int waitSecs)
+	public WebElement findByXPath(String xPath, int waitSecs)
 	{
 		myWaitXPath(xPath, waitSecs);
 		try {
@@ -436,13 +435,14 @@ public class FrigiDriver
 	/**
 	 * Stops the driver while the app is thinking
 	 */
-	public void thinkWait() {
+	public void thinkWait() 
+	{
 		myWaitXPath(MyXPath.thinking,30);
 		WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, 60);
 			wait.until(ExpectedConditions.invisibilityOf(thinking));
-		}catch(WebDriverException e) {
+		}catch(Exception e) {
 			e.getMessage();
 			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
 		}
@@ -478,53 +478,18 @@ public class FrigiDriver
 		}
 		return result;
 	}
-	
-	public void openControls(String appliance) 
-	{
-		//assumes signed in
-		//assumes settings button present with all appliances xBUG: settings might not be the same id
-		System.out.println("Opening Controls...");
-		try 
-		{
-			//clickByXpath(MyXPath.backButton, SIGN_IN_WAIT);
 
-//			try {
-//				
-//				WebDriverWait wait = new WebDriverWait(driver, 10);
-//				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.backButton)));
-//			}catch (TimeoutException e) {
-//				System.out.println("XPath Failed: " + MyXPath.backButton);
-//				System.out.println("Timed out after " + 10 + " second(s)");
-//			}
-//			WebElement bac = null;
-//			try
-//			{
-//				bac = driver.findElementById(MyXPath.backButton);
-//				bac.click();
-//			}
-//			catch(Exception e)
-//			{
-//				print("Failed to find back with xPath:" + MyXPath.backButton);
-//			}
-			
-			clickBackButton();
-			
-			myWaitText(appliance, SIGN_IN_WAIT);
-			WebElement elem = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ appliance +"\")");
-			elem.click();
-			System.out.println("Opening " + appliance);
-		}catch(WebDriverException e) 
-		{
-			e.printStackTrace();
-			//if there are no appliances then we can't open controls
-			if(searchForXPath(MyXPath.addAppliance, SIGN_IN_WAIT)) 
-			{
-				System.out.println("Unable to open controls. Please provision an appliance.");
-			}
+	public void tapByXPath(String xPath, int waitSecs) {
+		myWaitXPath(xPath, waitSecs);
+		WebElement elem = null;
+		try {
+			elem = findByXPath(xPath, false, driver);
+		}catch(NullPointerException e){
+			System.out.println("Failed to find XPath: " + xPath);
 		}
-		
+		tapOnElement(elem);
 	}
-
+	
 	public void tapOnElement(WebElement element){
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 
@@ -545,6 +510,7 @@ public class FrigiDriver
 
 	//My changes: offset
 	public float[] getElementCenter(WebElement element){
+		System.out.println("Tapping element: " + element);
 		switchToWebView();
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		// get webview dimensions
@@ -566,7 +532,7 @@ public class FrigiDriver
 		driver.context("NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset
-		int s8offset = 200;//used to be 115
+		int s8offset = 160;//used to be 115
 		// get the actual screen dimensions
 		deviceScreenWidth  = driver.manage().window().getSize().getWidth();
 		deviceScreenHeight = driver.manage().window().getSize().getHeight();
@@ -656,16 +622,16 @@ public class FrigiDriver
 	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
 	public void powerButton() 
 	{
+		boolean powerOn = isPowerOn();
 		//assumes isPowerOn() has been used at the start of testing - David
 		clickByXpath(MyXPath.powerButton, POWER_SECS);
 		if(powerOn) 
 		{
 			System.out.println(this.getName() + " powering down");
-			powerOn = false;
-		}else 
+		}
+		else 
 		{
 			System.out.println(this.getName() + " powering on");
-			powerOn = true;
 		}
 		thinkWait();
 	}
@@ -673,7 +639,7 @@ public class FrigiDriver
 	////GETTERS SETTERS////
 	public boolean isPowerOn() 
 	{
-		powerOn = !searchForText("Off", BUTTON_WAIT);
+		boolean powerOn = !searchForText("Off", BUTTON_WAIT);
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
 	}

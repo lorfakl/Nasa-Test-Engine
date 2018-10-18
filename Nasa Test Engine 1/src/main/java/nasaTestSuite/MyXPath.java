@@ -12,20 +12,21 @@ public class MyXPath {
     //signInRegisterScreen
     public static String signInOne = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.Button[1]";
     //signInScreen
-    public static String emailField = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.widget.EditText";
-    public static String passField = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.widget.EditText";
-    public static String signInTwo = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[5]/android.widget.Button";
+    public static String emailField = "//input[@id=\"email\"]";
+    public static String passField = "//input[@id=\"password\"]";
+    public static String signInTwo = "//button[@id=\"sign-in--button\"]";
 
     //firstApplianceScreen
     public static String addAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.Button";
 
     //applianceList
-    public static String firstAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[1]";
-    public static String secondAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[2]";
-    public static String thirdAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[3]";
-    public static String fourthAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[4]";
+    public static String stromboListCard = "//h3[contains(text(),'Strombo') or contains(text(),'strombo')]";
+    public static String racListCard = "//h3[contains(text(),'Rac') or contains(text(),'rac')]";
+    public static String dehumListCard = "//h3[contains(text(),'Dehum') or contains(text(),'dehum')]";
     
     //applianceOneControlHUMID
+    public static String powerOnButton = "//a[contains(@class,'power-button-on') and contains(@class,'hide')]";
+    public static String powerOffButton = "//a[contains(@class,'power-button-off') and contains(@class,'hide')]";
     public static String powerButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[1]/android.view.View[1]";
     public static String targHumidity = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.ListView/android.view.View[12]/android.view.View[1]";
     public static String contHumidity = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.ListView/android.view.View[1]";
@@ -45,17 +46,20 @@ public class MyXPath {
     public static String removeAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[11]/android.view.View";
     
     //strombo
-	public static String stromboModeUp = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.view.View[3]";
-	public static String stromboModeDown = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.view.View[2]";
-    public static String stromboTempUp = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[3]";
-	public static String stromboTempDown = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[2]";
-	public static String stromboSpeedup = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View[3]";
-	public static String stromboSpeedDown = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View[1]/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[3]/android.view.View[2]";
-    
-    
+    public static String stromboCurrentFanSpeed = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
+    public static String stromboCurrentTemp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//li[contains(@class,'current')]";
+    public static String stromboCurrentMode = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
+	public static String stromboModeUp = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
+	public static String stromboModeDown = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
+    public static String stromboTempUp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
+	public static String stromboTempDown = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
+	public static String stromboSpeedup = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
+	public static String stromboSpeedDown = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
     
     //universal
 	public static String timer = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[3]/android.view.View[1]";
-    public static String backButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[1]/android.view.View[1]";
+    public static String backButton = "//a[contains(@class,\"icon icon-arrow-header-prev pull-left\")]";
+    
 	
+
 }

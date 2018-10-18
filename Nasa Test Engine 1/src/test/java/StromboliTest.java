@@ -40,7 +40,7 @@ public class StromboliTest
 //		System.out.println("PASS: Start and update the app");
 
 	    strombo.switchToWebView();
-	    WebElement signInButton = strombo.findByXpath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
+	    WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
 //	    System.out.println("Found SignInButton");
 //	    strombo.useNativeContext();
 //	    signInButton.click();
@@ -53,47 +53,46 @@ public class StromboliTest
 	    System.out.println("Pass: new xpath click");
 	    
 //		frigi.clickByXpath(MyXPath.signInOne, 240);
-//		frigi.clickByXpath(MyXPath.emailField, oneMinute);
-//		frigi.typeEmail();
-//		frigi.clickByXpath(MyXPath.passField, oneMinute);
-//		frigi.typePassword();
-//		frigi.clickByXpath(MyXPath.signInTwo, oneMinute);
-//		System.out.println("PASS: Sign In");
+		frigi.tapByXPath(MyXPath.emailField, oneMinute);
+		frigi.typeEmail(); //using old xpath
+		frigi.tapByXPath(MyXPath.passField, oneMinute);
+		frigi.typePassword();//using old xpath
+		frigi.tapByXPath(MyXPath.signInTwo, oneMinute);
+		strombo.thinkWait();
+		System.out.println("PASS: Sign In");
 //		strombo.thinkWait();
 //		strombo.isPowerOn();
-//	    System.out.println("App Launched");
-//	    System.out.println();
+	    System.out.println("App Launched");
+	    System.out.println();
+		strombo.openControls();
+		strombo.thinkWait();
 	}
 	
-	@Test
-	public void powerOn() 
-	{
-		for(int i = 0; i < 3; i++) {
-			strombo.testPowerOn();
-		}
-	}
+//	@Test
+//	public void powerOn() 
+//	{
+//		for(int i = 0; i < 3; i++) {
+//			strombo.testPowerOn();
+//		}
+//	}
 	
 	@Test
 	public void tempUp() 
 	{
-		strombo.printStartTest("Temperature Up");
-		if(!strombo.isPowerOn()) {
+		if(!strombo.isPowerOn()) 
+		{
 			strombo.powerButton();
 		}
-		strombo.refreshTargTemp();
-		int expectedTemp = strombo.getTargTemp() + 1;
+		//Change mode until you reach a mode that can change the temperature
+		if(strombo.getMode()==3 || strombo.getMode()==5) {
+			strombo.clickModeUp();
+		}
+		int currentTemp = strombo.getTargTemp();
+		System.out.println("Verify TargTemp = " + currentTemp);
 		strombo.clickTempPlus();
-		strombo.refreshTargTemp();
-		
-		System.out.println("Temp: " + strombo.getTargTemp());
-		System.out.println("Expected: " + expectedTemp);
-		if(expectedTemp == strombo.getTargTemp()) 
-		{
-			strombo.printEndTest("Temperature Up", "PASS");
-		} 
-		else 
-		{
-			strombo.printEndTest("Temperature Up", "FAIL");
+		int expectedTemp = strombo.getTargTemp();
+		System.out.println("Verify expectedTemp = " + expectedTemp);
+		if(expectedTemp != (currentTemp +1)) {
 			fail();
 		}
 	}
@@ -103,18 +102,12 @@ public class StromboliTest
 	{
 		strombo.printStartTest("Mode Up");
 		
-		if(!strombo.isPowerOn()) {
+		if(!strombo.isPowerOn()) 
+		{
 			strombo.powerButton();
 		}
-		strombo.refreshMode();
-		int expectedMode = strombo.getMode() + 1;
-		if(expectedMode == 4) 
-		{
-			expectedMode = 0;//account for going from Cool back to Econ (full cycle)
-		}
+		int expectedMode = strombo.getNextExpectedMode();
 		strombo.clickModeUp();
-		strombo.refreshMode();
-
 		System.out.println("Mode: " + strombo.getMode());
 		System.out.println("Expected: " + expectedMode);
 		if(expectedMode == strombo.getMode()) 
@@ -128,54 +121,58 @@ public class StromboliTest
 	}
 
 	
-	@Test public void changeName() {
-		strombo.testChangeName();
-	}
-	
-	@Test public void webViewTest() {
-		AndroidDriver tempDriver = strombo.getDriver();
-
-		//do some web testing
-		try {
-			Set<String> contextNames = tempDriver.getContextHandles();
-			for (String contextName : contextNames) {
-			    System.out.println(contextNames); //prints out something like NATIVE_APP \n WEBVIEW_1
-			}
-			tempDriver.context((String) contextNames.toArray()[1]); // set context to WEBVIEW_1
-			
-			WebElement myText = tempDriver.findElement(By.cssSelector("hidden"));
-			WebElement myText2 = tempDriver.findElement(By.cssSelector("visible"));
-			
-		}catch (Exception e){
-			System.out.println("well that didn't go so well");
-		}
-
-		tempDriver.context("NATIVE_APP");
-
-	}
-
-//	@Test 
-//	public void speedUp() 
-//	{
-//		strombo.refreshSpeed();
-//		int expectedSpeed = strombo.getSpeed() + 1;
-//		strombo.clickSpeedUp();
-//		strombo.refreshSpeed();
-//		if(expectedSpeed == 4) 
-//		{
-//			expectedSpeed = 0; //Auto goes to Low (end cycle)
-//		}
-//		System.out.println("Speed: " + strombo.getSpeed());
-//		System.out.println("Expected: " + strombo.getSpeed());
-//		
-//		if(expectedSpeed == strombo.getSpeed()) 
-//		{
-//			//pass
-//		}
-//		else 
-//		{
-//			fail();
-//		}
+//	@Test public void changeName() {
+//		strombo.testChangeName();
 //	}
+	
+//	@Test public void webViewTest() {
+//		AndroidDriver tempDriver = strombo.getDriver();
+//
+//		//do some web testing
+//		try {
+//			Set<String> contextNames = tempDriver.getContextHandles();
+//			for (String contextName : contextNames) {
+//			    System.out.println(contextNames); //prints out something like NATIVE_APP \n WEBVIEW_1
+//			}
+//			tempDriver.context((String) contextNames.toArray()[1]); // set context to WEBVIEW_1
+//			
+//			WebElement myText = tempDriver.findElement(By.cssSelector("hidden"));
+//			WebElement myText2 = tempDriver.findElement(By.cssSelector("visible"));
+//			
+//		}catch (Exception e){
+//			System.out.println("well that didn't go so well");
+//		}
+//
+//		tempDriver.context("NATIVE_APP");
+//
+//	}
+
+	@Test 
+	public void speedUp() 
+	{
+		strombo.printStartTest("Speed Up");
+
+		if(!strombo.isPowerOn()) 
+		{
+			strombo.powerButton();
+		}
+		//Switch off dry mode
+		if(strombo.getMode()==5) {
+			strombo.clickModeUp();
+		}
+		int expectedSpeed = strombo.getNextExpectedSpeed();
+		strombo.clickSpeedUp();
+		System.out.println("Speed: " + strombo.getSpeed());
+		System.out.println("Expected: " + expectedSpeed);
+		if(expectedSpeed == strombo.getSpeed()) 
+		{
+			strombo.printEndTest("Speed Up", "PASS");
+		}else 
+		{
+			strombo.printEndTest("Speed Up", "FAIL");
+			fail();
+		}
+			
+	}
 	
 }
