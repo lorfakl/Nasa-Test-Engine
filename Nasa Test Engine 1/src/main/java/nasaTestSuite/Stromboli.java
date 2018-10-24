@@ -226,8 +226,9 @@ public class Stromboli extends FrigiDriver
 
 	public int getNextExpectedSpeed() {
 		speed = Integer.parseInt(findByXPath(MyXPath.stromboCurrentFanSpeed, BUTTON_WAIT).getAttribute("data-value"));
+		System.out.println("Speed by data value" + speed);
 		int nextExpectedSpeed = -1;
-		switch (mode) {
+		switch (speed) {
 	        case 1:  nextExpectedSpeed = 2;
 	        	break;
 	        case 2:  nextExpectedSpeed = 4;
@@ -245,7 +246,7 @@ public class Stromboli extends FrigiDriver
 	public int getPrevExpectedSpeed() {
 		speed = Integer.parseInt(findByXPath(MyXPath.stromboCurrentFanSpeed, BUTTON_WAIT).getAttribute("data-value"));
 		int prevExpectedSpeed = -1;
-		switch (mode) {
+		switch (speed) {
 	        case 1:  prevExpectedSpeed = 7;
 	        	break;
 	        case 2:  prevExpectedSpeed = 1;
@@ -268,6 +269,7 @@ public class Stromboli extends FrigiDriver
 	
 	public int getSpeed() 
 	{
+		speed = Integer.parseInt(findByXPath(MyXPath.stromboCurrentFanSpeed, BUTTON_WAIT).getAttribute("data-value"));
 		return speed;
 	}
 
