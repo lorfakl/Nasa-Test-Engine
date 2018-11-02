@@ -177,7 +177,7 @@ public class FrigiDriver
 	
 	public void switchToWebView() {
 		Set<String> availableContexts = driver.getContextHandles();
-		System.out.println("Total No of Context Found After we reach to WebView = " + availableContexts.size());
+//		System.out.println("Total No of Context Found After we reach to WebView = " + availableContexts.size());
 		for (String context : availableContexts) {
 			System.out.println("Checking: " + context);
 			if (context.contains("WEBVIEW")) {
@@ -505,13 +505,14 @@ public class FrigiDriver
 //	    parameterBuilder.add(action);
 	    //noinspection unchecked
 	    
-		switchToWebView();
+		useWebContext();
 	}
 
 	//My changes: offset
 	public float[] getElementCenter(WebElement element){
+		System.out.println();
 		System.out.println("Tapping element: " + element);
-		switchToWebView();
+		useWebContext();
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
@@ -546,9 +547,10 @@ public class FrigiDriver
 		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + s8offset;
 		System.out.println("elementCenterActualX: " + elementCenterActualX);
 		System.out.println("elementCenterActualY: " + elementCenterActualY);
+		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		// switch back to webview context
-		switchToWebView();
+		useWebContext();
 		return elementLocation;
 	}
 	
@@ -559,14 +561,14 @@ public class FrigiDriver
 		printStartTest("Power on function");
 		if(this.isPowerOn()) {//if power is on turn it off so we can test power on function
 			System.out.println("Appliance was already on. Powering down to verify test.");
-			this.powerButton();
+			tapByXPath(MyXPath.powerOffButton, BUTTON_WAIT);
 		}
-		this.powerButton();
+		tapByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
 
 		//verify
 		if(this.isPowerOn()) {
 			printEndTest("Power on function", "PASS");
-		}else {
+		}else{
 			printEndTest("Power on function", "FAIL");
 			fail();
 		}
@@ -619,30 +621,47 @@ public class FrigiDriver
 	public void openSettings(){
 		clickByXpath(MyXPath.settingsButton, BUTTON_WAIT);
 	}
-	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
-	public void powerButton() 
-	{
-		boolean powerOn = isPowerOn();
-		//assumes isPowerOn() has been used at the start of testing - David
-		clickByXpath(MyXPath.powerButton, POWER_SECS);
-		if(powerOn) 
-		{
-			System.out.println(this.getName() + " powering down");
-		}
-		else 
-		{
-			System.out.println(this.getName() + " powering on");
-		}
-		thinkWait();
-	}
+	
+//	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
+//	public void powerButton() 
+//	{
+//		boolean powerOn = isPowerOn();
+//		//assumes isPowerOn() has been used at the start of testing - David
+//		clickByXpath(MyXPath.powerButton, POWER_SECS);
+//		if(powerOn) 
+//		{
+//			System.out.println(this.getName() + " powering down");
+//		}
+//		else 
+//		{
+//			System.out.println(this.getName() + " powering on");
+//		}
+//		thinkWait();
+//	}
 	
 	////GETTERS SETTERS////
+	
+//	public boolean isPowerOn() 
+//	{
+//		boolean powerOn = !searchForText("Off", BUTTON_WAIT);
+//		System.out.println("isPowerOn: " + powerOn);
+//		return powerOn;
+//	}
+
 	public boolean isPowerOn() 
 	{
-		boolean powerOn = !searchForText("Off", BUTTON_WAIT);
+		boolean powerOn;
+		try {
+			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+			powerOn = true;	
+		}catch(Exception e) {
+			powerOn = false;
+			System.out.println(e);
+		}
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
 	}
+	
 	public AndroidDriver getDriver() 
 	{
 		return driver;

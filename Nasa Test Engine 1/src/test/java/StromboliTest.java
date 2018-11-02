@@ -47,9 +47,9 @@ public class StromboliTest
 		frigi.tapByXPath(MyXPath.passField, oneMinute);
 		frigi.typePassword();//using old xpath
 		frigi.tapByXPath(MyXPath.signInTwo, oneMinute);
-		strombo.thinkWait();
-		System.out.println("PASS: Sign In");
 //		strombo.thinkWait();
+		System.out.println("PASS: Sign In");
+		strombo.thinkWait();
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();
@@ -69,7 +69,7 @@ public class StromboliTest
 		strombo.printStartTest("Temp up");
 		if(!strombo.isPowerOn()) 
 		{
-			strombo.powerButton();
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
 		}
 		//Change mode until you reach a mode that can change the temperature
 		int tempMode = strombo.getMode();
@@ -95,7 +95,7 @@ public class StromboliTest
 		
 		if(!strombo.isPowerOn()) 
 		{
-			strombo.powerButton();
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
 		}
 		int expectedMode = strombo.getNextExpectedMode();
 		strombo.clickModeUp();
@@ -119,7 +119,7 @@ public class StromboliTest
 
 		if(!strombo.isPowerOn()) 
 		{
-			strombo.powerButton();
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
 		}
 		//Avoid dry mode
 		if(strombo.getMode()==5) {
