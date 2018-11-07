@@ -57,12 +57,14 @@ public class StromboliTest
 //		strombo.thinkWait(); not needed?
 	}
 	
+	//functional but not passing/verified
 	@Test
 	public void powerOn() 
 	{
 		strombo.testPowerOn();
 	}
 	
+	//functional and passing
 	@Test
 	public void tempUp() 
 	{
@@ -73,7 +75,8 @@ public class StromboliTest
 		}
 		//Change mode until you reach a mode that can change the temperature
 		int tempMode = strombo.getMode();
-		while(tempMode==3 || tempMode==5) {
+		while(tempMode==3 || tempMode==5) 
+		{
 			strombo.clickModeUp();
 			tempMode = strombo.getMode();
 		}
@@ -83,11 +86,50 @@ public class StromboliTest
 		int currentTemp = strombo.getTargTemp();
 		System.out.println("Verify expectedTemp = " + expectedTemp);
 		System.out.println("Verify currentTemp = " + currentTemp);
-		if(expectedTemp != (currentTemp +1)) {
+		System.out.println("removed +1 in conditional: verify.");
+		if(expectedTemp != currentTemp) 
+		{
+			strombo.printEndTest("Temp Up", "FAIL");
 			fail();
+		}
+		else
+		{
+			strombo.printEndTest("Temp Up", "PASS");
 		}
 	}
 	
+	//verify functionality
+	@Test
+	public void tempDown() 
+	{
+		strombo.printStartTest("Temp Down");
+		if(!strombo.isPowerOn()) 
+		{
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+		}
+		//Change mode until you reach a mode that can change the temperature
+		int tempMode = strombo.getMode();
+		while(tempMode==3 || tempMode==5) 
+		{
+			strombo.clickModeUp();
+			tempMode = strombo.getMode();
+		}
+		int expectedTemp = strombo.getTargTemp();
+		strombo.clickTempMinus();
+		expectedTemp--;
+		int currentTemp = strombo.getTargTemp();
+		System.out.println("Verify expectedTemp = " + expectedTemp);
+		System.out.println("Verify currentTemp = " + currentTemp);
+		System.out.println("removed -1 in conditional: verify.");
+		if(expectedTemp != currentTemp){
+			strombo.printEndTest("Temp Down", "FAIL");
+			fail();
+		}else {
+			strombo.printEndTest("Temp Down", "PASS");
+		}
+	}
+	
+	//functional and passing
 	@Test
 	public void modeUp() 
 	{
@@ -110,8 +152,33 @@ public class StromboliTest
 			fail();
 		}
 	}
+	
+	//verify functionality
+	@Test
+	public void modeDown() 
+	{
+		strombo.printStartTest("Mode Down");
+		
+		if(!strombo.isPowerOn()) 
+		{
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+		}
+		int expectedMode = strombo.getPrevExpectedMode();
+		strombo.clickModeDown();
+		int currentMode = strombo.getMode();
+		System.out.println("Mode: " + currentMode);
+		System.out.println("Expected: " + expectedMode);
+		if(expectedMode == currentMode) 
+		{
+			strombo.printEndTest("Mode Down", "PASS");
+		}else 
+		{
+			strombo.printEndTest("Mode Down", "FAIL");
+			fail();
+		}
+	}
 
-
+	//functional and passing
 	@Test 
 	public void speedUp() 
 	{
@@ -135,6 +202,36 @@ public class StromboliTest
 		}else 
 		{
 			strombo.printEndTest("Speed Up", "FAIL");
+			fail();
+		}
+	}
+
+	//verify functionality
+	@Test 
+	public void speedDown() 
+	{
+		strombo.printStartTest("Speed Down");
+
+		if(!strombo.isPowerOn()) 
+		{
+			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+		}
+		//Avoid dry mode
+		if(strombo.getMode()==5) 
+		{
+			strombo.clickModeUp();
+		}
+		int expectedSpeed = strombo.getPrevExpectedSpeed();
+		strombo.clickSpeedDown();
+		int currentSpeed = strombo.getSpeed();
+		System.out.println("Speed: " + currentSpeed);
+		System.out.println("Expected: " + expectedSpeed);
+		if(expectedSpeed == currentSpeed) 
+		{
+			strombo.printEndTest("Speed Down", "PASS");
+		}else 
+		{
+			strombo.printEndTest("Speed Down", "FAIL");
 			fail();
 		}
 	}

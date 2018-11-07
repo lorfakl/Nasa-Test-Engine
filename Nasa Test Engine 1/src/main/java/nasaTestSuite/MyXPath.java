@@ -59,6 +59,7 @@ public class MyXPath {
     //strombo
     public static String stromboCurrentFanSpeed = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
     public static String stromboCurrentTemp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//li[contains(@class,'current')]";
+    public static String stromboTargTemp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//li[contains(@class,'current')]";
     public static String stromboCurrentMode = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
 	public static String stromboModeUp = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
 	public static String stromboModeDown = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";

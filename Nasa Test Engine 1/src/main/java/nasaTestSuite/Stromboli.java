@@ -82,10 +82,18 @@ public class Stromboli extends FrigiDriver
 	
 	public void clickModeUp() 
 	{
-
 		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboModeUp)));
 		WebElement modeElm = findByXPath(MyXPath.stromboModeUp, false, driver);
+		modeElm.click();
+		thinkWait();	
+	}
+	
+	public void clickModeDown() 
+	{
+		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboModeDown)));
+		WebElement modeElm = findByXPath(MyXPath.stromboModeDown, false, driver);
 		modeElm.click();
 		thinkWait();	
 	}
@@ -173,7 +181,7 @@ public class Stromboli extends FrigiDriver
 	public int getTargTemp() 
 	{
 		try {
-			targTemp = Integer.parseInt(findByXPath(MyXPath.stromboCurrentTemp, BUTTON_WAIT).getAttribute("data-value"));
+			targTemp = Integer.parseInt(findByXPath(MyXPath.stromboTargetTemp, BUTTON_WAIT).getAttribute("data-value"));
 		}
 		catch(Exception e)
 		{

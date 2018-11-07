@@ -432,6 +432,8 @@ public class FrigiDriver
 		System.out.println(msg);
 	}
 	
+	//TODO redesign think so that appium looks for a thinking element before each click rather than waiting after a click
+	//There is potential for designing an abstract button class with code that comes with each button. Either that or add stuff to the tap methods
 	/**
 	 * Stops the driver while the app is thinking
 	 */

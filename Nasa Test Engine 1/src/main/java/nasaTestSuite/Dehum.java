@@ -66,6 +66,7 @@ public class Dehum extends FrigiDriver{
 	
 	//State
 	public void refreshHumidity() {
+		//THIS IS A TEST
 		
 		//atttempt 3
 		System.out.println("RefreshHumidity: Work in Progress");
