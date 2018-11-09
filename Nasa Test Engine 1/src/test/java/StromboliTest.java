@@ -30,7 +30,7 @@ public class StromboliTest
 	@BeforeClass//("^This code opens the app$")
 	public static void launchMyTest()
 	{
-		System.out.println("Launching App1");//delete later
+		System.out.println("Launching App2");//delete later
 		//this.frigi = new FrigiDriver(20); //David: param is implicit time THIS BROKE SO HARD  NULLPOINTER LATER ON AT SIGN IN CAUSE UNKNOWN. Found out it was being reset between scenarios.
 		frigi.startApp(1000000);//huge debug wait, was originally 20 seconds, this can be switched to infinite if needed
 		
@@ -39,6 +39,7 @@ public class StromboliTest
 
 	    strombo.switchToWebView();
 	    WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
+	    
 	    strombo.tapOnElement(signInButton);
 	    System.out.println("tapped");
 	    
@@ -49,7 +50,7 @@ public class StromboliTest
 		frigi.tapByXPath(MyXPath.signInTwo, oneMinute);
 //		strombo.thinkWait();
 		System.out.println("PASS: Sign In");
-		strombo.thinkWait();
+//		strombo.thinkWait();
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();

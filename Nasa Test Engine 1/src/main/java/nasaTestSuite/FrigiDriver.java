@@ -269,15 +269,19 @@ public class FrigiDriver
 		}
 	}
 	
-	public void myWaitXPath(String xPath, int waitSecs) 
+	//TODO discuss if boolean return based on success/failure of element grab is appropriate. probably not. Have a new method for that like isDisplayed
+	public boolean myWaitXPath(String xPath, int waitSecs) 
 	{
+		boolean success = true;
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, waitSecs);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
 		}catch (TimeoutException e) {
 			System.out.println("XPath Failed: " + xPath);
 			System.out.println("Timed out after " + waitSecs + " second(s)");
+			success = false;
 		}
+		return success;
 	}
 	
 	public void myWaitText(String text, int waitSecs) 
@@ -450,6 +454,29 @@ public class FrigiDriver
 		}
 	}
 	
+//	//REDESIGNED METHOD
+//	//TODO There is potential for designing an abstract button class with code that comes with each button. Either that or add stuff to the tap methods
+//	/**
+//	 * Stops the driver while the app is thinking
+//	 */
+//	public void thinkWait() 
+//	{
+//		System.out.println("before");
+//		if(myWaitXPath(MyXPath.thinking,1)) {
+//			System.out.println("THINKING");
+//			WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
+//			try {
+//				WebDriverWait wait = new WebDriverWait(driver, 10);
+//				wait.until(ExpectedConditions.invisibilityOf(thinking));
+//				System.out.println("FINISHED THIKNING");
+//			}catch(Exception e) {
+//				e.getMessage();
+//				System.out.println("CAUGHT ERROR: Thinking Stale Reference");
+//			}
+//		}
+//		System.out.println("after");
+//	}
+	
 	public boolean searchForXPath(String xPath, int wait) 
 	{
 		boolean result = false;
@@ -493,6 +520,7 @@ public class FrigiDriver
 	}
 	
 	public void tapOnElement(WebElement element){
+		thinkWait();
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
@@ -506,7 +534,8 @@ public class FrigiDriver
 //		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
 //	    parameterBuilder.add(action);
 	    //noinspection unchecked
-	    
+		
+	    //TODO too many webcontext switches
 		useWebContext();
 	}
 
@@ -654,11 +683,12 @@ public class FrigiDriver
 	{
 		boolean powerOn;
 		try {
-			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+//			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+//			powerOn = myWaitXPath(MyXPath.powerOnButton, 5);	
 			powerOn = true;	
 		}catch(Exception e) {
 			powerOn = false;
-			System.out.println(e);
+			System.out.println("This shouldn't have happened: " + e);
 		}
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
