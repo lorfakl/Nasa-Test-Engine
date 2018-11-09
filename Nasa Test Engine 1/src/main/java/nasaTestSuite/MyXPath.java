@@ -12,9 +12,9 @@ public class MyXPath {
     //signInRegisterScreen
     public static String signInOne = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.Button[1]";
     //signInScreen
-    public static String emailField = "//input[@id=\"email\"]";
-    public static String passField = "//input[@id=\"password\"]";
-    public static String signInTwo = "//button[@id=\"sign-in--button\"]";
+    public static String emailField = "//input[@id='email']";
+    public static String passField = "//input[@id='password']";
+    public static String signInTwo = "//button[@id='sign-in--button']";
 
     //firstApplianceScreen
     public static String addAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.Button";
@@ -37,16 +37,16 @@ public class MyXPath {
     public static String racSpeedDown = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[2]";
     public static String thinking = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[1]/android.view.View[2]";//this should help prevent us from clicking while thinking
 
-    public static String settingsButton = "//a[@class=\"icon icon-settings icon--align-right pull-right\"]";
-    public static String applianceNameField = "//input[@id=\"applianceLabel\"]";
-    public static String cleanAirToggle = "//div[@id=\"cleanair-toggle\"]"; //if OFF class="toggle" when OFF     if ON class="toggle active"
-    public static String sleepModeToggle = "//div[@id=\"sleep-toggle\"]";//if OFF class="toggle" when OFF     if ON class="toggle active"
-    public static String notificationToggle = "//div[@id=\"notification-toggle\"]";//if OFF class="toggle" when OFF     if ON class="toggle active"
-    public static String timeZoneOutterButton = "//span[@id=\"timezone-label\"]";//CONTAINS EASTERN: "//span[@id=\"timezone-label\" and contains(text(),'Eastern')]"
-    public static String timeZoneInnerButton0 = "//label[@for=\"timezone-0\"]"; //timezone indices vary from 0 - 11
-    public static String unitToggle = "//div[@id=\"temperature-toggle\"]"; //IF C class="toggle toggle-select" IF F class="toggle toggle-select active"
-    public static String versionInfoButton = "//a[@href=\"#niurecord\"]";
-    public static String removeApplianceButton = "//a[@href=\"#remove-appliance\"]";
+    public static String settingsButton = "//a[@class='icon icon-settings icon--align-right pull-right']";
+    public static String applianceNameField = "//input[@id='applianceLabel']";
+    public static String cleanAirToggle = "//div[@id='cleanair-toggle']"; //if OFF class="toggle" when OFF     if ON class="toggle active"
+    public static String sleepModeToggle = "//div[@id='sleep-toggle']";//if OFF class="toggle" when OFF     if ON class="toggle active"
+    public static String notificationToggle = "//div[@id='notification-toggle']";//if OFF class="toggle" when OFF     if ON class="toggle active"
+    public static String timeZoneOutterButton = "//span[@id='timezone-label']";//CONTAINS EASTERN: "//span[@id='timezone-label' and contains(text(),'Eastern')]"
+    public static String timeZoneInnerButton0 = "//label[@for='timezone-0']"; //timezone indices vary from 0 - 11
+    public static String unitToggle = "//div[@id='temperature-toggle']"; //IF C class="toggle toggle-select" IF F class="toggle toggle-select active"
+    public static String versionInfoButton = "//a[@href='#niurecord']";
+    public static String removeApplianceButton = "//a[@href='#remove-appliance']";
     
 //    public static String settingsButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[1]/android.view.View[2]";
     public static String dehumNameText = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[2]/android.widget.EditText";
@@ -57,30 +57,30 @@ public class MyXPath {
     public static String removeAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.ListView/android.view.View[11]/android.view.View";
         
     //strombo
-    public static String stromboCurrentFanSpeed = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
-    public static String stromboCurrentTemp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//li[contains(@class,'current')]";
-    public static String stromboTargTemp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//li[contains(@class,'current')]";
-    public static String stromboCurrentMode = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//li[contains(@class,\"current\")]";
-	public static String stromboModeUp = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
-	public static String stromboModeDown = "//div[@class=\"settings--controls settings--mode rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
-    public static String stromboTempUp = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
-	public static String stromboTempDown = "//div[@class=\"settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
-	public static String stromboSpeedup = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-next\"]";
-	public static String stromboSpeedDown = "//div[@class=\"settings--controls settings--fan rac--controls settings--always-show-icons\"]//a[@class=\"settings--toggle settings--toggle-prev\"]";
+    public static String stromboCurrentFanSpeed = "//div[@class='settings--controls settings--fan rac--controls settings--always-show-icons']//li[contains(@class,'current')]";
+    public static String stromboTargetTemp = "//div[@class='settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons']//li[@class='settings--item settings--fade settings--current']";
+    public static String stromboCurrentTemp = "//div[@class='settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons']//p[@class='settings--description']";
+    public static String stromboCurrentMode = "//div[@class='settings--controls settings--mode rac--controls settings--always-show-icons']//li[contains(@class,'current')]";
+	public static String stromboModeUp = "//div[@class='settings--controls settings--mode rac--controls settings--always-show-icons']//a[@class='settings--toggle settings--toggle-next']";
+	public static String stromboModeDown = "//div[@class='settings--controls settings--mode rac--controls settings--always-show-icons']//a[@class='settings--toggle settings--toggle-prev']";
+    public static String stromboTempUp = "//div[@class='settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons']//a[@class='settings--toggle settings--toggle-next']";
+	public static String stromboTempDown = "//div[@class='settings--controls settings--temp rac--controls degree--symbol settings--always-show-icons']//a[@class='settings--toggle settings--toggle-prev']";
+	public static String stromboSpeedup = "//div[@class='settings--controls settings--fan rac--controls settings--always-show-icons']//a[@class='settings--toggle settings--toggle-next']";
+	public static String stromboSpeedDown = "//div[@class='settings--controls settings--fan rac--controls settings--always-show-icons']//a[@class='settings--toggle settings--toggle-prev']";
     
     //universal
 	public static String timer = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[3]/android.view.View[1]";
-    public static String backButton = "//a[contains(@class,\"icon icon-arrow-header-prev pull-left\")]";
+    public static String backButton = "//a[contains(@class,'icon icon-arrow-header-prev pull-left')]";
     
 	
 
-//    public static String timeZone0 = "//label[@for=\"timezone-0\"]"; //timezone indices vary from 0 - 11
+//    public static String timeZone0 = "//label[@for='timezone-0']"; //timezone indices vary from 0 - 11
     /**
      * Testing Idea for getting timezone xpath
      * @param zoneIndex
      * @return
      */
     public static String getTimeZoneInnerButton(int zoneIndex) {
-    	return "//label[@for=\"timezone-" + zoneIndex + "\"]";
+    	return "//label[@for='timezone-" + zoneIndex + "']";
     }
 }
