@@ -49,10 +49,11 @@ public class StromboliTest
 		frigi.tapByXPath(MyXPath.signInTwo, oneMinute);
 //		strombo.thinkWait();
 		System.out.println("PASS: Sign In");
-		strombo.thinkWait();
+//		strombo.thinkWait();
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();
+		strombo.thinkWait();
 		strombo.openControls();
 //		strombo.thinkWait(); not needed?
 	}

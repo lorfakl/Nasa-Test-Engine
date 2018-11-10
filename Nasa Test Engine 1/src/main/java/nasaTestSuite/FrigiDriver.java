@@ -438,16 +438,23 @@ public class FrigiDriver
 	 * Stops the driver while the app is thinking
 	 */
 	public void thinkWait() 
-	{
+	{	
+		System.out.println(1);
 		myWaitXPath(MyXPath.thinking,30);
-		WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
+		System.out.println(2);
 		try {
+			WebElement thinking = driver.findElementByXPath(MyXPath.thinking);
+			System.out.println(3);
 			WebDriverWait wait = new WebDriverWait(driver, 60);
+			System.out.println(4);
 			wait.until(ExpectedConditions.invisibilityOf(thinking));
+			System.out.println(5);
 		}catch(Exception e) {
+			System.out.println(6);
 			e.getMessage();
 			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
 		}
+		System.out.println(7);
 	}
 	
 	public boolean searchForXPath(String xPath, int wait) 
@@ -489,7 +496,11 @@ public class FrigiDriver
 		}catch(NullPointerException e){
 			System.out.println("Failed to find XPath: " + xPath);
 		}
-		tapOnElement(elem);
+		if(elem != null) {
+			tapOnElement(elem);
+		} else {
+			System.out.println("Problem tapping xpath: " + xPath);
+		}
 	}
 	
 	public void tapOnElement(WebElement element){
@@ -654,7 +665,7 @@ public class FrigiDriver
 	{
 		boolean powerOn;
 		try {
-			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed();
 			powerOn = true;	
 		}catch(Exception e) {
 			powerOn = false;
