@@ -25,7 +25,8 @@ public class MyXPath {
     public static String dehumListCard = "//h3[contains(text(),'Dehum') or contains(text(),'dehum')]";
     
     //applianceOneControlHUMID
-    public static String powerOnButton = "//a[contains(@class,'power-button-on') and contains(@class,'hide')]";//STATE OFF if this shows
+    public static String plainPowerButton = "//a[contains(@class,'single--action-wrap power-button-off')]";
+    public static String powerOnButton = "//a[contains(@class,'action--button icon-power-button-on on hide')]";//STATE OFF if this shows
     public static String powerOffButton = "//a[contains(@class,'power-button-off') and contains(@class,'hide')]";//STATE ON if this shows
     public static String powerButton = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[1]/android.view.View[1]";
     public static String targHumidity = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[1]/android.widget.ListView/android.view.View[12]/android.view.View[1]";
@@ -36,7 +37,7 @@ public class MyXPath {
     public static String dSpeedUp = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[3]";
     public static String racSpeedDown = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[1]/android.view.View/android.view.View[2]/android.view.View[2]";
 //    public static String thinking = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[1]/android.view.View[2]";//this should help prevent us from clicking while thinking
-    public static String thinking = "//div[@class='']";//this should help prevent us from clicking while thinking
+    public static String thinking = "//div[@class='loading--content']";//this should help prevent us from clicking while thinking
 
     public static String settingsButton = "//a[@class='icon icon-settings icon--align-right pull-right']";
     public static String applianceNameField = "//input[@id='applianceLabel']";

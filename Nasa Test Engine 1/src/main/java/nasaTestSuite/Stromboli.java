@@ -38,6 +38,8 @@ public class Stromboli extends FrigiDriver
 		tapOnElement(findByXPath(MyXPath.backButton, BUTTON_WAIT)); 
 		//Tap Strombo in list
 		tapOnElement(findByXPath(MyXPath.stromboListCard, BUTTON_WAIT));
+//		tapOnElement(findByXPath(MyXPath.plainPowerButton, BUTTON_WAIT));trying to get power to work
+		
 	}
 
 	//temp PLUS

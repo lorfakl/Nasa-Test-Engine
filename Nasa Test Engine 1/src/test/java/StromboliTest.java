@@ -36,7 +36,7 @@ public class StromboliTest
 		
 		strombo.setDriver(frigi.getDriver());  //David: used to start from frigi.startApp(), but I am trying to abstract that class
 		System.out.println("temporarily removed update");
-
+		
 	    strombo.switchToWebView();
 	    WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
 	    strombo.tapOnElement(signInButton);

@@ -439,22 +439,32 @@ public class FrigiDriver
 	 */
 	public void thinkWait() 
 	{	
-		System.out.println(1);
-		myWaitXPath(MyXPath.thinking,30);
-		System.out.println(2);
 		try {
-			WebElement thinking = driver.findElementByXPath(MyXPath.thinking);
-			System.out.println(3);
-			WebDriverWait wait = new WebDriverWait(driver, 60);
-			System.out.println(4);
-			wait.until(ExpectedConditions.invisibilityOf(thinking));
-			System.out.println(5);
-		}catch(Exception e) {
-			System.out.println(6);
-			e.getMessage();
-			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
+			WebElement thinking = driver.findElementByXPath("//div[@class='loading--content']");
+
+				while(thinking.isDisplayed()) {
+				    System.out.println("thinking");
+				}
+
+		}catch(Exception e){
+			System.out.println("Thinking not found");
 		}
-		System.out.println(7);
+//		System.out.println(1);
+//		myWaitXPath(MyXPath.thinking,30);
+//		System.out.println(2);
+//		try {
+//			WebElement thinking = driver.findElementByXPath(MyXPath.thinking);
+//			System.out.println(3);
+//			WebDriverWait wait = new WebDriverWait(driver, 60);
+//			System.out.println(4);
+//			wait.until(ExpectedConditions.invisibilityOf(thinking));
+//			System.out.println(5);
+//		}catch(Exception e) {
+//			System.out.println(6);
+//			e.getMessage();
+//			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
+//		}
+//		System.out.println(7);
 	}
 	
 	public boolean searchForXPath(String xPath, int wait) 
@@ -663,13 +673,15 @@ public class FrigiDriver
 
 	public boolean isPowerOn() 
 	{
-		boolean powerOn;
+		boolean powerOn = false;
 		try {
-			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed();
-			powerOn = true;	
+			if(findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed()) {
+				System.out.println("POWER IS ON AND Xpath powerOnButton *SHOULD* BE SHOWING");
+				powerOn = false;	
+			}
 		}catch(Exception e) {
-			powerOn = false;
-			System.out.println(e);
+			powerOn = true;
+			System.out.println(e.getMessage());
 		}
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
