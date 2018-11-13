@@ -76,8 +76,8 @@ public class Stromboli extends FrigiDriver
 	public void clickSpeedDown() 
 	{
 		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.racSpeedDown)));
-		WebElement speedElm = findByXPath(MyXPath.racSpeedDown, false, driver);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboSpeedDown)));
+		WebElement speedElm = findByXPath(MyXPath.stromboSpeedDown, false, driver);
 		speedElm.click();
 		thinkWait();
 	}

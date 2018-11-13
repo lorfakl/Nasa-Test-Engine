@@ -439,6 +439,13 @@ public class FrigiDriver
 	 */
 	public void thinkWait() 
 	{	
+		//TODO LOOK INTO THE IMPLICIT WAIT ISSUE
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			WebElement thinking = driver.findElementByXPath("//div[@class='loading--content']");
 
@@ -518,11 +525,12 @@ public class FrigiDriver
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
 		elementCoordinateY = Math.round(elementLocation[1]);
-		driver.context("NATIVE_APP");
-//		TouchAction action = new TouchAction(driver);
-//		action.tap(elementCoordinateX, elementCoordinateX).perform();
+//		driver.context("NATIVE_APP");
+//		System.out.println("Switching to web view: NATIVE_APP");
 		MobileDriver mDriver = driver;
 		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();
+//		TouchAction action = new TouchAction(driver); OLD OUTDATED CODE
+//		action.tap(elementCoordinateX, elementCoordinateX).perform();
 
 //		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
 //	    parameterBuilder.add(action);
@@ -535,7 +543,7 @@ public class FrigiDriver
 	public float[] getElementCenter(WebElement element){
 		System.out.println();
 		System.out.println("Tapping element: " + element);
-		useWebContext();
+//		useWebContext();
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
@@ -554,6 +562,7 @@ public class FrigiDriver
 		int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
 		// switch to native context
 		driver.context("NATIVE_APP");
+		System.out.println("Switching to web view: NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset
 		int s8offset = 160;//used to be 115
@@ -573,7 +582,7 @@ public class FrigiDriver
 		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		// switch back to webview context
-		useWebContext();
+//		useWebContext();
 		return elementLocation;
 	}
 	
