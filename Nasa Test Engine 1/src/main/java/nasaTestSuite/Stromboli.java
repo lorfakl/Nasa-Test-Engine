@@ -97,71 +97,9 @@ public class Stromboli extends FrigiDriver
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboModeDown)));
 		WebElement modeElm = findByXPath(MyXPath.stromboModeDown, false, driver);
 		modeElm.click();
-		thinkWait();	
+		 thinkWait();	
 	}
-//	
-//	//States
-//	public void refreshTargTemp() 
-//	{
-//		//TODO xbug: refresh will probably be confused by current room temp until we get IDS
-//		//TODO add logic for isCelsius
-//		boolean searching = true;
-//		if(isCelsius) 
-//		{
-//			for(int i = 16; i <=  32 && searching; i++) 
-//			{
-//				System.out.println("temp range 16 - 32?");
-//				if(searchForText(String.valueOf(i), SIGN_IN_WAIT)) 
-//				{
-//					targTemp = i;
-//					System.out.println("Found target temp: " + targTemp);
-//					searching = false;
-//				}
-//			}
-//		} 
-//		else 
-//		{
-//			for(int i = 60; i <=  90 && searching; i++) 
-//			{
-//				boolean tempFound = searchForText(String.valueOf(i), SIGN_IN_WAIT);
-//				if(tempFound) 
-//				{
-//					targTemp = i;
-//					System.out.println("Found target temp: " + targTemp);
-//					//searching = false;
-//				}
-//			}
-//		}
-//	}
-//	
-//	public void refreshSpeed() 
-//	{
-//		System.out.println("high,med,low, spelt wrong in code");
-//		//0 econ 1 cool 2 fan 3 dry
-//		boolean searching = true;
-//		if(searchForText("Low", BUTTON_WAIT) && searching) 
-//		{
-//			mode = 0;
-//			searching = false;
-//		} 
-//		else if(searchForText("Medium", BUTTON_WAIT) && searching) 
-//		{
-//			mode = 1;
-//			searching = false;
-//		} 
-//		else if(searchForText("High", BUTTON_WAIT) && searching) 
-//		{
-//			mode = 2;
-//			searching = false;
-//		} 
-//		else if(searchForText("Auto", BUTTON_WAIT) && searching) 
-//		{
-//			mode = 3;
-//			searching = false;
-//		}
-//		System.out.println("refreshSpeed: " + mode);//DebugDelete
-//	}
-//	
+
 	public void verifyApplianceName() 
 	{
 		clickOffSettings();
