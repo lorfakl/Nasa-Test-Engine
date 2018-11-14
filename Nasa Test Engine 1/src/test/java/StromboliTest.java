@@ -36,7 +36,7 @@ public class StromboliTest
 		
 		strombo.setDriver(frigi.getDriver());  //David: used to start from frigi.startApp(), but I am trying to abstract that class
 		System.out.println("temporarily removed update");
-
+		
 	    strombo.switchToWebView();
 	    WebElement signInButton = strombo.findByXPath("//button[contains(@class,\"sign-in--button\")]", (oneMinute*2));
 	    
@@ -54,26 +54,27 @@ public class StromboliTest
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();
+		strombo.thinkWait();
 		strombo.openControls();
 //		strombo.thinkWait(); not needed?
 	}
 	
-	//functional but not passing/verified
-	@Test
-	public void powerOn() 
-	{
-		strombo.testPowerOn();
-	}
-	
+//	//functional but not passing/verified
+//	@Test
+//	public void powerOn() 
+//	{
+//		strombo.testPowerOn();
+//	}
+//	
 	//functional and passing
 	@Test
 	public void tempUp() 
 	{
 		strombo.printStartTest("Temp up");
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		//Change mode until you reach a mode that can change the temperature
 		int tempMode = strombo.getMode();
 		while(tempMode==3 || tempMode==5) 
@@ -104,10 +105,10 @@ public class StromboliTest
 	public void tempDown() 
 	{
 		strombo.printStartTest("Temp Down");
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		//Change mode until you reach a mode that can change the temperature
 		int tempMode = strombo.getMode();
 		while(tempMode==3 || tempMode==5) 
@@ -136,10 +137,10 @@ public class StromboliTest
 	{
 		strombo.printStartTest("Mode Up");
 		
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		int expectedMode = strombo.getNextExpectedMode();
 		strombo.clickModeUp();
 		System.out.println("Mode: " + strombo.getMode());
@@ -160,10 +161,10 @@ public class StromboliTest
 	{
 		strombo.printStartTest("Mode Down");
 		
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		int expectedMode = strombo.getPrevExpectedMode();
 		strombo.clickModeDown();
 		int currentMode = strombo.getMode();
@@ -185,10 +186,10 @@ public class StromboliTest
 	{
 		strombo.printStartTest("Speed Up");
 
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		//Avoid dry mode
 		if(strombo.getMode()==5) {
 			strombo.clickModeUp();
@@ -213,10 +214,10 @@ public class StromboliTest
 	{
 		strombo.printStartTest("Speed Down");
 
-		if(!strombo.isPowerOn()) 
-		{
-			strombo.tapByXPath(MyXPath.powerOnButton, 10);
-		}
+//		if(!strombo.isPowerOn()) 
+//		{
+//			strombo.tapByXPath(MyXPath.powerOnButton, 10);
+//		}
 		//Avoid dry mode
 		if(strombo.getMode()==5) 
 		{

@@ -442,16 +442,40 @@ public class FrigiDriver
 	 * Stops the driver while the app is thinking
 	 */
 	public void thinkWait() 
-	{
-		myWaitXPath(MyXPath.thinking,30);
-		WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
+	{	
+		//TODO LOOK INTO THE IMPLICIT WAIT ISSUE
 		try {
-			WebDriverWait wait = new WebDriverWait(driver, 60);
-			wait.until(ExpectedConditions.invisibilityOf(thinking));
-		}catch(Exception e) {
-			e.getMessage();
-			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
+			Thread.sleep(4000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		try {
+			WebElement thinking = driver.findElementByXPath("//div[@class='loading--content']");
+
+				while(thinking.isDisplayed()) {
+				    System.out.println("thinking");
+				}
+
+		}catch(Exception e){
+			System.out.println("Thinking not found");
+		}
+//		System.out.println(1);
+//		myWaitXPath(MyXPath.thinking,30);
+//		System.out.println(2);
+//		try {
+//			WebElement thinking = driver.findElementByXPath(MyXPath.thinking);
+//			System.out.println(3);
+//			WebDriverWait wait = new WebDriverWait(driver, 60);
+//			System.out.println(4);
+//			wait.until(ExpectedConditions.invisibilityOf(thinking));
+//			System.out.println(5);
+//		}catch(Exception e) {
+//			System.out.println(6);
+//			e.getMessage();
+//			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
+//		}
+//		System.out.println(7);
 	}
 	
 //	//REDESIGNED METHOD
@@ -516,7 +540,11 @@ public class FrigiDriver
 		}catch(NullPointerException e){
 			System.out.println("Failed to find XPath: " + xPath);
 		}
-		tapOnElement(elem);
+		if(elem != null) {
+			tapOnElement(elem);
+		} else {
+			System.out.println("Problem tapping xpath: " + xPath);
+		}
 	}
 	
 	public void tapOnElement(WebElement element){
@@ -525,11 +553,12 @@ public class FrigiDriver
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
 		elementCoordinateY = Math.round(elementLocation[1]);
-		driver.context("NATIVE_APP");
-//		TouchAction action = new TouchAction(driver);
-//		action.tap(elementCoordinateX, elementCoordinateX).perform();
+//		driver.context("NATIVE_APP");
+//		System.out.println("Switching to web view: NATIVE_APP");
 		MobileDriver mDriver = driver;
 		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();
+//		TouchAction action = new TouchAction(driver); OLD OUTDATED CODE
+//		action.tap(elementCoordinateX, elementCoordinateX).perform();
 
 //		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
 //	    parameterBuilder.add(action);
@@ -543,7 +572,7 @@ public class FrigiDriver
 	public float[] getElementCenter(WebElement element){
 		System.out.println();
 		System.out.println("Tapping element: " + element);
-		useWebContext();
+//		useWebContext();
 		JavascriptExecutor js = (JavascriptExecutor)driver;
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
@@ -562,6 +591,7 @@ public class FrigiDriver
 		int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
 		// switch to native context
 		driver.context("NATIVE_APP");
+		System.out.println("Switching to web view: NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset
 		int s8offset = 160;//used to be 115
@@ -581,7 +611,7 @@ public class FrigiDriver
 		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		// switch back to webview context
-		useWebContext();
+//		useWebContext();
 		return elementLocation;
 	}
 	
@@ -681,14 +711,15 @@ public class FrigiDriver
 
 	public boolean isPowerOn() 
 	{
-		boolean powerOn;
+		boolean powerOn = false;
 		try {
-//			findByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
-//			powerOn = myWaitXPath(MyXPath.powerOnButton, 5);	
-			powerOn = true;	
+			if(findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed()) {
+				System.out.println("POWER IS ON AND Xpath powerOnButton *SHOULD* BE SHOWING");
+				powerOn = false;	
+			}
 		}catch(Exception e) {
-			powerOn = false;
-			System.out.println("This shouldn't have happened: " + e);
+			powerOn = true;
+			System.out.println(e.getMessage());
 		}
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
