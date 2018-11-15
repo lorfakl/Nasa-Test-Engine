@@ -242,27 +242,4 @@ public class StromboliTest
 //		strombo.testChangeName();
 //	}
 	
-//	@Test public void webViewTest() {
-//		AndroidDriver tempDriver = strombo.getDriver();
-//
-//		//do some web testing
-//		try {
-//			Set<String> contextNames = tempDriver.getContextHandles();
-//			for (String contextName : contextNames) {
-//			    System.out.println(contextNames); //prints out something like NATIVE_APP \n WEBVIEW_1
-//			}
-//			tempDriver.context((String) contextNames.toArray()[1]); // set context to WEBVIEW_1
-//			
-//			WebElement myText = tempDriver.findElement(By.cssSelector("hidden"));
-//			WebElement myText2 = tempDriver.findElement(By.cssSelector("visible"));
-//			
-//		}catch (Exception e){
-//			System.out.println("well that didn't go so well");
-//		}
-//
-//		tempDriver.context("NATIVE_APP");
-//
-//	}
-
-	
 }

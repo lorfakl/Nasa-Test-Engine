@@ -52,6 +52,7 @@ public class FrigiDriver
 	public final int POWER_SECS = 20;
 	public final int BUTTON_WAIT = 20;
 	public final int SIGN_IN_WAIT = 120;
+	public final int TOGGLE_SECS = 2000;//ms
 	
 	int oneMinute = 60;
 
@@ -62,7 +63,7 @@ public class FrigiDriver
 	private String name = "default";
 	
 	public Dehum dhum;
-
+	public TestFunctions tests;
 	public void startApp(int implicitTime) 
 	{
 		TestCapabilities testCap = new TestCapabilities();
@@ -89,6 +90,7 @@ public class FrigiDriver
 		}
 		System.out.println("implicit wait may be broken according to appium forum");
 		driver.manage().timeouts().implicitlyWait(implicitTime, TimeUnit.SECONDS);
+		tests = new TestFunctions(this, driver);
 		boolAppStart = true;
 		
 		//TODO add logic for list of appliances based on configurations
@@ -637,7 +639,7 @@ public class FrigiDriver
 	
 	
 	
-	public void printStartTest(String testName) 
+	public static void printStartTest(String testName) 
 	{
 		System.out.println("\n\n");
 		System.out.println("==========================================================================");
@@ -645,42 +647,17 @@ public class FrigiDriver
 		System.out.println("==========================================================================");
 	}
 	
-	public void printEndTest(String testName, String result) 
+	public static void printEndTest(String testName, String result) 
 	{
 		System.out.println("==========================================================================");
 		System.out.println("End Result - " + testName + ": " + result);
 		System.out.println("==========================================================================");
 		System.out.println();
 	}
-	/**
-	 * TODO Currently set up to check name, change name, and verify name all withing settings menu
-	 * Need to implement back button and check name on the CONTROL screen rather than just the settings menu page
-	 */
-	public void testChangeName() {
-		printStartTest("Change Name");
-		openSettings();
-		
-		WebElement currentNameElem = findByXPath(MyXPath.dehumNameValue, false, driver);
-		String prevName = currentNameElem.getText();
-		System.out.println("Previous Name: " + prevName);
-		
-		currentNameElem.sendKeys("strombo renamed");
-		
-		String expectedName = "strombo renamed";
-		String actualName = currentNameElem.getText();
-		
-		System.out.println("Expected name: " + expectedName);
-		System.out.println("Actual name: " + actualName);
-		if(actualName.equals(expectedName)) {
-			printEndTest("Change Name", "PASS");
-		}else {
-			printEndTest("Change Name", "FAIL");
-			fail();
-		}
-	}
 	////ACTIONS////
 	public void openSettings(){
-		clickByXpath(MyXPath.settingsButton, BUTTON_WAIT);
+//		clickByXpath(MyXPath.settingsButton, BUTTON_WAIT);
+		tapByXPath(MyXPath.settingsButton, BUTTON_WAIT);
 	}
 	
 //	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now

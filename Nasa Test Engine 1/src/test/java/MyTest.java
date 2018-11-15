@@ -18,15 +18,15 @@ public class MyTest {
 		public static Dehum dehum = new Dehum(); 
 		static int oneMinute = 60;
 		
-		@Test//("^Appium server is running$")
-		public void appium_server_is_running()  {
-		    // Write code here that turns the phrase above into concrete actions
-		}
-
-		@Test//("^Phone or emulator are ready$")
-		public void phone_or_emulator_are_ready()  {
-		    // Write code here that turns the phrase above into concrete actions
-		}
+//		@Test//("^Appium server is running$")
+//		public void appium_server_is_running()  {
+//		    // Write code here that turns the phrase above into concrete actions
+//		}
+//
+//		@Test//("^Phone or emulator are ready$")
+//		public void phone_or_emulator_are_ready()  {
+//		    // Write code here that turns the phrase above into concrete actions
+//		}
 
 //		@BeforeClass//("^This code opens the app$")
 //		public static void launchMyTest(){
