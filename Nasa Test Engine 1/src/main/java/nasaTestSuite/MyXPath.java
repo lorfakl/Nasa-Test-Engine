@@ -44,8 +44,8 @@ public class MyXPath {
     public static String cleanAirToggle = "//div[@id='cleanair-toggle']"; //if OFF class="toggle" when OFF     if ON class="toggle active"
     public static String sleepModeToggle = "//div[@id='sleep-toggle']";//if OFF class="toggle" when OFF     if ON class="toggle active"
     public static String notificationToggle = "//div[@id='notification-toggle']";//if OFF class="toggle" when OFF     if ON class="toggle active"
-    public static String timeZoneOutterButton = "//span[@id='timezone-label']";//CONTAINS EASTERN: "//span[@id='timezone-label' and contains(text(),'Eastern')]"
-    public static String timeZoneInnerButton0 = "//label[@for='timezone-0']"; //timezone indices vary from 0 - 11
+    public static String timeZoneOuterButton = "//span[@id='timezone-label']";//CONTAINS EASTERN: "//span[@id='timezone-label' and contains(text(),'Eastern')]"
+    public static String timeZoneChecked = "//input[@checked='checked' and @name='timezones']"; //id = 'timezone-0' indiced 0-11 will be checked if active
     public static String unitToggle = "//div[@id='temperature-toggle']"; //IF C class="toggle toggle-select" IF F class="toggle toggle-select active"
     public static String versionInfoButton = "//a[@href='#niurecord']";
     public static String removeApplianceButton = "//a[@href='#remove-appliance']";
@@ -85,4 +85,12 @@ public class MyXPath {
     public static String getTimeZoneInnerButton(int zoneIndex) {
     	return "//label[@for='timezone-" + zoneIndex + "']";
     }
+    //getter of sorts?
+    public static String getListApplianceName(String applianceName) {
+    	return "//div//h3[contains(text(),'"+ applianceName + "')]";
+    }
+    public static String getControlApplianceName(String applianceName) {
+    	return "//header//h1[contains(text(),'" + applianceName + "')]";	
+    }
+   
 }

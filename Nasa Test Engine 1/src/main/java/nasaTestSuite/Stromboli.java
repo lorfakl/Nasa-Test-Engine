@@ -37,7 +37,7 @@ public class Stromboli extends FrigiDriver
 		//Tap Back
 		tapOnElement(findByXPath(MyXPath.backButton, BUTTON_WAIT)); 
 		//Tap Strombo in list
-		tapOnElement(findByXPath(MyXPath.stromboListCard, BUTTON_WAIT));
+		tapOnElement(findByXPath(MyXPath.getListApplianceName("Strombo"), BUTTON_WAIT));
 //		tapOnElement(findByXPath(MyXPath.plainPowerButton, BUTTON_WAIT));trying to get power to work
 		
 	}
@@ -100,6 +100,15 @@ public class Stromboli extends FrigiDriver
 		 thinkWait();	
 	}
 
+	public void changeModeToCoolorEcon(){
+		//Change mode until you reach a mode that can change the temperature
+		int tempMode = getMode();
+		while(tempMode==3 || tempMode==5) 
+		{
+			clickModeUp();
+			tempMode = getMode();
+		}
+	}
 	public void verifyApplianceName() 
 	{
 		clickOffSettings();

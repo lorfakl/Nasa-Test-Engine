@@ -57,22 +57,56 @@ public class StromboliSettingsTest
 		strombo.thinkWait();
 		strombo.openControls();
 		strombo.thinkWait();
+//		System.out.println("ECON/COOL SETTINGS MODE");
+//		if(strombo.isPowerOn()) {
+//			frigi.clickByXpath(MyXPath.powerButton, frigi.BUTTON_WAIT);
+//		}
+		strombo.changeModeToCoolorEcon();
 		strombo.openSettings();
+		
 //		strombo.thinkWait(); not needed?
 	}
 	
-	//functional not passing
+//	@Test
+//	public void testAssertFail() 
+//	{
+//		frigi.tests.testAssertFail();
+//	}
+//	
+//	@Test
+//	public void testAssertPass() 
+//	{
+//		frigi.tests.testAssertPass();
+//	}
+//	
+//	//functional and passing
+//	@Test
+//	public void changeName() 
+//	{
+//		frigi.tests.testChangeName();
+//	}
+//	
+//	//functional
+//	@Test
+//	public void cleanAir() 
+//	{
+//		frigi.tests.testCleanAir();
+//	}
+//	
+//	//functional
+//	@Test
+//	public void sleepMode() 
+//	{
+//		frigi.tests.testSleepMode();
+//	}
 	@Test
-	public void changeName() 
+	public void timeZone() 
 	{
-		frigi.tests.testChangeName();
-	}
-	
-	//untested
-	@Test
-	public void cleanAir() 
-	{
-		frigi.tests.testCleanAir();
+		frigi.tests.testTimeZone();
 	}
 
+	@Test
+	public void noftification() 
+	{
+		frigi.tests.notificationTest();
 }

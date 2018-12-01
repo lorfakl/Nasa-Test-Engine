@@ -454,11 +454,11 @@ public class FrigiDriver
 		}
 		try {
 			WebElement thinking = driver.findElementByXPath("//div[@class='loading--content']");
-
+				System.out.println();
 				while(thinking.isDisplayed()) {
-				    System.out.println("thinking");
+				    System.out.print("thinking");
 				}
-
+				System.out.println();
 		}catch(Exception e){
 			System.out.println("Thinking not found");
 		}

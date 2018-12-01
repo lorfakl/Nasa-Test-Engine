@@ -109,13 +109,7 @@ public class StromboliTest
 //		{
 //			strombo.tapByXPath(MyXPath.powerOnButton, 10);
 //		}
-		//Change mode until you reach a mode that can change the temperature
-		int tempMode = strombo.getMode();
-		while(tempMode==3 || tempMode==5) 
-		{
-			strombo.clickModeUp();
-			tempMode = strombo.getMode();
-		}
+		strombo.changeModeToCoolorEcon();
 		int expectedTemp = strombo.getTargTemp();
 		strombo.clickTempMinus();
 		expectedTemp--;
