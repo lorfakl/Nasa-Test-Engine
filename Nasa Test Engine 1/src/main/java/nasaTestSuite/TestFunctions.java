@@ -60,12 +60,13 @@ public class TestFunctions {
 	
 	AndroidDriver driver;
 	FrigiDriver frigiDriver;
+	Stromboli strombo;
 	
 	//I think I might wanna just put all this stuff in "Appliance" or more specific appliances.
 	//TODO fix this so that the FrigiDriver methods are established in either TestFunctions or in FrigiDriver
-	public TestFunctions(FrigiDriver frigiDriver, AndroidDriver driver){
+	public TestFunctions(FrigiDriver frigiDriver){
 		this.frigiDriver = frigiDriver;
-		this.driver = driver;
+		this.strombo = new Stromboli(frigiDriver);
 	}
 	/**
 	 * TODO test may run faster if you just add some random character to the name instead of naming it back and forth
@@ -73,7 +74,7 @@ public class TestFunctions {
 	 * TODO Currently set up to check name, change name, and verify name all withing settings menu
 	 * Need to implement back button and check name on the CONTROL screen rather than just the settings menu page
 	 */
-	public void testChangeName() {
+	public void changeName() {
 		FrigiDriver.printStartTest("Change Name");
 		
 		WebElement currentNameFieldElem = frigiDriver.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
@@ -86,7 +87,7 @@ public class TestFunctions {
 		frigiDriver.tapByXPath(MyXPath.backButton, BUTTON_WAIT);
 		WebElement currentNameLabelElem = frigiDriver.findByXPath(MyXPath.getControlApplianceName("Strombo"), BUTTON_WAIT);
 		String actualName = currentNameLabelElem.getText();
-		frigiDriver.openSettings();
+		strombo.openSettings();
 		
 		System.out.println("Expected name: " + expectedName);
 		System.out.println("Actual name: " + actualName);
@@ -102,7 +103,7 @@ public class TestFunctions {
 		}
 	}
 
-	public void testCleanAir() {
+	public void cleanAir() {
 		FrigiDriver.printStartTest("Clean Air");
 		
 		String expectedState = "";
@@ -170,7 +171,7 @@ public class TestFunctions {
 		}
 	}
 
-	public void testSleepMode() {
+	public void sleepMode() {
 		FrigiDriver.printStartTest("Sleep Mode");
 		
 		String expectedState = "";
@@ -238,7 +239,7 @@ public class TestFunctions {
 		}
 	}
 	
-	public void testTimeZone() {
+	public void timeZone() {
 		int c = 0;
 		frigiDriver.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
 		for(int i = 0; i <= 11; i++) {
@@ -270,7 +271,7 @@ public class TestFunctions {
 	public void testAssertPass() {
 		Assert.assertEquals(1,1);
 	}
-	public void notificationTest() {
+	public void notification() {
 		
 	}	
 }

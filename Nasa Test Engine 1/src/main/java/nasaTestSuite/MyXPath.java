@@ -10,7 +10,7 @@ public class MyXPath {
     //updateScreen
     public static String updateButton = "/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.LinearLayout/android.widget.Button";
     //signInRegisterScreen
-    public static String signInOne = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.widget.Button[1]";
+    public static String signInOne = "//button[contains(@class,'sign-in--button')]";
     //signInScreen
     public static String emailField = "//input[@id='email']";
     public static String passField = "//input[@id='password']";

@@ -14,8 +14,8 @@ public class MyTest {
 	
 
 		
-		public static FrigiDriver frigi = new FrigiDriver();
-		public static Dehum dehum = new Dehum(); 
+//		public static FrigiDriver frigi = new FrigiDriver();
+//		public static Dehum dehum = new Dehum(); 
 		static int oneMinute = 60;
 		
 //		@Test//("^Appium server is running$")
