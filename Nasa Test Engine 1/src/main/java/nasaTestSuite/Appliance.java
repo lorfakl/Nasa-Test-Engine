@@ -63,4 +63,48 @@ public class Appliance {
 	public void openSettings(){
 		d.tapByXPath(MyXPath.settingsButton, BUTTON_WAIT);
 	}
+
+	////ACTIONS////
+	
+//	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
+//	public void powerButton() 
+//	{
+//		boolean powerOn = isPowerOn();
+//		//assumes isPowerOn() has been used at the start of testing - David
+//		clickByXpath(MyXPath.powerButton, POWER_SECS);
+//		if(powerOn) 
+//		{
+//			System.out.println(this.getName() + " powering down");
+//		}
+//		else 
+//		{
+//			System.out.println(this.getName() + " powering on");
+//		}
+//		thinkWait();
+//	}
+	
+	////GETTERS SETTERS////
+	
+//	public boolean isPowerOn() 
+//	{
+//		boolean powerOn = !searchForText("Off", BUTTON_WAIT);
+//		System.out.println("isPowerOn: " + powerOn);
+//		return powerOn;
+//	}
+
+	public boolean isPowerOn() 
+	{
+		boolean powerOn = false;
+		try {
+			if(d.findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed()) {
+				System.out.println("POWER IS ON AND Xpath powerOnButton *SHOULD* BE SHOWING");
+				powerOn = false;	
+			}
+		}catch(Exception e) {
+			powerOn = true;
+			System.out.println(e.getMessage());
+		}
+		System.out.println("isPowerOn: " + powerOn);
+		return powerOn;
+	}
 }

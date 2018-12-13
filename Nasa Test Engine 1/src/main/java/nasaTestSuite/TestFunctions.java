@@ -59,13 +59,15 @@ public class TestFunctions {
 	int oneMinute = 60;
 	
 	AndroidDriver driver;
-	FrigiDriver frigiDriver;
+	FrigiDriver d;
+	Appliance app;
 	Stromboli strombo;
 	
 	//I think I might wanna just put all this stuff in "Appliance" or more specific appliances.
 	//TODO fix this so that the FrigiDriver methods are established in either TestFunctions or in FrigiDriver
-	public TestFunctions(FrigiDriver frigiDriver){
-		this.frigiDriver = frigiDriver;
+	public TestFunctions(FrigiDriver frigiDriver, Appliance app){
+		this.app = app;
+		this.d = frigiDriver;
 		this.strombo = new Stromboli(frigiDriver);
 	}
 	/**
@@ -75,46 +77,46 @@ public class TestFunctions {
 	 * Need to implement back button and check name on the CONTROL screen rather than just the settings menu page
 	 */
 	public void changeName() {
-		FrigiDriver.printStartTest("Change Name");
+		printStartTest("Change Name");
 		
-		WebElement currentNameFieldElem = frigiDriver.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
+		WebElement currentNameFieldElem = d.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
 		
 		String prevName = currentNameFieldElem.getAttribute("value");
 		System.out.println("Previous Name: " + prevName);
 		String expectedName = prevName + " renamed";
 		currentNameFieldElem.clear();
 		currentNameFieldElem.sendKeys(expectedName);
-		frigiDriver.tapByXPath(MyXPath.backButton, BUTTON_WAIT);
-		WebElement currentNameLabelElem = frigiDriver.findByXPath(MyXPath.getControlApplianceName("Strombo"), BUTTON_WAIT);
+		d.tapByXPath(MyXPath.backButton, BUTTON_WAIT);
+		WebElement currentNameLabelElem = d.findByXPath(MyXPath.getControlApplianceName("Strombo"), BUTTON_WAIT);
 		String actualName = currentNameLabelElem.getText();
 		strombo.openSettings();
 		
 		System.out.println("Expected name: " + expectedName);
 		System.out.println("Actual name: " + actualName);
 
-		currentNameFieldElem = frigiDriver.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
+		currentNameFieldElem = d.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
 		currentNameFieldElem.clear();
 		currentNameFieldElem.sendKeys(prevName);
 		if(actualName.equals(expectedName)) {
-			FrigiDriver.printEndTest("Change Name", "PASS");
+			printEndTest("Change Name", "PASS");
 		} else {
-			FrigiDriver.printEndTest("Change Name", "FAIL");
+			printEndTest("Change Name", "FAIL");
 			fail();
 		}
 	}
 
 	public void cleanAir() {
-		FrigiDriver.printStartTest("Clean Air");
+		printStartTest("Clean Air");
 		
 		String expectedState = "";
 		boolean success = true;
-		WebElement cleanAirToggle = frigiDriver.findByXPath(MyXPath.cleanAirToggle, false, driver);
+		WebElement cleanAirToggle = d.findByXPath(MyXPath.cleanAirToggle, false, driver);
 		
 		String prevState = cleanAirToggle.getAttribute("class");
 		System.out.println("Previous Toggle State: " + prevState);
 		
-		frigiDriver.tapByXPath(MyXPath.cleanAirToggle, TOGGLE_SECS);
-		frigiDriver.thinkWait();
+		d.tapByXPath(MyXPath.cleanAirToggle, TOGGLE_SECS);
+		d.thinkWait();
 		//if OFF class="toggle" when OFF     if ON class="toggle active"
 		if(prevState.equals("toggle")){
 			//clean air was off, after tap it should be on
@@ -139,8 +141,8 @@ public class TestFunctions {
 		prevState = actualState;
 		System.out.println("Previous Toggle State: " + prevState);
 		
-		frigiDriver.tapByXPath(MyXPath.cleanAirToggle, TOGGLE_SECS);
-		frigiDriver.thinkWait();
+		d.tapByXPath(MyXPath.cleanAirToggle, TOGGLE_SECS);
+		d.thinkWait();
 		//if OFF class="toggle" when OFF     if ON class="toggle active"
 		if(prevState.equals("toggle")){
 			//clean air was off, after tap it should be on
@@ -164,25 +166,25 @@ public class TestFunctions {
 		
 		
 		if(success) {
-			FrigiDriver.printEndTest("Clean Air", "PASS");
+			printEndTest("Clean Air", "PASS");
 		} else {
-			FrigiDriver.printEndTest("Clean Air", "FAIL");
+			printEndTest("Clean Air", "FAIL");
 			fail();
 		}
 	}
 
 	public void sleepMode() {
-		FrigiDriver.printStartTest("Sleep Mode");
+		printStartTest("Sleep Mode");
 		
 		String expectedState = "";
 		boolean success = true;
-		WebElement sleepModeToggle = frigiDriver.findByXPath(MyXPath.sleepModeToggle, false, driver);
+		WebElement sleepModeToggle = d.findByXPath(MyXPath.sleepModeToggle, false, driver);
 		//STOPPING POINT
 		String prevState = sleepModeToggle.getAttribute("class");
 		System.out.println("Previous Toggle State: " + prevState);
 		
-		frigiDriver.tapByXPath(MyXPath.sleepModeToggle, TOGGLE_SECS);
-		frigiDriver.thinkWait();
+		d.tapByXPath(MyXPath.sleepModeToggle, TOGGLE_SECS);
+		d.thinkWait();
 		//if OFF class="toggle" when OFF     if ON class="toggle active"
 		if(prevState.equals("toggle")){
 			//clean air was off, after tap it should be on
@@ -207,8 +209,8 @@ public class TestFunctions {
 		prevState = actualState;
 		System.out.println("Previous Toggle State: " + prevState);
 		
-		frigiDriver.tapByXPath(MyXPath.sleepModeToggle, TOGGLE_SECS);
-		frigiDriver.thinkWait();
+		d.tapByXPath(MyXPath.sleepModeToggle, TOGGLE_SECS);
+		d.thinkWait();
 		//if OFF class="toggle" when OFF     if ON class="toggle active"
 		if(prevState.equals("toggle")){
 			//clean air was off, after tap it should be on
@@ -232,23 +234,23 @@ public class TestFunctions {
 		
 		
 		if(success) {
-			FrigiDriver.printEndTest("Sleep Mode", "PASS");
+			printEndTest("Sleep Mode", "PASS");
 		} else {
-			FrigiDriver.printEndTest("Sleep Mode", "FAIL");
+			printEndTest("Sleep Mode", "FAIL");
 			fail();
 		}
 	}
 	
 	public void timeZone() {
 		int c = 0;
-		frigiDriver.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
+		d.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
 		for(int i = 0; i <= 11; i++) {
 			System.out.println(c++);
-			frigiDriver.tapByXPath(MyXPath.getTimeZoneInnerButton(i), BUTTON_WAIT);
+			d.tapByXPath(MyXPath.getTimeZoneInnerButton(i), BUTTON_WAIT);
 			System.out.println(c++);
-			frigiDriver.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
+			d.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
 			System.out.println(c++);
-			WebElement checkedElem = frigiDriver.findByXPath(MyXPath.timeZoneChecked, BUTTON_WAIT);
+			WebElement checkedElem = d.findByXPath(MyXPath.timeZoneChecked, BUTTON_WAIT);
 			System.out.println(c++);
 			String idString = checkedElem.getAttribute("id");
 			System.out.println(c++);
@@ -274,4 +276,41 @@ public class TestFunctions {
 	public void notification() {
 		
 	}	
+////TEST METHODS////
+	public void testPowerOn() 
+	{
+		//appliance.openControls(this.getName());//ASSUME FOR NOW YOU'RE JUST GOING TO BE ON STROMBOLI SCREEN
+		printStartTest("Power on function");
+		if(app.isPowerOn()) {//if power is on turn it off so we can test power on function
+			System.out.println("Appliance was already on. Powering down to verify test.");
+			d.tapByXPath(MyXPath.powerOffButton, BUTTON_WAIT);
+		}
+		d.tapByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+
+		//verify
+		if(app.isPowerOn()) {
+			printEndTest("Power on function", "PASS");
+		}else{
+			printEndTest("Power on function", "FAIL");
+			fail();
+		}
+	}
+	
+	
+	
+	public static void printStartTest(String testName) 
+	{
+		System.out.println("\n\n");
+		System.out.println("==========================================================================");
+		System.out.println("Starting Test - " + testName);
+		System.out.println("==========================================================================");
+	}
+	
+	public static void printEndTest(String testName, String result) 
+	{
+		System.out.println("==========================================================================");
+		System.out.println("End Result - " + testName + ": " + result);
+		System.out.println("==========================================================================");
+		System.out.println();
+	}
 }

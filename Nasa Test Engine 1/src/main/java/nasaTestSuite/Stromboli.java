@@ -19,7 +19,6 @@ public class Stromboli extends Appliance
 	private boolean notifications; //0 off 1 on
 	private boolean isCelsius;
 	private String timeZone;
-	private static AndroidDriver driver;
 	private String name = "strombo";
 	//TODO timer, speed, notifications, timezone all need to be abstracted
 	
@@ -52,9 +51,9 @@ public class Stromboli extends Appliance
 	//temp MINUS
 	public void clickTempMinus() 
 	{
-		WebDriverWait wait = new WebDriverWait(driver, BUTTON_WAIT);
+		WebDriverWait wait = new WebDriverWait(d, BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboTempDown)));
-		WebElement tempMinusElm = d.findByXPath(MyXPath.stromboTempDown, false, driver);
+		WebElement tempMinusElm = d.findByXPath(MyXPath.stromboTempDown, false, d);
 		tempMinusElm.click();
 		d.thinkWait();
 	}
@@ -62,9 +61,9 @@ public class Stromboli extends Appliance
 	//Humidity Speed Down
 	public void clickSpeedUp() 
 	{
-		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
+		WebDriverWait wait = new WebDriverWait(d,BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboSpeedup)));
-		WebElement speedElm = d.findByXPath(MyXPath.stromboSpeedup, false, driver);
+		WebElement speedElm = d.findByXPath(MyXPath.stromboSpeedup, false, d);
 		speedElm.click();
 		d.thinkWait();
 	}
@@ -72,27 +71,27 @@ public class Stromboli extends Appliance
 	//Humidity Speed Down
 	public void clickSpeedDown() 
 	{
-		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
+		WebDriverWait wait = new WebDriverWait(d,BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboSpeedDown)));
-		WebElement speedElm = d.findByXPath(MyXPath.stromboSpeedDown, false, driver);
+		WebElement speedElm = d.findByXPath(MyXPath.stromboSpeedDown, false, d);
 		speedElm.click();
 		d.thinkWait();
 	}
 	
 	public void clickModeUp() 
 	{
-		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
+		WebDriverWait wait = new WebDriverWait(d,BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboModeUp)));
-		WebElement modeElm = d.findByXPath(MyXPath.stromboModeUp, false, driver);
+		WebElement modeElm = d.findByXPath(MyXPath.stromboModeUp, false, d);
 		modeElm.click();
 		d.thinkWait();	
 	}
 	
 	public void clickModeDown() 
 	{
-		WebDriverWait wait = new WebDriverWait(driver,BUTTON_WAIT);
+		WebDriverWait wait = new WebDriverWait(d,BUTTON_WAIT);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.stromboModeDown)));
-		WebElement modeElm = d.findByXPath(MyXPath.stromboModeDown, false, driver);
+		WebElement modeElm = d.findByXPath(MyXPath.stromboModeDown, false, d);
 		modeElm.click();
 		d.thinkWait();	
 	}

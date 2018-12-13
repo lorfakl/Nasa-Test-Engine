@@ -1,6 +1,7 @@
 package test.java;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
 import main.java.nasaTestSuite.MyXPath;
 import main.java.nasaTestSuite.Stromboli;
@@ -25,7 +26,7 @@ import main.java.nasaTestSuite.Appliance;
 import main.java.nasaTestSuite.Dehum;
 import main.java.nasaTestSuite.FrigiDriver;
 import main.java.nasaTestSuite.MyXPath;
-
+@Ignore
 public class StromboliSettingsTest 
 {
 	static int oneMinute = 60;
@@ -37,25 +38,21 @@ public class StromboliSettingsTest
 	@BeforeClass//("^This code opens the app$")
 	public static void launchMyTest()
 	{
+		//Setup app
 		System.out.println("StromboliSettingsTest");//delete later
-		//this.frigi = new FrigiDriver(20); //David: param is implicit time THIS BROKE SO HARD  NULLPOINTER LATER ON AT SIGN IN CAUSE UNKNOWN. Found out it was being reset between scenarios.
 		try {
 			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}//huge debug wait, was originally 20 seconds, this can be switched to infinite if needed
+		}
 		strombo = new Stromboli(frigi);
-		test = new TestFunctions(frigi);
-//		strombo.setDriver(frigi.getDriver());  //David: used to start from frigi.startApp(), but I am trying to abstract that class
+		test = new TestFunctions(frigi, strombo);		
 		System.out.println("temporarily removed update");
-		
 		frigi.useWebContext();
-	    app = new Appliance(frigi);
-	    app.signIn("eluxtester1@gmail.com", "123456");
-//		strombo.thinkWait();
+		
+		//Sign in
+	    strombo.signIn("eluxtester1@gmail.com", "123456");
 		System.out.println("PASS: Sign In");
-//		strombo.thinkWait();
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();
@@ -68,8 +65,6 @@ public class StromboliSettingsTest
 //		}
 		strombo.changeModeToCoolorEcon();
 		strombo.openSettings();
-		
-//		strombo.thinkWait(); not needed?
 	}
 	
 	@Test
@@ -104,11 +99,11 @@ public class StromboliSettingsTest
 	{
 		test.sleepMode();
 	}
-//	@Test
-//	public void timeZone() 
-//	{
-//		frigi.tests.testTimeZone();
-//	}
+	@Test
+	public void timeZone() 
+	{
+		test.timeZone();
+	}
 //
 //	@Test
 //	public void noftification() 
