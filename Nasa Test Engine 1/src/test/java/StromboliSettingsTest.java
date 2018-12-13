@@ -26,7 +26,7 @@ import main.java.nasaTestSuite.Appliance;
 import main.java.nasaTestSuite.Dehum;
 import main.java.nasaTestSuite.FrigiDriver;
 import main.java.nasaTestSuite.MyXPath;
-@Ignore
+//@Ignore
 public class StromboliSettingsTest 
 {
 	static int oneMinute = 60;
@@ -59,10 +59,11 @@ public class StromboliSettingsTest
 	    frigi.thinkWait();
 		strombo.openControls();
 		frigi.thinkWait();
-//		System.out.println("ECON/COOL SETTINGS MODE");
-//		if(strombo.isPowerOn()) {
-//			frigi.clickByXpath(MyXPath.powerButton, frigi.BUTTON_WAIT);
-//		}
+		System.out.println("ECON/COOL SETTINGS MODE");
+		if(!strombo.isPowerOn()) {
+			System.out.println("Turning on appliance");
+			frigi.tapByXPath(MyXPath.plainPowerButton, frigi.BUTTON_WAIT);
+		}
 		strombo.changeModeToCoolorEcon();
 		strombo.openSettings();
 	}

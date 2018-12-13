@@ -1,6 +1,7 @@
 package test.java;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
 import main.java.nasaTestSuite.MyXPath;
 import main.java.nasaTestSuite.Stromboli;
@@ -25,6 +26,7 @@ import main.java.nasaTestSuite.Dehum;
 import main.java.nasaTestSuite.FrigiDriver;
 import main.java.nasaTestSuite.MyXPath;
 
+@Ignore
 public class StromboliTest 
 {
 	static int oneMinute = 60;
@@ -60,13 +62,13 @@ public class StromboliTest
 		frigi.thinkWait();
 	}
 	
-//	//functional but not passing/verified
-//	@Test
-//	public void powerOn() 
-//	{
-//		strombo.testPowerOn();
-//	}
-//	
+	//functional but not passing/verified
+	@Test
+	public void powerOn() 
+	{
+		test.testPowerOn();
+	}
+	
 	//functional and passing
 	@Test
 	public void tempUp() 

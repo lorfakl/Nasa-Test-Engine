@@ -276,16 +276,16 @@ public class TestFunctions {
 	public void notification() {
 		
 	}	
-////TEST METHODS////
+	////TEST METHODS////
 	public void testPowerOn() 
 	{
 		//appliance.openControls(this.getName());//ASSUME FOR NOW YOU'RE JUST GOING TO BE ON STROMBOLI SCREEN
 		printStartTest("Power on function");
 		if(app.isPowerOn()) {//if power is on turn it off so we can test power on function
 			System.out.println("Appliance was already on. Powering down to verify test.");
-			d.tapByXPath(MyXPath.powerOffButton, BUTTON_WAIT);
+			d.tapByXPath(MyXPath.plainPowerButton, BUTTON_WAIT);
 		}
-		d.tapByXPath(MyXPath.powerOnButton, BUTTON_WAIT);
+		d.tapByXPath(MyXPath.plainPowerButton, BUTTON_WAIT);
 
 		//verify
 		if(app.isPowerOn()) {
@@ -295,9 +295,7 @@ public class TestFunctions {
 			fail();
 		}
 	}
-	
-	
-	
+		
 	public static void printStartTest(String testName) 
 	{
 		System.out.println("\n\n");

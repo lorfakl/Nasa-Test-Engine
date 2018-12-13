@@ -27,6 +27,15 @@ public class Stromboli extends Appliance
 	}
 	//Actions
 	
+	public boolean isPowerOn() 
+	{
+		d.useNativeContext();
+		boolean powerOn = !d.searchForText("Off", BUTTON_WAIT);
+		d.useWebContext();
+		System.out.println("isPowerOn: " + powerOn);
+		return powerOn;
+	}
+	
 	public void openControls() 
 	{
 		//TODO implement map navigation
