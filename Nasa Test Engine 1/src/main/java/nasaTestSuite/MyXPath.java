@@ -15,6 +15,7 @@ public class MyXPath {
     public static String emailField = "//input[@id='email']";
     public static String passField = "//input[@id='password']";
     public static String signInTwo = "//button[@id='sign-in--button']";
+    public static String staySignedIn = "//input[@id= 'stay-signed-in']";
 
     //firstApplianceScreen
     public static String addAppliance = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[4]/android.view.View[2]/android.widget.Button";

@@ -9,7 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 
-public class Dehum extends Appliance{
+public class Dehum extends Appliance
+{
 	private boolean powerOn;
 	private Date timer;
 	private int humidity;//0 means cont

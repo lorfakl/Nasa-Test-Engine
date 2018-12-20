@@ -23,43 +23,26 @@ public class Appliance {
 		System.out.println("UNIMPLEMENTED");
 	}
 	
-	public void tapSignInButton1() 
+	public void tapButton(String buttonXPath, String outputMsg) //Tap a button and have a print out
 	{
-	    WebElement signInButton = d.findByXPath(MyXPath.signInOne, BUTTON_WAIT);
-	    d.tapOnElement(signInButton);
-	    System.out.println("sign in button pressed");
+	    d.tapByXPath(buttonXPath, BUTTON_WAIT);
+	    System.out.println(outputMsg);
 	}
 	
-	public void typeEmail(String email) 
+	public void tapButton(String buttonXPath) //Overloaded Tap Button if you do not wish to print out
 	{
-		d.tapByXPath(MyXPath.emailField, BUTTON_WAIT);
-		d.myWaitXPath(MyXPath.emailField, BUTTON_WAIT);
-		WebElement elem = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
-		elem.sendKeys(email);
+		d.tapByXPath(buttonXPath, BUTTON_WAIT);
 	}
 	
-	public void typePassword(String password) 
+	public void signIn(String email, String password) 
 	{
-		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
-		d.myWaitXPath(MyXPath.passField, BUTTON_WAIT);
-		WebElement elem = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
-		elem.sendKeys(password);
+		d.typeInField(MyXPath.emailField, email);
+		d.typeInField(MyXPath.passField, password);
+		tapButton(MyXPath.signInTwo, "Second Sign in button pressed");		
 	}
 	
-	public void tapSignInButton2() 
+	public void openSettings()
 	{
-	    WebElement signInButton = d.findByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-	    d.tapOnElement(signInButton);
-	    System.out.println("sign in button pressed");
-	}
-	
-	public void signIn(String email, String password) {
-		typeEmail(email);
-		typePassword(password);
-		tapSignInButton2();		
-	}
-	
-	public void openSettings(){
 		d.tapByXPath(MyXPath.settingsButton, BUTTON_WAIT);
 	}
 

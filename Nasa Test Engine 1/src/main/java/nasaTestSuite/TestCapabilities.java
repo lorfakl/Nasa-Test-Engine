@@ -1,6 +1,9 @@
 package main.java.nasaTestSuite;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -24,8 +27,33 @@ public class TestCapabilities
 	private String automationName;
 	
 	public DevicePlatform GetPlatform(){return platform; }
-	public String GetPlatformVersion() { return platformVersion; }
-	public String GetDeviceName() { return deviceName; }
+	
+	public String GetPlatformVersion() 
+	{
+		try 
+		{
+			return LaunchCMD("adb shell getprop ro.build.version.release");
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			return e.getMessage();
+		}
+	}
+	
+	public String GetDeviceName() 
+	{ 
+		try 
+		{
+			return LaunchCMD("adb shell getprop ro.product.model");
+		} 
+		catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			return e.getMessage();
+		}
+	}
+	
 	public String GetAVD() { return avd; }
 	public String GetApp() { return app; }
 	public String GetAutomationName() { return automationName; }
@@ -39,7 +67,7 @@ public class TestCapabilities
 	
 	public TestCapabilities()
 	{
-		this.platform = DevicePlatform.Undefined;
+		this.platform = DevicePlatform.Android;
 		this.platformVersion = "";
 		this.deviceName = "";
 		this.avd = "";
@@ -50,49 +78,56 @@ public class TestCapabilities
 	public DesiredCapabilities AssignAppiumCapabilities()
 	{
 		String appPath = new File("").getAbsolutePath();
-		appPath = appPath.concat("\\nasaTestSuite\\Android_AppUITesting.apk");
-		DesiredCapabilities appiumSettings = new DesiredCapabilities();
-		appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"9.0");//Android 9
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0");//htcm8
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0.1");//S7
-		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.0");//S8
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"8.1.0");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.1.2"); //pixel 1 
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/""); //pixel 1 trstn
-		appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Galaxy s7");
-		//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P"); //removed to avoid emulation
-		appiumSettings.setCapability("app", /*this.GetApp()*/"C:\\Users\\WoodmDav\\localDocuments\\myCode\\GIT\\Nasa Test Engine 1\\Nasa Test Engine 1\\src\\main\\resources\\Android_AppUITesting.apk");
-		appiumSettings.setCapability("automationName", "UiAutomator2");
+		if(appPath.contains("Users"))
+		{
+			appPath = appPath.concat("\\src\\main\\resources\\Android_AppUITesting.apk");
+			System.out.println(appPath);
+			DesiredCapabilities appiumSettings = new DesiredCapabilities();
+			appiumSettings.setCapability("platform", this.GetPlatform().toString());
+			appiumSettings.setCapability("platformVersion", this.GetPlatformVersion());
+			appiumSettings.setCapability("deviceName", this.GetDeviceName());
+			//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P"); //removed to avoid emulation
+			appiumSettings.setCapability("app", appPath);
+			appiumSettings.setCapability("automationName", "UiAutomator2");
+			return appiumSettings;
+		}
+		else
+		{
+			return new DesiredCapabilities();
+		}
 		
-		//David: run directly from local app, might run faster?
-		//com.ELXSmart
-		//com.ELXSmart.ELXSmart
-//		appiumSettings.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.ELXSmart");
-//		appiumSettings.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.ELXSmart.ELXSmart");
-		
-		
-		
-		
-//		//FOR TESTSTUFF
-		return appiumSettings;
-//		DesiredCapabilities appiumSettings = new DesiredCapabilities();
-//		appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.1.2");
-//		appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Galaxy s7");
-//		//appiumSettings.setCapability("avd", /*this.GetAVD()*/ "Nexus6P");
-//		//appiumSettings.setCapability("app", /*this.GetApp()*/"C:\\Users\\WoodmDav\\Documents\\Android_AppUITesting.apk");
-//		appiumSettings.setCapability("automationName", "UiAutomator2");
-//		
-//		//David: run directly from local app, might run faster?
-//		//com.ELXSmart
-//		//com.ELXSmart.ELXSmart
-//		appiumSettings.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.google.android.apps.chromecast.app");
-//		appiumSettings.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.google.android.apps.chromecast.app.core.MainActivity");
+	}
+	
+	private String LaunchCMD(String cmd) throws Exception 
+	{
+		String results = null;
+		Process p;
+		try 
+		{
+			p = Runtime.getRuntime().exec(cmd);
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String line = null;
+			
+			while ((line = in.readLine()) != null) 
+			{
+			    System.out.println(line);
+			    if(!line.isEmpty())
+			    {
+			    	results = line;
+			    }
+			}
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(results == null)
+		{
+			throw new Exception("Connect an Android phone and ensure USB Debugging is enabled");
+		}
+		return results;   
 	}
 	
 	
 	
-	
 }
-

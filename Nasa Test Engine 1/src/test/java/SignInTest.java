@@ -7,6 +7,7 @@ import main.java.nasaTestSuite.MyXPath;
 import main.java.nasaTestSuite.Stromboli;
 import main.java.nasaTestSuite.TestCapabilities;
 import main.java.nasaTestSuite.TestFunctions;
+import main.java.nasaTestSuite.TestServers;
 
 import static org.junit.Assert.fail;
 
@@ -42,7 +43,7 @@ public class SignInTest
 		//Setup app
 		System.out.println("StromboliTest2");//delete later
 		try {
-			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities());
+			frigi = new FrigiDriver(TestServers.LocalServer(), new TestCapabilities().AssignAppiumCapabilities());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,13 +52,14 @@ public class SignInTest
 		System.out.println("temporarily removed update");
 		frigi.useWebContext();	
 
-		app.tapSignInButton1();
+		app.tapButton(MyXPath.signInOne);
 	}
 
 	@Test
 	public void Sign_In() 
 	{
 		//Sign in
+		app.tapButton(MyXPath.staySignedIn, "Tapped the Check Box?");
 		app.signIn("eluxtester1@gmail.com", "123456");
 		System.out.println("PASS: Sign In");
 	}

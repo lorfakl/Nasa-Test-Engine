@@ -378,7 +378,37 @@ public class FrigiDriver extends AndroidDriver
 		}
 	}
 	
-	public void tapOnElement(WebElement element){
+	public void typeInField(String fieldXPath, String textToType)
+	{
+		tapByXPath(fieldXPath, BUTTON_WAIT);
+		myWaitXPath(fieldXPath, BUTTON_WAIT);
+		WebElement elem = findByXPath(MyXPath.passField, BUTTON_WAIT);
+		elem.sendKeys(textToType);
+	}
+	
+	public void tapOnElement(WebElement element)
+	{
+		thinkWait();
+		float[] elementLocation = getElementCenter(element);
+		int elementCoordinateX, elementCoordinateY; 
+		elementCoordinateX = Math.round(elementLocation[0]);
+		elementCoordinateY = Math.round(elementLocation[1]);
+//		context("NATIVE_APP");
+//		System.out.println("Switching to web view: NATIVE_APP");
+		MobileDriver mDriver = this;
+		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();
+//		TouchAction action = new TouchAction(driver); OLD OUTDATED CODE
+//		action.tap(elementCoordinateX, elementCoordinateX).perform();
+
+//		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
+//	    parameterBuilder.add(action);
+	    //noinspection unchecked
+		
+		useWebContext();
+	}
+	public void tapOnElement(String xPath)
+	{
+		WebElement element = findByXPath(xPath, BUTTON_WAIT);
 		thinkWait();
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 

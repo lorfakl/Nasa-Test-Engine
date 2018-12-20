@@ -43,7 +43,9 @@ public class StromboliTest
 		System.out.println("StromboliTest");//delete later
 		try {
 			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities());
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 		strombo = new Stromboli(frigi);
@@ -52,7 +54,7 @@ public class StromboliTest
 		frigi.useWebContext();
 		
 		//Sign in
-		strombo.tapSignInButton1();
+		strombo.tapButton(MyXPath.signInOne, "Pressed 1st sign in button");
 	    strombo.signIn("eluxtester1@gmail.com", "123456");
 		System.out.println("PASS: Sign In");
 //		strombo.isPowerOn();

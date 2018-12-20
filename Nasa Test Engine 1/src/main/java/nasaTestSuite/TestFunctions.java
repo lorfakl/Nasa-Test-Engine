@@ -324,7 +324,7 @@ public class TestFunctions
 	{
 		printStartTest("Empty Email Validation");
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
-		emailField.clear();
+		emailField.clear(); 
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
 		boolean validationFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);
 		Assert.assertEquals(true, validationFound); //expect validationFound to be true
