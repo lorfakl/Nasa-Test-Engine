@@ -257,7 +257,6 @@ public class FrigiDriver extends AndroidDriver
 		try {
 			Thread.sleep(milli);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -349,6 +348,7 @@ public class FrigiDriver extends AndroidDriver
 	public boolean searchForText(String text, int wait) 
 	{
 		System.out.println("Searching for: " + text);
+		useNativeContext();
 		boolean result = false;
 		try {
 			myWaitText(text, wait);
@@ -359,6 +359,7 @@ public class FrigiDriver extends AndroidDriver
 			//e.printStackTrace();
 			System.out.println("Not Found in Search: " + text);
 		}
+		useWebContext();
 		return result;
 	}
 
@@ -366,7 +367,7 @@ public class FrigiDriver extends AndroidDriver
 		myWaitXPath(xPath, waitSecs);
 		WebElement elem = null;
 		try {
-			elem = findByXPath(xPath, false, this);
+			elem = findByXPath(xPath, false, this); //TODO: this bugs me. why won't it work without this fallback?
 		}catch(NullPointerException e){
 			System.out.println("Failed to find XPath: " + xPath);
 		}
@@ -394,7 +395,6 @@ public class FrigiDriver extends AndroidDriver
 //	    parameterBuilder.add(action);
 	    //noinspection unchecked
 		
-	    //TODO too many webcontext switches
 		useWebContext();
 	}
 

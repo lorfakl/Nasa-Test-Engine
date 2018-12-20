@@ -27,25 +27,6 @@ public class Stromboli extends Appliance
 	}
 	//Actions
 	
-	public boolean isPowerOn() 
-	{
-		d.useNativeContext();
-		boolean powerOn = !d.searchForText("Off", BUTTON_WAIT);
-		d.useWebContext();
-		System.out.println("isPowerOn: " + powerOn);
-		return powerOn;
-	}
-	
-	public void openControls() 
-	{
-		//TODO implement map navigation
-		//Tap Back
-		d.tapOnElement(d.findByXPath(MyXPath.backButton, d.BUTTON_WAIT)); 
-		//Tap Strombo in list
-		d.tapOnElement(d.findByXPath(MyXPath.getListApplianceName("Strombo"), d.BUTTON_WAIT));
-//		tapOnElement(findByXPath(MyXPath.plainPowerButton, BUTTON_WAIT));trying to get power to work
-		
-	}
 
 	//temp PLUS
 	public void clickTempPlus() 

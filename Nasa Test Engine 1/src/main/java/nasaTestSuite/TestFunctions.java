@@ -48,7 +48,8 @@ import javax.xml.xpath.XPathConstants;
 
 import io.appium.java_client.android.AndroidDriver;
 
-public class TestFunctions {
+public class TestFunctions 
+{
 	public final int OPEN_WAIT = 120;
 	public final int UPDATE_WAIT = 240;
 	public final int POWER_SECS = 20;
@@ -76,7 +77,8 @@ public class TestFunctions {
 	 * TODO Currently set up to check name, change name, and verify name all withing settings menu
 	 * Need to implement back button and check name on the CONTROL screen rather than just the settings menu page
 	 */
-	public void changeName() {
+	public void changeName()
+	{
 		printStartTest("Change Name");
 		
 		WebElement currentNameFieldElem = d.findByXPath(MyXPath.applianceNameField, BUTTON_WAIT);
@@ -105,7 +107,8 @@ public class TestFunctions {
 		}
 	}
 
-	public void cleanAir() {
+	public void cleanAir() 
+	{
 		printStartTest("Clean Air");
 		
 		String expectedState = "";
@@ -173,7 +176,8 @@ public class TestFunctions {
 		}
 	}
 
-	public void sleepMode() {
+	public void sleepMode() 
+	{
 		printStartTest("Sleep Mode");
 		
 		String expectedState = "";
@@ -241,10 +245,12 @@ public class TestFunctions {
 		}
 	}
 	
-	public void timeZone() {
+	public void timeZone() 
+	{
 		int c = 0;
 		d.tapByXPath(MyXPath.timeZoneOuterButton, BUTTON_WAIT);
-		for(int i = 0; i <= 11; i++) {
+		for(int i = 0; i <= 11; i++) 
+		{
 			System.out.println(c++);
 			d.tapByXPath(MyXPath.getTimeZoneInnerButton(i), BUTTON_WAIT);
 			System.out.println(c++);
@@ -265,15 +271,18 @@ public class TestFunctions {
 	}
 	
 	//should fail
-	public void testAssertFail() {
-		Assert.assertEquals(1,0);
+	public void testAssertFail() 
+	{
+		Assert.assertEquals(1,0); //expected 1 actual 0
 	}
 
 	//should pass
-	public void testAssertPass() {
-		Assert.assertEquals(1,1);
+	public void testAssertPass() 
+	{
+		Assert.assertEquals(1,1); //expected 1 actual 1
 	}
-	public void notification() {
+	public void notification() 
+	{
 		
 	}	
 	////TEST METHODS////
@@ -311,4 +320,51 @@ public class TestFunctions {
 		System.out.println("==========================================================================");
 		System.out.println();
 	}
+	public void emptyEmailValidation() 
+	{
+		printStartTest("Empty Email Validation");
+		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
+		emailField.clear();
+		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
+		boolean validationFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);
+		Assert.assertEquals(true, validationFound); //expect validationFound to be true
+	}
+	public void emptyPasswordValidation() 
+	{
+		printStartTest("Empty Password Validation");
+		WebElement passwordField = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
+		passwordField.clear();
+		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
+		boolean validationFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		Assert.assertEquals(true, validationFound); //expect validationFound to be true		
+	}
+	public void invalidEmailValidation(String email, boolean correctCredential) 
+	{
+		printStartTest("Invalid Email Validation");
+		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
+		emailField.clear();
+		emailField.sendKeys(email);
+		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
+		boolean validationFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);		
+		if(correctCredential) {
+			Assert.assertEquals(false, validationFound);			
+		} else {
+			Assert.assertEquals(true, validationFound);			
+		}
+		Assert.assertEquals(true, validationFound);
+	}
+	//Expect a fail because this validation is BUGGED
+	public void shortPasswordValidation() 
+	{
+		printStartTest("Short Pass Validation");
+		app.signIn("eluxtester1@gmail.com", "12345");
+		boolean validationFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		Assert.assertEquals(true, validationFound);
+	}
+//	public void email(String email, boolean correctCredential) 
+//	{
+//		printStartTest("Correct Email Validation");
+//		app.signIn(email, "123456");
+//		
+//	}
 }

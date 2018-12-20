@@ -52,13 +52,14 @@ public class StromboliTest
 		frigi.useWebContext();
 		
 		//Sign in
+		strombo.tapSignInButton1();
 	    strombo.signIn("eluxtester1@gmail.com", "123456");
 		System.out.println("PASS: Sign In");
 //		strombo.isPowerOn();
 	    System.out.println("App Launched");
 	    System.out.println();
 	    frigi.thinkWait();
-		strombo.openControls();
+		strombo.openControls("Strombo");
 		frigi.thinkWait();
 	}
 	

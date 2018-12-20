@@ -54,7 +54,6 @@ public class Appliance {
 	}
 	
 	public void signIn(String email, String password) {
-		tapSignInButton1();
 		typeEmail(email);
 		typePassword(password);
 		tapSignInButton2();		
@@ -94,17 +93,19 @@ public class Appliance {
 
 	public boolean isPowerOn() 
 	{
-		boolean powerOn = false;
-		try {
-			if(d.findByXPath(MyXPath.powerOnButton, BUTTON_WAIT).isDisplayed()) {
-				System.out.println("POWER IS ON AND Xpath powerOnButton *SHOULD* BE SHOWING");
-				powerOn = false;	
-			}
-		}catch(Exception e) {
-			powerOn = true;
-			System.out.println(e.getMessage());
-		}
+		boolean powerOn = !d.searchForText("Off", BUTTON_WAIT);
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
+	}
+	
+	public void openControls(String applianceName) 
+	{
+		//TODO implement map navigation
+		//Tap Back
+		d.tapOnElement(d.findByXPath(MyXPath.backButton, d.BUTTON_WAIT)); 
+		//Tap Strombo in list
+		d.tapOnElement(d.findByXPath(MyXPath.getListApplianceName(applianceName), d.BUTTON_WAIT));
+//		tapOnElement(findByXPath(MyXPath.plainPowerButton, BUTTON_WAIT));trying to get power to work
+		
 	}
 }
