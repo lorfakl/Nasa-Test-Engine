@@ -26,7 +26,7 @@ import main.java.nasaTestSuite.Appliance;
 import main.java.nasaTestSuite.Dehum;
 import main.java.nasaTestSuite.FrigiDriver;
 import main.java.nasaTestSuite.MyXPath;
-//@Ignore
+@Ignore
 public class testyTest 
 {
 //	static int oneMinute = 60;
@@ -37,7 +37,7 @@ public class testyTest
 //	public static TestFunctions test = null;
 //	@BeforeClass//("^This code opens the app$")
 //	public static void launchMyTest()
-	{
+//	{
 //		//Setup app
 //		System.out.println("StromboliSettingsTest");//delete later
 //		try {
@@ -66,16 +66,57 @@ public class testyTest
 //		}
 //		strombo.changeModeToCoolorEcon();
 //		strombo.openSettings();
-	}
+//	}
 	
 	@Test
 	public void testAssertFail() 
 	{
-//		fail();
+		System.out.println("fail");
+		try {
+			fail();			
+		} catch (Exception e) {
+			System.out.println("fail caught");
+		}
 	}
 	
 	@Test
-	public void testAssertPass() 
+	public void testAssertPass1() 
+	{
+		System.out.println("pass");
+	}
+	
+	
+	@Test
+	public void testAssertPass2() 
+	{
+		System.out.println("pass");
+	}
+	
+	@Test
+	public void testAssertPass3() 
+	{
+		System.out.println("fail");
+		try {
+			fail();			
+		} catch (Exception e) {
+			System.out.println("fail caught");
+		}
+	}
+	
+	@Test
+	public void testAssertPass4() 
+	{
+		System.out.println("pass");
+	}
+	
+	@Test
+	public void testAssertPass5() 
+	{
+		System.out.println("pass");
+	}
+	
+	@Test
+	public void testAssertPass6() 
 	{
 		System.out.println("pass");
 	}

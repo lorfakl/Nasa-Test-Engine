@@ -14,7 +14,8 @@ public class Appliance {
 	public final int TOGGLE_SECS = 2000;//ms
 	
 	protected static FrigiDriver d;
-	public Appliance(FrigiDriver driver) {
+	public Appliance(FrigiDriver driver) 
+	{
 		this.d = driver;
 	}
 
@@ -31,18 +32,17 @@ public class Appliance {
 	}
 	
 	public void typeEmail(String email) 
-	{
-		d.tapByXPath(MyXPath.emailField, BUTTON_WAIT);
-		d.myWaitXPath(MyXPath.emailField, BUTTON_WAIT);
+	{		
 		WebElement elem = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
+		elem.clear();
 		elem.sendKeys(email);
 	}
 	
 	public void typePassword(String password) 
 	{
 		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
-		d.myWaitXPath(MyXPath.passField, BUTTON_WAIT);
 		WebElement elem = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
+		elem.clear();
 		elem.sendKeys(password);
 	}
 	
@@ -53,43 +53,27 @@ public class Appliance {
 	    System.out.println("sign in button pressed");
 	}
 	
-	public void signIn(String email, String password) {
+	public void signIn(String email, String password) 
+	{
+		//TODO move the email.clear into here
 		typeEmail(email);
 		typePassword(password);
 		tapSignInButton2();		
+		System.out.println("Signed into " + email);
 	}
 	
-	public void openSettings(){
+	public void signOut() 
+	{
+		d.tapByXPath(MyXPath.backButton, BUTTON_WAIT);
+		openSettings();
+		d.scrollDown();
+		d.tapByXPath(MyXPath.signOutButton, BUTTON_WAIT);
+	}
+	
+	public void openSettings()
+	{
 		d.tapByXPath(MyXPath.settingsButton, BUTTON_WAIT);
 	}
-
-	////ACTIONS////
-	
-//	//David: I plan on abstracting this class at a later date, but I don't want to break anything right now
-//	public void powerButton() 
-//	{
-//		boolean powerOn = isPowerOn();
-//		//assumes isPowerOn() has been used at the start of testing - David
-//		clickByXpath(MyXPath.powerButton, POWER_SECS);
-//		if(powerOn) 
-//		{
-//			System.out.println(this.getName() + " powering down");
-//		}
-//		else 
-//		{
-//			System.out.println(this.getName() + " powering on");
-//		}
-//		thinkWait();
-//	}
-	
-	////GETTERS SETTERS////
-	
-//	public boolean isPowerOn() 
-//	{
-//		boolean powerOn = !searchForText("Off", BUTTON_WAIT);
-//		System.out.println("isPowerOn: " + powerOn);
-//		return powerOn;
-//	}
 
 	public boolean isPowerOn() 
 	{

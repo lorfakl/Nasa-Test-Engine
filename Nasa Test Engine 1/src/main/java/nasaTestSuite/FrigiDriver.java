@@ -1,6 +1,7 @@
 package main.java.nasaTestSuite;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -67,12 +68,12 @@ public class FrigiDriver extends AndroidDriver
 	public void useWebContext() {
 		Set<String> contextNames = getContextHandles();
 		String webView = contextNames.toArray()[1].toString();
-		System.out.println("Switching to web view: " + webView);
+//		System.out.println("Switching to web view: " + webView);
 		context(webView);
 	}
 	
 	public void useNativeContext() {
-		System.out.println("Switching to native view");
+//		System.out.println("Switching to native view");
 		context("NATIVE_APP");
 	}
 	
@@ -176,6 +177,7 @@ public class FrigiDriver extends AndroidDriver
 		
 	}
 	
+	//Old findByXPath that David made. It's bad code but the new method can't run without it. 
 	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver d)
 	{
 		WebElement result = null;
@@ -200,16 +202,15 @@ public class FrigiDriver extends AndroidDriver
 				print("Failed to find Element with xPath:" + xpath);
 			}
 		}
-		return result;
-		
+		return result;		
 	}
 	
-
+	//New findByXPath that was supposed to replace the old xpath. Causes error when I tried to remove the old method. 
 	public WebElement findByXPath(String xPath, int waitSecs)
 	{
 		myWaitXPath(xPath, waitSecs);
 		try {
-			WebElement elem = findByXPath(xPath, false, this);
+			WebElement elem = findByXPath(xPath, false, this);//replacing this line with AppiumDriver method instead of FrigiDriver method didn't work. TODO fix this later.
 			return elem;
 		}catch(NullPointerException e){
 			System.out.println("Failed to find XPath: " + xPath);
@@ -217,17 +218,12 @@ public class FrigiDriver extends AndroidDriver
 		return null;
 	}
 	
-//	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver driver)
-//	{
-//		myWait(xpath, BUTTON_WAIT);
-//		return findElementById(xpath);
-//	}
-	
-//	public WebElement findByXPath(String xpath)
-//	{
-//		myWaitXPath(xpath, BUTTON_WAIT);
-//		return findElementById(xpath);
-//	}
+	//overload
+	public WebElement findByXPath(String xpath)
+	{
+		myWaitXPath(xpath, BUTTON_WAIT);
+		return findElementById(xpath);
+	}
 	
 	
 	private void switchWifi(String ssid)
@@ -281,11 +277,11 @@ public class FrigiDriver extends AndroidDriver
 		}
 		try {
 			WebElement thinking = findElementByXPath("//div[@class='loading--content']");
-				System.out.println();
-				while(thinking.isDisplayed()) {
-				    System.out.print("thinking");
-				}
-				System.out.println();
+			System.out.println();
+			while(thinking.isDisplayed()) {
+			    System.out.print("thinking");
+			}
+			System.out.println();
 		}catch(Exception e){
 			System.out.println("Thinking not found");
 		}
@@ -384,17 +380,8 @@ public class FrigiDriver extends AndroidDriver
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
 		elementCoordinateY = Math.round(elementLocation[1]);
-//		context("NATIVE_APP");
-//		System.out.println("Switching to web view: NATIVE_APP");
 		MobileDriver mDriver = this;
-		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();
-//		TouchAction action = new TouchAction(driver); OLD OUTDATED CODE
-//		action.tap(elementCoordinateX, elementCoordinateX).perform();
-
-//		ActionParameter action = new ActionParameter("longPress", LongPressOptions());
-//	    parameterBuilder.add(action);
-	    //noinspection unchecked
-		
+		new TouchAction(mDriver).tap(PointOption.point(elementCoordinateX, elementCoordinateY)).perform();		
 		useWebContext();
 	}
 
@@ -402,18 +389,17 @@ public class FrigiDriver extends AndroidDriver
 	public float[] getElementCenter(WebElement element){
 		System.out.println();
 		System.out.println("Tapping element: " + element);
-//		useWebContext();
 		JavascriptExecutor js = (JavascriptExecutor)this;
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
 		Long webviewHeight = (Long) js.executeScript("return screen.height");
-		System.out.println("webview width: " + webviewWidth);
-		System.out.println("webview height: " + webviewHeight);
+//		System.out.println("webview width: " + webviewWidth);
+//		System.out.println("webview height: " + webviewHeight);
 		// get element location in webview
 		int elementLocationX = element.getLocation().getX();
 		int elementLocationY = element.getLocation().getY();
-		System.out.println("elementLocationX: " + elementLocationX);
-		System.out.println("elementLocationY: " + elementLocationY);
+//		System.out.println("elementLocationX: " + elementLocationX);
+//		System.out.println("elementLocationY: " + elementLocationY);
 		// get the center location of the element
 		int elementWidthCenter = element.getSize().getWidth() / 2;
 		int elementHeightCenter = element.getSize().getHeight() / 2;
@@ -421,31 +407,50 @@ public class FrigiDriver extends AndroidDriver
 		int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
 		// switch to native context
 		context("NATIVE_APP");
-		System.out.println("Switching to web view: NATIVE_APP");
+//		System.out.println("Switching to web view: NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset
 		int s8offset = 160;//used to be 115
 		// get the actual screen dimensions
 		deviceScreenWidth  = manage().window().getSize().getWidth();
 		deviceScreenHeight = manage().window().getSize().getHeight();
-		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
-		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
+//		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
+//		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
 		// calculate the ratio between actual screen dimensions and webview dimensions
 		float ratioWidth = deviceScreenWidth / webviewWidth.intValue();
 		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
 		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
 		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + s8offset;
-		System.out.println("elementCenterActualX: " + elementCenterActualX);
-		System.out.println("elementCenterActualY: " + elementCenterActualY);
-		System.out.println();
+//		System.out.println("elementCenterActualX: " + elementCenterActualX);
+//		System.out.println("elementCenterActualY: " + elementCenterActualY);
+//		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
-		// switch back to webview context
-//		useWebContext();
 		return elementLocation;
 	}
+
+	//how-to-scroll-with-appium
+	public void scrollDown() {
+		useNativeContext();
+	    //if pressX was zero it didn't work for me
+	    int pressX = manage().window().getSize().width / 2;
+	    // 4/5 of the screen as the bottom finger-press point
+	    int bottomY = manage().window().getSize().height * 4/5;
+	    // just non zero point, as it didn't scroll to zero normally
+	    int topY = manage().window().getSize().height / 8;
+	    //scroll with TouchAction by itself
+	    scroll(pressX, bottomY, pressX, topY);
+	    useWebContext();
+	}
 	
-	
+	//how-to-scroll-with-appium
+	public void scroll(int fromX, int fromY, int toX, int toY) {
+		useNativeContext();
+	    TouchAction touchAction = new TouchAction(this);
+	    touchAction.longPress(PointOption.point(fromX, fromY)).moveTo(PointOption.point(toX, toY)).release().perform();
+	    useWebContext();
+	}
+
 	
 	public AndroidDriver getDriver() 
 	{

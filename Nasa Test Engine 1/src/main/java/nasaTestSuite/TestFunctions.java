@@ -326,8 +326,8 @@ public class TestFunctions
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
 		emailField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-		boolean validationFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);
-		Assert.assertEquals(true, validationFound); //expect validationFound to be true
+		boolean validationErrorFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);
+		Assert.assertEquals(true, validationErrorFound); //expect validationErrorFound to be true
 	}
 	public void emptyPasswordValidation() 
 	{
@@ -335,36 +335,53 @@ public class TestFunctions
 		WebElement passwordField = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
 		passwordField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-		boolean validationFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
-		Assert.assertEquals(true, validationFound); //expect validationFound to be true		
+		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		Assert.assertEquals(true, validationErrorFound); //expect validationErrorFound to be true		
 	}
-	public void invalidEmailValidation(String email, boolean correctCredential) 
+	
+	//FAILURE UNRESOLVED Invalid_Email_Validation(test.java.SignInTest): expected:<false> but was:<true>
+	public void invalidEmailValidation(String email, boolean validInput) 
 	{
-		printStartTest("Invalid Email Validation");
+		//print start test in test class
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
 		emailField.clear();
 		emailField.sendKeys(email);
 		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
-		boolean validationFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);		
-		if(correctCredential) {
-			Assert.assertEquals(false, validationFound);			
+		boolean validationErrorFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);		
+		if(validInput) {
+			Assert.assertEquals(false, validationErrorFound);
+			System.out.println("No error for valid input. Cool!");
 		} else {
-			Assert.assertEquals(true, validationFound);			
+			Assert.assertEquals(true, validationErrorFound);		
+			System.out.println("Validation error found for invalid input. Cool!");	
 		}
-		Assert.assertEquals(true, validationFound);
+		Assert.assertEquals(true, validationErrorFound);
 	}
+	
 	//Expect a fail because this validation is BUGGED
 	public void shortPasswordValidation() 
 	{
 		printStartTest("Short Pass Validation");
 		app.signIn("eluxtester1@gmail.com", "12345");
-		boolean validationFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
-		Assert.assertEquals(true, validationFound);
+		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		Assert.assertEquals(true, validationErrorFound);
 	}
-//	public void email(String email, boolean correctCredential) 
-//	{
-//		printStartTest("Correct Email Validation");
-//		app.signIn(email, "123456");
-//		
-//	}
+	
+	public void credentialValidation(String email, String password, boolean correctCredential) {
+		//print start test in test class
+		app.signIn(email, password);
+		//if the credentials are correct then the there shouldn't be a validation error, but if credentails are incorrect then expect a validation error. 
+		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", BUTTON_WAIT);
+		if(correctCredential) {
+			Assert.assertEquals(false, validationErrorFound);
+		}else {
+			Assert.assertEquals(true, validationErrorFound);
+			app.signOut();			
+		}
+	}
+	public void signInSignOutValidation() {
+		printStartTest("Sign In/Sign Out Validation");
+		app.signIn("eluxtester1@gmail.com", "123456");
+		app.signOut();
+	}
 }

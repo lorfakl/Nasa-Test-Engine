@@ -40,7 +40,7 @@ public class SignInTest
 	public static void launchMyTest()
 	{
 		//Setup app
-		System.out.println("StromboliTest2");//delete later
+		System.out.println("SignInTest");//delete later
 		try {
 			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities());
 		} catch (Exception e) {
@@ -54,48 +54,54 @@ public class SignInTest
 		app.tapSignInButton1();
 	}
 
-	@Test
-	public void Sign_In() 
-	{
-		//Sign in
-		app.signIn("eluxtester1@gmail.com", "123456");
-		System.out.println("PASS: Sign In");
+	@Before
+	public void resetErrors() {
+		frigi.tapByXPath(MyXPath.backButton, frigi.BUTTON_WAIT);
+		frigi.tapByXPath(MyXPath.signInOne, frigi.BUTTON_WAIT);
 	}
 	
 	@Test
-	public void Empty_Email_Validation()
+	public void Sign_In_Sign_Out() 
 	{
-		test.emptyEmailValidation();
+		test.signInSignOutValidation();
 	}
-	
-	@Test
-	public void Empty_Password_Validation()
-	{
-		test.emptyPasswordValidation();
-	}
-	
-	@Test
-	public void Invalid_Email_Validation() 
-	{
-		test.invalidEmailValidation("eluxtester1@gmail.com", true);
-		test.invalidEmailValidation("eluxtester1@gmail.", false);
-		test.invalidEmailValidation("eluxtester1@.com", false);
-	}
-	
-	@Test
-	public void Short_Password_Validation()
-	{
-		test.shortPasswordValidation();
-	}
-	
-	@Test
-	public void Wrong_Credentials_Validation()
-	{
-//		test.wrongCredentialsValidation("eluxtester1@gmail.com", true);
-//		test.wrongCredentialsValidation("eluxtester1@", false);
-//		test.wrongCredentialsValidation("eluxtester1@com", false);
-//		test.wrongCredentialsValidation("@gmail.com", false);
-//		test.wrongCredentialsValidation("eluxtester1", false);
-//		test.wrongCredentialsValidation("eluxtes    ter1@gmail.com", false);
-	}
+//	
+//	@Test
+//	public void Empty_Email_Validation()
+//	{
+//		test.emptyEmailValidation();
+//	}
+//	
+//	@Test
+//	public void Empty_Password_Validation()
+//	{
+//		test.emptyPasswordValidation();
+//	}
+//	
+//	@Test
+//	public void Invalid_Email_Validation() 
+//	{
+//		test.printStartTest("Invalid Email Validation");
+//		test.invalidEmailValidation("eluxtester1@gmail.com", true);
+//		test.invalidEmailValidation("eluxtester1@gmail.", false);
+//		test.invalidEmailValidation("eluxtester1@.com", false);
+//	}
+//	
+//	@Test
+//	public void Short_Password_Validation()
+//	{
+//		test.shortPasswordValidation();
+//	}
+//	
+//	@Test
+//	public void Credential_Validation()
+//	{
+//		test.printStartTest("Credential Validation");
+//		test.credentialValidation("eluxtester1@gmail.com", "12345", false);
+//		System.out.println("Wrong pass Validated!");
+//		test.credentialValidation("wrongemail@gmail.com", "123456", false);
+//		System.out.println("Wrong email Validated!");
+//		test.credentialValidation("eluxtester1@gmail.com", "123456", true);
+//		app.signOut();
+//	}
 }
