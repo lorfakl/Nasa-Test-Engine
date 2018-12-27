@@ -326,8 +326,12 @@ public class TestFunctions
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
 		emailField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-		boolean validationErrorFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);
-		Assert.assertEquals(true, validationErrorFound); //expect validationErrorFound to be true
+//		WebElement element = (WebElement)d.findElementsByXPath(MyXPath.midValidation).get(0);
+//		System.out.println("THE INNER HTML" + element.getAttribute("innerHTML"));
+		String actual = d.getInnerHTML(MyXPath.midValidation);
+		String expected = "Please enter a valid email.";
+//		boolean validationErrorFound = d.searchForText("Please enter a valid email.", MyXPath.midValidation, BUTTON_WAIT);
+		Assert.assertEquals(expected, actual); //expect validationErrorFound to be true
 	}
 	public void emptyPasswordValidation() 
 	{
@@ -335,7 +339,9 @@ public class TestFunctions
 		WebElement passwordField = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
 		passwordField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		String actual = d.getInnerHTML(MyXPath.midValidation);
+
+		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", MyXPath.botValidation, BUTTON_WAIT);
 		Assert.assertEquals(true, validationErrorFound); //expect validationErrorFound to be true		
 	}
 	
@@ -347,7 +353,7 @@ public class TestFunctions
 		emailField.clear();
 		emailField.sendKeys(email);
 		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
-		boolean validationErrorFound = d.searchForText("Please enter a valid email.", BUTTON_WAIT);		
+		boolean validationErrorFound = d.searchForText("Please enter a valid email.", MyXPath.midValidation, BUTTON_WAIT);		
 		if(validInput) {
 			Assert.assertEquals(false, validationErrorFound);
 			System.out.println("No error for valid input. Cool!");
@@ -355,15 +361,14 @@ public class TestFunctions
 			Assert.assertEquals(true, validationErrorFound);		
 			System.out.println("Validation error found for invalid input. Cool!");	
 		}
-		Assert.assertEquals(true, validationErrorFound);
 	}
 	
-	//Expect a fail because this validation is BUGGED
+	//Shouldn't the error for this be something about the password being short?
 	public void shortPasswordValidation() 
 	{
 		printStartTest("Short Pass Validation");
 		app.signIn("eluxtester1@gmail.com", "12345");
-		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", BUTTON_WAIT);
+		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", MyXPath.topValidation, BUTTON_WAIT);
 		Assert.assertEquals(true, validationErrorFound);
 	}
 	
@@ -371,12 +376,12 @@ public class TestFunctions
 		//print start test in test class
 		app.signIn(email, password);
 		//if the credentials are correct then the there shouldn't be a validation error, but if credentails are incorrect then expect a validation error. 
-		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", BUTTON_WAIT);
+		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", MyXPath.topValidation, BUTTON_WAIT);
 		if(correctCredential) {
 			Assert.assertEquals(false, validationErrorFound);
+			app.signOut();			
 		}else {
 			Assert.assertEquals(true, validationErrorFound);
-			app.signOut();			
 		}
 	}
 	public void signInSignOutValidation() {

@@ -25,100 +25,100 @@ public class Dehum extends Appliance{
 	}
 	
 
-
-	//Humidity PLUS
-	public void clickHumidPlus() {
-		WebDriverWait wait = new WebDriverWait(driver,20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidPlusButton)));
-		WebElement humidPlusElm = d.findByXPath(MyXPath.humidPlusButton, false, driver);
-		humidPlusElm.click();
-		System.out.println("recently added thinkwait");
-		d.thinkWait();
-	}
-	
-	//Humidity MINUS
-	public void clickHumidMinus() {
-		WebDriverWait wait = new WebDriverWait(driver,20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidMinusButton)));
-		WebElement humidPlusElm = d.findByXPath(MyXPath.humidMinusButton, false, driver);
-		humidPlusElm.click();
-		d.thinkWait();
-	}
-	
-	//Humidity Speed Down
-	public void clickHumidSpeedUp() {
-		WebDriverWait wait = new WebDriverWait(driver,20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.dSpeedUp)));
-		WebElement humidPlusElm = d.findByXPath(MyXPath.dSpeedUp, false, driver);
-		humidPlusElm.click();
-		d.thinkWait();
-	}
-	
-	//Humidity Speed Down
-	public void clickHumidSpeedDown() {
-		WebDriverWait wait = new WebDriverWait(driver,20);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.racSpeedDown)));
-		WebElement humidPlusElm = d.findByXPath(MyXPath.racSpeedDown, false, driver);
-		humidPlusElm.click();
-		d.thinkWait();
-	}
-	
-	//State
-	public void refreshHumidity() {
-		//THIS IS A TEST
-		
-		//atttempt 3
-		System.out.println("RefreshHumidity: Work in Progress");
-		WebElement elem3 = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ "CONT" +"\")");
-		System.out.println("CONT: " + d.searchForText("CONT", SIGN_IN_WAIT));
-		boolean contHumidity = d.searchForText("CONT", SIGN_IN_WAIT);
-		if(contHumidity) 
-		{
-			
-		}
-		for(int i = 35; i <= 85; i = i + 5) 
-		{
-			String tempHumidity = String.valueOf(i);
-			System.out.println("Looking for " + tempHumidity);
-			boolean humidityFound = d.searchForText(tempHumidity, SIGN_IN_WAIT);
-			if(humidityFound) 
-			{
-				System.out.println("Humidity Found: " + tempHumidity);
-			}
-		}
-	}
-	
-	public void setDriver(AndroidDriver driver) 
-	{
-		this.driver = driver;
-	}
-
-	public Date getTimer() {
-		return timer;
-	}
-
-	public int getHumidity() {
-		return humidity;
-	}
-
-	public int getFanSpeed() {
-		return fanSpeed;
-	}
-
-
-	public int getNotifications() {
-		return notifications;
-	}
-
-	public String getTimeZone() {
-		return timeZone;
-	}
-
-
-	public void setPowerOn(boolean powerOn) {
-		this.powerOn = powerOn;
-	}
-	
+//
+//	//Humidity PLUS
+//	public void clickHumidPlus() {
+//		WebDriverWait wait = new WebDriverWait(driver,20);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidPlusButton)));
+//		WebElement humidPlusElm = d.findByXPath(MyXPath.humidPlusButton, false, driver);
+//		humidPlusElm.click();
+//		System.out.println("recently added thinkwait");
+//		d.thinkWait();
+//	}
+//	
+//	//Humidity MINUS
+//	public void clickHumidMinus() {
+//		WebDriverWait wait = new WebDriverWait(driver,20);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.humidMinusButton)));
+//		WebElement humidPlusElm = d.findByXPath(MyXPath.humidMinusButton, false, driver);
+//		humidPlusElm.click();
+//		d.thinkWait();
+//	}
+//	
+//	//Humidity Speed Down
+//	public void clickHumidSpeedUp() {
+//		WebDriverWait wait = new WebDriverWait(driver,20);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.dSpeedUp)));
+//		WebElement humidPlusElm = d.findByXPath(MyXPath.dSpeedUp, false, driver);
+//		humidPlusElm.click();
+//		d.thinkWait();
+//	}
+//	
+//	//Humidity Speed Down
+//	public void clickHumidSpeedDown() {
+//		WebDriverWait wait = new WebDriverWait(driver,20);
+//		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(MyXPath.racSpeedDown)));
+//		WebElement humidPlusElm = d.findByXPath(MyXPath.racSpeedDown, false, driver);
+//		humidPlusElm.click();
+//		d.thinkWait();
+//	}
+//	
+//	//State
+//	public void refreshHumidity() {
+//		//THIS IS A TEST
+//		
+//		//atttempt 3
+//		System.out.println("RefreshHumidity: Work in Progress");
+//		WebElement elem3 = driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ "CONT" +"\")");
+//		System.out.println("CONT: " + d.searchForText("CONT", SIGN_IN_WAIT));
+//		boolean contHumidity = d.searchForText("CONT", SIGN_IN_WAIT);
+//		if(contHumidity) 
+//		{
+//			
+//		}
+//		for(int i = 35; i <= 85; i = i + 5) 
+//		{
+//			String tempHumidity = String.valueOf(i);
+//			System.out.println("Looking for " + tempHumidity);
+//			boolean humidityFound = d.searchForText(tempHumidity, SIGN_IN_WAIT);
+//			if(humidityFound) 
+//			{
+//				System.out.println("Humidity Found: " + tempHumidity);
+//			}
+//		}
+//	}
+//	
+//	public void setDriver(AndroidDriver driver) 
+//	{
+//		this.driver = driver;
+//	}
+//
+//	public Date getTimer() {
+//		return timer;
+//	}
+//
+//	public int getHumidity() {
+//		return humidity;
+//	}
+//
+//	public int getFanSpeed() {
+//		return fanSpeed;
+//	}
+//
+//
+//	public int getNotifications() {
+//		return notifications;
+//	}
+//
+//	public String getTimeZone() {
+//		return timeZone;
+//	}
+//
+//
+//	public void setPowerOn(boolean powerOn) {
+//		this.powerOn = powerOn;
+//	}
+//	
 	
 	
 	

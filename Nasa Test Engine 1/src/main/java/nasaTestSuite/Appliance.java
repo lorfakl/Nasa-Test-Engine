@@ -64,10 +64,15 @@ public class Appliance {
 	
 	public void signOut() 
 	{
+		System.out.println("SIGN OUT");
 		d.tapByXPath(MyXPath.backButton, BUTTON_WAIT);
 		openSettings();
+		System.out.println("native scroll");
+		d.useNativeContext();
 		d.scrollDown();
+		d.useWebContext();
 		d.tapByXPath(MyXPath.signOutButton, BUTTON_WAIT);
+		d.tapByXPath(MyXPath.signInOne, BUTTON_WAIT);
 	}
 	
 	public void openSettings()
@@ -77,7 +82,7 @@ public class Appliance {
 
 	public boolean isPowerOn() 
 	{
-		boolean powerOn = !d.searchForText("Off", BUTTON_WAIT);
+		boolean powerOn = !d.searchForText("Off", MyXPath.offStatus, BUTTON_WAIT);
 		System.out.println("isPowerOn: " + powerOn);
 		return powerOn;
 	}

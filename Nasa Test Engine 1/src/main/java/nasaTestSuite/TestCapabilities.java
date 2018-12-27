@@ -53,11 +53,12 @@ public class TestCapabilities
 		appPath = appPath.concat("\\nasaTestSuite\\Android_AppUITesting.apk");
 		DesiredCapabilities appiumSettings = new DesiredCapabilities();
 		appiumSettings.setCapability("platform", /*this.GetPlatform().toString()*/"Android");
-//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"9.0");//Android 9
+//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"9");//Android 9
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0");//htcm8
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"6.0.1");//S7
-		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.0");//S8
+		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.0");//S8 150
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"8.1.0");
+//		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.1.1"); //nexus 6p 170 offset
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/"7.1.2"); //pixel 1 
 //		appiumSettings.setCapability("platformVersion", /*this.GetPlatformVersion()*/""); //pixel 1 trstn
 		appiumSettings.setCapability("deviceName", /*this.GetDeviceName()*/"Galaxy s7");

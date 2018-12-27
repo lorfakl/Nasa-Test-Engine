@@ -25,6 +25,7 @@ public class MyXPath {
     public static String dehumListCard = "//h3[contains(text(),'Dehum') or contains(text(),'dehum')]";
     
     //applianceOneControlHUMID
+    public static String offStatus = "//div[@class='settings--controls rac--off-state settings--always-show-icons']//ul//li[@class='settings--item settings--current']";
     public static String plainPowerButton = "//div[contains(@class,'single--action-wrap power-button-off')]";
     public static String powerOnButton = "//a[contains(@class,'action--button icon-power-button-on on hide')]";//STATE OFF if this shows
     public static String powerOffButton = "//a[contains(@class,'power-button-off') and contains(@class,'hide')]";//STATE ON if this shows
@@ -72,12 +73,19 @@ public class MyXPath {
     
     //universal
 	public static String topValidation = "//div[@class='input--error input--error-global']";
+	public static String midValidation = "//div/.//span[@class='input--error-indicator']";
+	public static String botValidation = "//div/.//span[@class='input--error-indicator']";
 	public static String signOutButton = "//a[@id= 'sign-out--button']";
 	public static String timer = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.webkit.WebView/android.webkit.WebView/android.view.View/android.view.View/android.view.View[2]/android.view.View[2]/android.view.View[3]/android.view.View[1]";
     public static String backButton = "//a[contains(@class,'icon icon-arrow-header-prev pull-left')]";
     
+    //scrolling 
+    public static String supportLabel = "//div[contains(text(),'Support')]"; //TODO replace with findText
+    public static String appliancesLabel = "//div[contains(text(),'Appliances')]"; //TODO replace with findText
 	
-
+    public static String findText(String text) {
+    	return "//div[contains(text(),'" + text + "')]";
+    }
 //    public static String timeZone0 = "//label[@for='timezone-0']"; //timezone indices vary from 0 - 11
     /**
      * Testing Idea for getting timezone xpath

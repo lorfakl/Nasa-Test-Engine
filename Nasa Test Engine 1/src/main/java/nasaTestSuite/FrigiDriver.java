@@ -1,6 +1,7 @@
 package main.java.nasaTestSuite;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -48,10 +49,12 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class FrigiDriver extends AndroidDriver
 {
+	int offset = 160; //phone offset
 	public final int OPEN_WAIT = 120;
 	public final int UPDATE_WAIT = 240;
 	public final int POWER_SECS = 20;
 	public final int BUTTON_WAIT = 20;
+	public final int OFFSET_WAIT = 5;
 	public final int SIGN_IN_WAIT = 120;
 	public final int TOGGLE_SECS = 2000;//ms
 	
@@ -62,6 +65,13 @@ public class FrigiDriver extends AndroidDriver
 
 	public FrigiDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress,desiredCapabilities);
+		this.manage().timeouts().implicitlyWait(1000000, TimeUnit.SECONDS);
+	}
+	
+	//offset used in tap function
+	public FrigiDriver(URL remoteAddress, Capabilities desiredCapabilities, int offset) {
+		super(remoteAddress,desiredCapabilities);
+		this.offset = offset;
 		this.manage().timeouts().implicitlyWait(1000000, TimeUnit.SECONDS);
 	}
 	
@@ -138,6 +148,29 @@ public class FrigiDriver extends AndroidDriver
 		}
 		return success;
 	}
+	
+	/**
+	 * Checks is an element is displayed. Verified Method.
+	 * @param xPath
+	 * @param waitSecs
+	 * @return
+	 */
+	public boolean xPathIsDisplayed(String xPath, int waitSecs) 
+	{
+		boolean success = true;
+		try {
+			WebDriverWait wait = new WebDriverWait(this, waitSecs);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
+		}catch (TimeoutException e) {
+			System.out.println("XPath Failed: " + xPath);
+			System.out.println("Timed out after " + waitSecs + " second(s)");
+			success = false;
+		}
+		System.out.println("Verify xpath: " + xPath);
+		System.out.println("Displayed: " + success);
+		return success;
+	}
+	
 	
 	public void myWaitText(String text, int waitSecs) 
 	{
@@ -326,6 +359,8 @@ public class FrigiDriver extends AndroidDriver
 //		System.out.println("after");
 //	}
 	
+	//same as xpath?
+	//TODO Check for usage and delete
 	public boolean searchForXPath(String xPath, int wait) 
 	{
 		boolean result = false;
@@ -341,25 +376,32 @@ public class FrigiDriver extends AndroidDriver
 		return result;
 	}
 	
-	public boolean searchForText(String text, int wait) 
+	/**
+	 * Search by text. Currently not working or is unreliable. Span elements have proven difficult to locate. 
+	 * @param text
+	 * @param xpath
+	 * @param wait
+	 * @return
+	 */
+	//BAD CODE
+	public boolean searchForText(String text, String xpath, int wait) 
 	{
+		boolean result;
 		System.out.println("Searching for: " + text);
-		useNativeContext();
-		boolean result = false;
-		try {
-			myWaitText(text, wait);
-			WebElement elem = findElementByAndroidUIAutomator("new UiSelector().textContains(\""+ text +"\")");
-			result = true;
-			System.out.println("Found text: " + text);
-		}catch(WebDriverException e) {
-			//e.printStackTrace();
-			System.out.println("Not Found in Search: " + text);
+		WebElement target = findByXPath(xpath, BUTTON_WAIT);
+		String actual = target.getText();
+		System.out.println("Actual: " + actual);
+		if(actual.equals(text)){
+			result =  true;
+		}else {
+			result = false;
 		}
-		useWebContext();
+		System.out.println("Found: " + result);
 		return result;
 	}
 
 	public void tapByXPath(String xPath, int waitSecs) {
+		thinkWait();
 		myWaitXPath(xPath, waitSecs);
 		WebElement elem = null;
 		try {
@@ -375,7 +417,6 @@ public class FrigiDriver extends AndroidDriver
 	}
 	
 	public void tapOnElement(WebElement element){
-		thinkWait();
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
@@ -385,6 +426,14 @@ public class FrigiDriver extends AndroidDriver
 		useWebContext();
 	}
 
+	//testing
+	public String getInnerHTML(String xpath) {
+		WebElement element = (WebElement)findElementsByXPath(xpath).get(0);
+		String result = element.getAttribute("innerHTML");
+		System.out.println("THE INNER HTML" + result);
+		return result;
+	}
+	
 	//My changes: offset
 	public float[] getElementCenter(WebElement element){
 		System.out.println();
@@ -409,8 +458,8 @@ public class FrigiDriver extends AndroidDriver
 		context("NATIVE_APP");
 //		System.out.println("Switching to web view: NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
-		// offset
-		int s8offset = 160;//used to be 115
+		// offset. Commenting out for development of offset calculation.
+//		int offset = 160;//used to be 115
 		// get the actual screen dimensions
 		deviceScreenWidth  = manage().window().getSize().getWidth();
 		deviceScreenHeight = manage().window().getSize().getHeight();
@@ -421,34 +470,91 @@ public class FrigiDriver extends AndroidDriver
 		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
 		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
-		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + s8offset;
+		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
 //		System.out.println("elementCenterActualX: " + elementCenterActualX);
 //		System.out.println("elementCenterActualY: " + elementCenterActualY);
 //		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		return elementLocation;
 	}
-
+	
+	public void calculateOffset() {
+		boolean firstScreen = true;
+		boolean secondScreen = false;
+		System.out.println("Calculating Offset");
+		ArrayList<Integer> successfulTaps = new ArrayList<Integer>();
+		for(int i = 0; i < 300; i = i + 5) {
+			System.out.println("LoopNum: " + i);
+			System.out.println("\tFirstScreen: " + firstScreen);
+			System.out.println("\tSecondScreen: " + secondScreen);
+			this.offset = i; 
+			if(firstScreen) {
+				tapByXPath(MyXPath.signInOne, OFFSET_WAIT);
+				if(myWaitXPath(MyXPath.signInTwo, OFFSET_WAIT)) {
+					System.out.println(i + ": Successful Forward Tap");
+					successfulTaps.add(i);
+					firstScreen = false;
+					secondScreen = true;
+				}else {
+					//unsuccessful tap
+				}
+			}else if(secondScreen) {
+				tapByXPath(MyXPath.backButton, OFFSET_WAIT);
+				if(myWaitXPath(MyXPath.signInOne, OFFSET_WAIT)) {
+					System.out.println(i + ": Successful Back Tap");
+					successfulTaps.add(i);
+					firstScreen = true;
+					secondScreen = false;
+				}else {
+					//unsuccessful tap
+				}
+			}			
+		}
+		if(secondScreen) {
+			tapByXPath(MyXPath.backButton, BUTTON_WAIT);			
+		}
+		
+		System.out.println("ARRAY: " + successfulTaps);
+		for(int j = 0; j < (successfulTaps.size()-1); j++) {
+			System.out.println(successfulTaps.get(j) + ", ");
+		}
+		System.out.println(successfulTaps.get(successfulTaps.size()-1));
+		
+		double median;
+		if (successfulTaps.size() % 2 == 0) {
+		    median = ((double)successfulTaps.get(successfulTaps.size()/2) + (double)successfulTaps.get(successfulTaps.size()/2 - 1))/2;
+		}else {
+		    median = (double) successfulTaps.get(successfulTaps.size()/2);
+		}
+		offset = (int) median;
+		System.out.println("OFFSET: " + offset);
+	}
+	
+	public void myScroll() {
+//		WebElement appliancesLabel = findByXPath(MyXPath.appliancesLabel);
+//		WebElement supportLabel = findByXPath(MyXPath.supportLabel);
+//		
+//		TouchAction myAction = new TouchAction(driver); myAction.tap(supportLabel).moveTo(appliancesLabel).release();
+	}
 	//how-to-scroll-with-appium
 	public void scrollDown() {
-		useNativeContext();
 	    //if pressX was zero it didn't work for me
 	    int pressX = manage().window().getSize().width / 2;
+	    System.out.println("pressX" + pressX);
 	    // 4/5 of the screen as the bottom finger-press point
 	    int bottomY = manage().window().getSize().height * 4/5;
+	    System.out.println("bottomY" + bottomY);
 	    // just non zero point, as it didn't scroll to zero normally
 	    int topY = manage().window().getSize().height / 8;
+	    System.out.println("topY" + topY);
 	    //scroll with TouchAction by itself
-	    scroll(pressX, bottomY, pressX, topY);
-	    useWebContext();
+	    scroll(pressX, (bottomY+200), pressX, topY);
 	}
 	
 	//how-to-scroll-with-appium
 	public void scroll(int fromX, int fromY, int toX, int toY) {
-		useNativeContext();
 	    TouchAction touchAction = new TouchAction(this);
 	    touchAction.longPress(PointOption.point(fromX, fromY)).moveTo(PointOption.point(toX, toY)).release().perform();
-	    useWebContext();
 	}
 
 	
