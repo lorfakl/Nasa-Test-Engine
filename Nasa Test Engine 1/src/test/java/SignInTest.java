@@ -39,23 +39,26 @@ public class SignInTest
 	boolean testing = false;
 	
 	@BeforeClass//("^This code opens the app$")
-	public static void launchMyTest()
+	public static void setup()
 	{
-		//Setup app
-		System.out.println("SignInTest");//delete later
 		try {
-			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities(), 160);
+			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities(), 715); //was from 540-890
+			System.out.println("temporarily removed update");
+			frigi.useWebContext();	
+			boolean calculatingOffset = false;
+			app = new Appliance(frigi);
+			test = new TestFunctions(frigi, app);	
+			if(calculatingOffset) {
+				frigi.tapByXPath(MyXPath.signInOne, frigi.BUTTON_WAIT);
+				frigi.calculateOffset();				
+			} else {
+				app.tapSignInButton1();				
+			}
+			System.out.println("OFFSET: " + frigi.offset); //change offset back to protected later
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
-		System.out.println("temporarily removed update");
-		frigi.useWebContext();	
-
-		frigi.calculateOffset();
-		app = new Appliance(frigi);
-		test = new TestFunctions(frigi, app);	
-		
-		app.tapSignInButton1();
+		}
+		System.out.println("SignInTest");	
 	}
 
 	@Before
@@ -107,5 +110,16 @@ public class SignInTest
 		System.out.println("Wrong email Validated!");
 		//Unnecessary since the other test already checks correct credentials
 		//test.credentialValidation("eluxtester1@gmail.com", "123456", true);
+	}
+	
+	@Test
+	public void forgotPassword() {
+		test.printStartTest("Forgot Password");
+		test.forgotPass("eluxtester1@gmail.com");
+	}
+	
+	@Test
+	public void showPassword() {
+		test.showPass();
 	}
 }

@@ -326,8 +326,14 @@ public class TestFunctions
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
 		emailField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
+		
+		
 //		WebElement element = (WebElement)d.findElementsByXPath(MyXPath.midValidation).get(0);
 //		System.out.println("THE INNER HTML" + element.getAttribute("innerHTML"));
+		
+		WebElement element = (WebElement)(d.findElements(By.cssSelector("#root > div > div.content > div.page--tablet-centered.page--with-footer > div.table-view > div.input-row.input-row--text-input.input-row--error > div > span")).get(0))	;
+		System.out.println("CSS SELECT: " + element.getText());
+		
 		String actual = d.getInnerHTML(MyXPath.midValidation);
 		String expected = "Please enter a valid email.";
 //		boolean validationErrorFound = d.searchForText("Please enter a valid email.", MyXPath.midValidation, BUTTON_WAIT);
@@ -377,16 +383,52 @@ public class TestFunctions
 		app.signIn(email, password);
 		//if the credentials are correct then the there shouldn't be a validation error, but if credentails are incorrect then expect a validation error. 
 		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", MyXPath.topValidation, BUTTON_WAIT);
-		if(correctCredential) {
+		if(correctCredential) 
+		{
 			Assert.assertEquals(false, validationErrorFound);
 			app.signOut();			
 		}else {
 			Assert.assertEquals(true, validationErrorFound);
 		}
 	}
-	public void signInSignOutValidation() {
+	public void signInSignOutValidation() 
+	{
 		printStartTest("Sign In/Sign Out Validation");
 		app.signIn("eluxtester1@gmail.com", "123456");
 		app.signOut();
+	}
+	/**
+	 * Forgot Password link from the Sign In page
+	 * @param email
+	 */
+	public void forgotPass(String email) 
+	{
+		//problem: need to actually check if each button is displayed and use boolean for passing expectations
+		d.tapByXPath(MyXPath.forgotPasswordButton, BUTTON_WAIT);
+		d.findByXPath(MyXPath.forgotPasswordEmailField, BUTTON_WAIT).sendKeys(email);
+		d.tapByXPath(MyXPath.resetPasswordButton, BUTTON_WAIT);
+		d.tapByXPath(MyXPath.sendAgainButton, BUTTON_WAIT);
+		d.tapByXPath(MyXPath.signInFromResetButton, BUTTON_WAIT);
+	}
+	/**
+	 * Show password button changes the pass chars from asterisks to legible characters. 
+	 * This method does not serve much purpose other than that there is a button that can be pressed. Nothing visual is verified here.  
+	 */
+	public void showPass() 
+	{
+		d.tapByXPath(MyXPath.showPassButton, BUTTON_WAIT);
+		if(d.xPathIsDisplayed(MyXPath.passwordShowingValidation, BUTTON_WAIT)) {
+			System.out.println("PASS: type='text'");
+		}else {
+			System.out.println("FAIL");
+			fail();
+		}
+		d.tapByXPath(MyXPath.hidePassButton, BUTTON_WAIT);
+		if(d.xPathIsDisplayed(MyXPath.passwordHiddenValidation, BUTTON_WAIT)) {
+			System.out.println("PASS: type='password'");
+		}else {
+			System.out.println("FAIL");
+			fail();
+		}
 	}
 }

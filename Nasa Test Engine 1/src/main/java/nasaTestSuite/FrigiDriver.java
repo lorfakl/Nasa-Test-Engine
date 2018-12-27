@@ -49,19 +49,20 @@ import io.appium.java_client.android.AndroidDriver;
 
 public class FrigiDriver extends AndroidDriver
 {
-	int offset = 160; //phone offset
+	//S8: 150 Nexus6p: 170 
+	public int offset = 160; //phone offset
 	public final int OPEN_WAIT = 120;
 	public final int UPDATE_WAIT = 240;
 	public final int POWER_SECS = 20;
 	public final int BUTTON_WAIT = 20;
-	public final int OFFSET_WAIT = 5;
+	public final int OFFSET_WAIT = 1;
 	public final int SIGN_IN_WAIT = 120;
 	public final int TOGGLE_SECS = 2000;//ms
 	
 	int oneMinute = 60;
 
 	private URL testServerAddress; 
-//	private static AndroidDriver driver; NO LONGER REQUIRED
+
 
 	public FrigiDriver(URL remoteAddress, Capabilities desiredCapabilities) {
 		super(remoteAddress,desiredCapabilities);
@@ -182,33 +183,33 @@ public class FrigiDriver extends AndroidDriver
 		}
 	}
 	
-	public WebElement findByID(String id, boolean looping, AndroidDriver d)
-	{
-		WebElement result = null;
-		if(looping == true) {
-			while(looping) {
-				try
-				{
-					result = d.findElementById("com.ELXSmart:id/"+id);
-				}
-				catch(Exception e)
-				{
-					print("Failed to find Element with ID:" + id);
-				}
-			}
-		}else {
-			try
-			{
-				result = d.findElementById("com.ELXSmart:id/"+id);
-			}
-			catch(Exception e)
-			{
-				print("Failed to find Element with ID:" + id);
-			}
-		}
-		return result;
-		
-	}
+//	public WebElement findByID(String id, boolean looping, AndroidDriver d)
+//	{
+//		WebElement result = null;
+//		if(looping == true) {
+//			while(looping) {
+//				try
+//				{
+//					result = d.findElementById("com.ELXSmart:id/"+id);
+//				}
+//				catch(Exception e)
+//				{
+//					print("Failed to find Element with ID:" + id);
+//				}
+//			}
+//		}else {
+//			try
+//			{
+//				result = d.findElementById("com.ELXSmart:id/"+id);
+//			}
+//			catch(Exception e)
+//			{
+//				print("Failed to find Element with ID:" + id);
+//			}
+//		}
+//		return result;
+//		
+//	}
 	
 	//Old findByXPath that David made. It's bad code but the new method can't run without it. 
 	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver d)
@@ -313,6 +314,11 @@ public class FrigiDriver extends AndroidDriver
 			System.out.println();
 			while(thinking.isDisplayed()) {
 			    System.out.print("thinking");
+			    if(xPathIsDisplayed(MyXPath.longerThanExpectedButton, 0)) {
+			    	System.out.println("TEST FAILED: thinking longer than expected");
+			    	tapByXPath(MyXPath.longerThanExpectedButton);
+			    	fail();
+			    }
 			}
 			System.out.println();
 		}catch(Exception e){
@@ -400,6 +406,11 @@ public class FrigiDriver extends AndroidDriver
 		return result;
 	}
 
+	/**
+	 * Tap 
+	 * @param xPath
+	 * @param waitSecs
+	 */
 	public void tapByXPath(String xPath, int waitSecs) {
 		thinkWait();
 		myWaitXPath(xPath, waitSecs);
@@ -414,6 +425,14 @@ public class FrigiDriver extends AndroidDriver
 		} else {
 			System.out.println("Problem tapping xpath: " + xPath);
 		}
+	}
+	
+	/**
+	 * Overloaded tapByXPath(String, String)
+	 * @param xPath
+	 */
+	public void tapByXPath(String xPath) {
+		tapByXPath(xPath, BUTTON_WAIT);
 	}
 	
 	public void tapOnElement(WebElement element){
@@ -442,13 +461,13 @@ public class FrigiDriver extends AndroidDriver
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
 		Long webviewHeight = (Long) js.executeScript("return screen.height");
-//		System.out.println("webview width: " + webviewWidth);
-//		System.out.println("webview height: " + webviewHeight);
+		System.out.println("webview width: " + webviewWidth);
+		System.out.println("webview height: " + webviewHeight);
 		// get element location in webview
 		int elementLocationX = element.getLocation().getX();
 		int elementLocationY = element.getLocation().getY();
-//		System.out.println("elementLocationX: " + elementLocationX);
-//		System.out.println("elementLocationY: " + elementLocationY);
+		System.out.println("elementLocationX: " + elementLocationX);
+		System.out.println("elementLocationY: " + elementLocationY);
 		// get the center location of the element
 		int elementWidthCenter = element.getSize().getWidth() / 2;
 		int elementHeightCenter = element.getSize().getHeight() / 2;
@@ -463,57 +482,71 @@ public class FrigiDriver extends AndroidDriver
 		// get the actual screen dimensions
 		deviceScreenWidth  = manage().window().getSize().getWidth();
 		deviceScreenHeight = manage().window().getSize().getHeight();
-//		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
-//		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
+		deviceScreenHeight = deviceScreenHeight + offset;
+		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
+		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
 		// calculate the ratio between actual screen dimensions and webview dimensions
 		float ratioWidth = deviceScreenWidth / webviewWidth.intValue();
 		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
 		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
-		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
-//		System.out.println("elementCenterActualX: " + elementCenterActualX);
-//		System.out.println("elementCenterActualY: " + elementCenterActualY);
-//		System.out.println();
+//		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
+		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight);
+		System.out.println("elementCenterActualX: " + elementCenterActualX);
+		System.out.println("elementCenterActualY: " + elementCenterActualY);
+		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		return elementLocation;
 	}
 	
+	/**
+	 * Tap until password show button is successfully tapped. Find the median in an array of successful taps and set the offset to this median. 
+	 */
 	public void calculateOffset() {
-		boolean firstScreen = true;
-		boolean secondScreen = false;
 		System.out.println("Calculating Offset");
+		boolean foundRange = false;
+		boolean passwordShowing = false;
 		ArrayList<Integer> successfulTaps = new ArrayList<Integer>();
-		for(int i = 0; i < 300; i = i + 5) {
-			System.out.println("LoopNum: " + i);
-			System.out.println("\tFirstScreen: " + firstScreen);
-			System.out.println("\tSecondScreen: " + secondScreen);
-			this.offset = i; 
-			if(firstScreen) {
-				tapByXPath(MyXPath.signInOne, OFFSET_WAIT);
-				if(myWaitXPath(MyXPath.signInTwo, OFFSET_WAIT)) {
-					System.out.println(i + ": Successful Forward Tap");
-					successfulTaps.add(i);
-					firstScreen = false;
-					secondScreen = true;
-				}else {
-					//unsuccessful tap
-				}
-			}else if(secondScreen) {
-				tapByXPath(MyXPath.backButton, OFFSET_WAIT);
-				if(myWaitXPath(MyXPath.signInOne, OFFSET_WAIT)) {
-					System.out.println(i + ": Successful Back Tap");
-					successfulTaps.add(i);
-					firstScreen = true;
-					secondScreen = false;
-				}else {
-					//unsuccessful tap
-				}
-			}			
-		}
-		if(secondScreen) {
-			tapByXPath(MyXPath.backButton, BUTTON_WAIT);			
-		}
 		
+		//Placeholder email since validation errors will move the target button.		
+		WebElement elem = findByXPath(MyXPath.emailField, BUTTON_WAIT);
+		elem.clear();
+		elem.sendKeys("placeholder@gmail.com");
+		//Typical loop should be from 50-250 but 0-300 just to be safe
+		for(int i = 130; i < 2000; i = i + 10) {
+			System.out.println("LoopNum: " + i);
+			System.out.println("\tPasswordShowing: " + passwordShowing);
+			this.offset = i; 
+			if(passwordShowing) {
+				tapByXPath(MyXPath.hidePassButton, OFFSET_WAIT);
+				if(xPathIsDisplayed(MyXPath.passwordHiddenValidation, OFFSET_WAIT)) {
+					System.out.println(i + ": Successful Hide Tap");
+					successfulTaps.add(i);
+					passwordShowing = false;
+					foundRange = true;
+				}else if(foundRange){
+					//unsuccessful tap
+					//range already found, so end loop
+					i = 1000;
+				}else{
+					//unsuccessful tap
+				}				
+			}else{
+				tapByXPath(MyXPath.showPassButton, OFFSET_WAIT);
+				if(xPathIsDisplayed(MyXPath.passwordShowingValidation, OFFSET_WAIT)) {
+					System.out.println(i + ": Successful Show Tap");
+					successfulTaps.add(i);
+					passwordShowing = true;
+					foundRange = true;
+				}else if(foundRange){
+					//unsuccessful tap
+					//range already found, so end loop
+					i = 1000;
+				}else{
+					//unsuccessful tap
+				}
+			}		
+		}		
 		System.out.println("ARRAY: " + successfulTaps);
 		for(int j = 0; j < (successfulTaps.size()-1); j++) {
 			System.out.println(successfulTaps.get(j) + ", ");

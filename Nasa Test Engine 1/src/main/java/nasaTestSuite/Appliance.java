@@ -31,11 +31,11 @@ public class Appliance {
 	    System.out.println("sign in button pressed");
 	}
 	
-	public void typeEmail(String email) 
+	public void typeField(String xpath, String text) 
 	{		
-		WebElement elem = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
+		WebElement elem = d.findByXPath(xpath, BUTTON_WAIT);
 		elem.clear();
-		elem.sendKeys(email);
+		elem.sendKeys(text);
 	}
 	
 	public void typePassword(String password) 
@@ -56,7 +56,7 @@ public class Appliance {
 	public void signIn(String email, String password) 
 	{
 		//TODO move the email.clear into here
-		typeEmail(email);
+		typeField(MyXPath.emailField, email);
 		typePassword(password);
 		tapSignInButton2();		
 		System.out.println("Signed into " + email);
