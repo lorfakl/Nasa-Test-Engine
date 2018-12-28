@@ -171,7 +171,10 @@ public class FrigiDriver extends AndroidDriver
 		System.out.println("Displayed: " + success);
 		return success;
 	}
-	
+	public boolean xPathIsDisplayed(String xPath) 
+	{
+		return xPathIsDisplayed(xPath, BUTTON_WAIT);
+	}
 	
 	public void myWaitText(String text, int waitSecs) 
 	{
@@ -461,13 +464,9 @@ public class FrigiDriver extends AndroidDriver
 		// get webview dimensions
 		Long webviewWidth  = (Long) js.executeScript("return screen.width");
 		Long webviewHeight = (Long) js.executeScript("return screen.height");
-		System.out.println("webview width: " + webviewWidth);
-		System.out.println("webview height: " + webviewHeight);
 		// get element location in webview
 		int elementLocationX = element.getLocation().getX();
 		int elementLocationY = element.getLocation().getY();
-		System.out.println("elementLocationX: " + elementLocationX);
-		System.out.println("elementLocationY: " + elementLocationY);
 		// get the center location of the element
 		int elementWidthCenter = element.getSize().getWidth() / 2;
 		int elementHeightCenter = element.getSize().getHeight() / 2;
@@ -475,27 +474,33 @@ public class FrigiDriver extends AndroidDriver
 		int elementHeightCenterLocation = elementHeightCenter + elementLocationY;
 		// switch to native context
 		context("NATIVE_APP");
-//		System.out.println("Switching to web view: NATIVE_APP");
 		float deviceScreenWidth, deviceScreenHeight;
 		// offset. Commenting out for development of offset calculation.
 //		int offset = 160;//used to be 115
 		// get the actual screen dimensions
 		deviceScreenWidth  = manage().window().getSize().getWidth();
 		deviceScreenHeight = manage().window().getSize().getHeight();
-		deviceScreenHeight = deviceScreenHeight + offset;
-		System.out.println("deviceScreenWidth: " + deviceScreenWidth);
-		System.out.println("deviceScreenHeight: " + deviceScreenHeight);
 		// calculate the ratio between actual screen dimensions and webview dimensions
 		float ratioWidth = deviceScreenWidth / webviewWidth.intValue();
 		float ratioHeight = deviceScreenHeight / webviewHeight.intValue();
 		// calculate the actual element location on the screen
 		float elementCenterActualX = elementWidthCenterLocation * ratioWidth;
-//		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
-		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight);
-		System.out.println("elementCenterActualX: " + elementCenterActualX);
-		System.out.println("elementCenterActualY: " + elementCenterActualY);
+		float elementCenterActualY = (elementHeightCenterLocation * ratioHeight) + offset;
 		System.out.println();
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
+		
+		//Print Debug info
+		if(false) {
+			System.out.println("webview width: " + webviewWidth);
+			System.out.println("webview height: " + webviewHeight);
+			System.out.println("elementLocationX: " + elementLocationX);
+			System.out.println("elementLocationY: " + elementLocationY);
+			System.out.println("deviceScreenWidth: " + deviceScreenWidth);
+			System.out.println("deviceScreenHeight: " + deviceScreenHeight);
+			System.out.println("elementCenterActualX: " + elementCenterActualX);
+			System.out.println("elementCenterActualY: " + elementCenterActualY);
+		}
+		
 		return elementLocation;
 	}
 	

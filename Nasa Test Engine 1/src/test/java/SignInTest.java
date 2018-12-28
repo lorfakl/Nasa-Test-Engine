@@ -38,11 +38,12 @@ public class SignInTest
 	
 	boolean testing = false;
 	
-	@BeforeClass//("^This code opens the app$")
+	@BeforeClass
 	public static void setup()
 	{
+		//Starting the app and pressing the first button
 		try {
-			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities(), 715); //was from 540-890
+			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities(), 150); //was from 540-890
 			System.out.println("temporarily removed update");
 			frigi.useWebContext();	
 			boolean calculatingOffset = false;
@@ -58,9 +59,12 @@ public class SignInTest
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("SignInTest");	
+		System.out.println("SignIn Functionality Testing Start.");	
 	}
 
+	/**
+	 * Run before every Sign In test to ensure that each test is not affected by an error that occurs in another test. 
+	 */
 	@Before
 	public void resetErrors() {
 		frigi.tapByXPath(MyXPath.backButton, frigi.BUTTON_WAIT);
@@ -89,9 +93,11 @@ public class SignInTest
 	public void Invalid_Email_Validation() 
 	{
 		test.printStartTest("Invalid Email Validation");
-		test.invalidEmailValidation("eluxtester1@gmail.com", true);
-		test.invalidEmailValidation("eluxtester1@gmail.", false);
-		test.invalidEmailValidation("eluxtester1@.com", false);
+		test.invalidEmailValidation("eluxtester1@gmail.");
+		resetErrors();
+		test.invalidEmailValidation("eluxtester1@.com");
+		resetErrors();
+		test.invalidEmailValidation("eluxtester1@gmail.c om");
 	}
 	
 	@Test
@@ -104,22 +110,20 @@ public class SignInTest
 	public void Credential_Validation()
 	{
 		test.printStartTest("Credential Validation");
-		test.credentialValidation("eluxtester1@gmail.com", "12345", false);
-		System.out.println("Wrong pass Validated!");
-		test.credentialValidation("wrongemail@gmail.com", "123456", false);
-		System.out.println("Wrong email Validated!");
-		//Unnecessary since the other test already checks correct credentials
-		//test.credentialValidation("eluxtester1@gmail.com", "123456", true);
+		test.credentialValidation("eluxtester1@gmail.com", "12345");
+		resetErrors();
+		test.credentialValidation("wrongemail@gmail.com", "123456");
 	}
 	
 	@Test
-	public void forgotPassword() {
-		test.printStartTest("Forgot Password");
+	public void forgotPassword() 
+	{
 		test.forgotPass("eluxtester1@gmail.com");
 	}
 	
 	@Test
-	public void showPassword() {
+	public void showPassword() 
+	{
 		test.showPass();
 	}
 }

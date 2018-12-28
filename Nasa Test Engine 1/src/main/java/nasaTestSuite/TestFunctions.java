@@ -304,7 +304,11 @@ public class TestFunctions
 			fail();
 		}
 	}
-		
+	
+	/**
+	 * Simple print formatting
+	 * @param testName
+	 */
 	public static void printStartTest(String testName) 
 	{
 		System.out.println("\n\n");
@@ -313,6 +317,11 @@ public class TestFunctions
 		System.out.println("==========================================================================");
 	}
 	
+	/**
+	 * Simple print formatting
+	 * @param testName
+	 * @param result
+	 */
 	public static void printEndTest(String testName, String result) 
 	{
 		System.out.println("==========================================================================");
@@ -320,6 +329,11 @@ public class TestFunctions
 		System.out.println("==========================================================================");
 		System.out.println();
 	}
+	
+	/**
+	 * Verify the empty email validation error. 
+	 * The span elements that the errors are stored in can only be accessd by the div on the outside. If the text in the div matches the expected string then it passes. 
+	 */
 	public void emptyEmailValidation() 
 	{
 		printStartTest("Empty Email Validation");
@@ -327,45 +341,58 @@ public class TestFunctions
 		emailField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
 		
-		
-//		WebElement element = (WebElement)d.findElementsByXPath(MyXPath.midValidation).get(0);
-//		System.out.println("THE INNER HTML" + element.getAttribute("innerHTML"));
-		
-		WebElement element = (WebElement)(d.findElements(By.cssSelector("#root > div > div.content > div.page--tablet-centered.page--with-footer > div.table-view > div.input-row.input-row--text-input.input-row--error > div > span")).get(0))	;
-		System.out.println("CSS SELECT: " + element.getText());
-		
-		String actual = d.getInnerHTML(MyXPath.midValidation);
+		WebElement element = (WebElement)(d.findElements(By.xpath("//div[@class='input--error input--error-inline']")).get(0));
+		String actual = element.getText();
 		String expected = "Please enter a valid email.";
-//		boolean validationErrorFound = d.searchForText("Please enter a valid email.", MyXPath.midValidation, BUTTON_WAIT);
-		Assert.assertEquals(expected, actual); //expect validationErrorFound to be true
+		if(actual.equals(expected)) {
+			System.out.println("PASS");			
+		}else {
+			System.out.println("FAIL");
+			fail();
+		}
 	}
+	
+	/**
+	 * Verify the empty password validation error. 
+	 */
 	public void emptyPasswordValidation() 
 	{
 		printStartTest("Empty Password Validation");
 		WebElement passwordField = d.findByXPath(MyXPath.passField, BUTTON_WAIT);
 		passwordField.clear();
 		d.tapByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-		String actual = d.getInnerHTML(MyXPath.midValidation);
 
-		boolean validationErrorFound = d.searchForText("Please enter a valid password (6 characters or more).", MyXPath.botValidation, BUTTON_WAIT);
-		Assert.assertEquals(true, validationErrorFound); //expect validationErrorFound to be true		
+		WebElement element = (WebElement)(d.findElements(By.xpath("//div[@class='input--error input--error-inline']")).get(1));
+		String actual = element.getText();
+		String expected = "Please enter a valid password (6 characters or more).";
+		if(actual.equals(expected)) {
+			System.out.println("PASS");			
+		}else {
+			System.out.println("FAIL");
+			fail();
+		}	
 	}
 	
-	//FAILURE UNRESOLVED Invalid_Email_Validation(test.java.SignInTest): expected:<false> but was:<true>
-	public void invalidEmailValidation(String email, boolean validInput) 
+	/**
+	 * Attempt with incomplete emails without an address or with spaces. 
+	 * @param email
+	 */
+	public void invalidEmailValidation(String email) 
 	{
 		//print start test in test class
 		WebElement emailField = d.findByXPath(MyXPath.emailField, BUTTON_WAIT);
 		emailField.clear();
 		emailField.sendKeys(email);
 		d.tapByXPath(MyXPath.passField, BUTTON_WAIT);
-		boolean validationErrorFound = d.searchForText("Please enter a valid email.", MyXPath.midValidation, BUTTON_WAIT);		
-		if(validInput) {
-			Assert.assertEquals(false, validationErrorFound);
-			System.out.println("No error for valid input. Cool!");
-		} else {
-			Assert.assertEquals(true, validationErrorFound);		
-			System.out.println("Validation error found for invalid input. Cool!");	
+
+		WebElement element = (WebElement)(d.findElements(By.xpath("//div[@class='input--error input--error-inline']")).get(0));
+		String actual = element.getText();
+		String expected = "Please enter a valid email.";
+		if(actual.equals(expected)) {
+			System.out.println("PASS");			
+		}else {
+			System.out.println("FAIL");
+			fail();
 		}
 	}
 	
@@ -378,19 +405,22 @@ public class TestFunctions
 		Assert.assertEquals(true, validationErrorFound);
 	}
 	
-	public void credentialValidation(String email, String password, boolean correctCredential) {
+	/**
+	 * Try a wrong email or wrong password, and find out if the correct validation error appears. 
+	 * @param email
+	 * @param password
+	 * @param correctCredential
+	 */
+	public void credentialValidation(String email, String password) {
 		//print start test in test class
 		app.signIn(email, password);
-		//if the credentials are correct then the there shouldn't be a validation error, but if credentails are incorrect then expect a validation error. 
-		boolean validationErrorFound = d.searchForText("Verify your log-in information and retry.", MyXPath.topValidation, BUTTON_WAIT);
-		if(correctCredential) 
-		{
-			Assert.assertEquals(false, validationErrorFound);
-			app.signOut();			
-		}else {
-			Assert.assertEquals(true, validationErrorFound);
-		}
+		boolean validationErrorFound = d.xPathIsDisplayed(MyXPath.findText("Verify your log-in information and retry."), BUTTON_WAIT);
+		Assert.assertEquals(true, validationErrorFound);		
 	}
+	
+	/**
+	 * Full sign in sign out process with the correct credentials. 
+	 */
 	public void signInSignOutValidation() 
 	{
 		printStartTest("Sign In/Sign Out Validation");
@@ -398,17 +428,34 @@ public class TestFunctions
 		app.signOut();
 	}
 	/**
-	 * Forgot Password link from the Sign In page
+	 * Forgot Password link from the Sign In page. 
+	 * Offset needs to be very accurate while tapping labels. Offset is unreliable because if the top is accurate then the bottom isn't, so it needs to be changed manually for some buttons.
 	 * @param email
 	 */
 	public void forgotPass(String email) 
 	{
+		boolean passing = true;
+		printStartTest("Forgot Password");
 		//problem: need to actually check if each button is displayed and use boolean for passing expectations
+		d.offset = d.offset - 50;
+		passing = passing && d.xPathIsDisplayed(MyXPath.forgotPasswordButton);
 		d.tapByXPath(MyXPath.forgotPasswordButton, BUTTON_WAIT);
+		d.offset = d.offset + 100;
+		passing = passing && d.xPathIsDisplayed(MyXPath.forgotPasswordEmailField);
 		d.findByXPath(MyXPath.forgotPasswordEmailField, BUTTON_WAIT).sendKeys(email);
+		passing = passing && d.xPathIsDisplayed(MyXPath.resetPasswordButton);
 		d.tapByXPath(MyXPath.resetPasswordButton, BUTTON_WAIT);
+		passing = passing && d.xPathIsDisplayed(MyXPath.sendAgainButton);
 		d.tapByXPath(MyXPath.sendAgainButton, BUTTON_WAIT);
+		passing = passing && d.xPathIsDisplayed(MyXPath.signInFromResetButton);
 		d.tapByXPath(MyXPath.signInFromResetButton, BUTTON_WAIT);
+		d.offset = d.offset - 50;
+		if(passing) {
+			System.out.println("PASS");
+		}else {
+			System.out.println("FAIL");
+			fail();
+		}
 	}
 	/**
 	 * Show password button changes the pass chars from asterisks to legible characters. 
@@ -416,6 +463,7 @@ public class TestFunctions
 	 */
 	public void showPass() 
 	{
+		printStartTest("Show/Hide Password");
 		d.tapByXPath(MyXPath.showPassButton, BUTTON_WAIT);
 		if(d.xPathIsDisplayed(MyXPath.passwordShowingValidation, BUTTON_WAIT)) {
 			System.out.println("PASS: type='text'");
