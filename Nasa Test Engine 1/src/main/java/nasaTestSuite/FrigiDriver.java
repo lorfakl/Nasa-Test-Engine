@@ -76,73 +76,46 @@ public class FrigiDriver extends AndroidDriver
 		this.manage().timeouts().implicitlyWait(1000000, TimeUnit.SECONDS);
 	}
 	
-	public void useWebContext() {
+	public void useWebContext() 
+	{
 		Set<String> contextNames = getContextHandles();
 		String webView = contextNames.toArray()[1].toString();
-//		System.out.println("Switching to web view: " + webView);
 		context(webView);
 	}
 	
-	public void useNativeContext() {
-//		System.out.println("Switching to native view");
-		context("NATIVE_APP");
-	}
-	
-//	keep for record. 
-//	public void switchToWebView() {
-//		Set<String> availableContexts = getContextHandles();
-////		System.out.println("Total No of Context Found After we reach to WebView = " + availableContexts.size());
-//		for (String context : availableContexts) {
-//			System.out.println("Checking: " + context);
-//			if (context.contains("WEBVIEW")) {
-//				System.out.println("Switching to: " + context);
-//				context(context);
-//				break;
-//			}
-//		}
-//	}
-	
-	//srt: JIHAD'S HELPER METHODS
-	private MobileElement grabFromClass(String className,int index, AndroidDriver d)
+	public void useNativeContext() 
 	{
-		List<MobileElement> results = null;
-		boolean looping = true;
-		while(looping) {
-			try {
-				results = d.findElementsByClassName(className);
-				if(results.size()>0) 
-				{
-
-					print("Size of " + className + " Elements: " + results.size());
-					looping = false;
-				}
-			}catch(NullPointerException e) {
-				print("Looking for button by class: " + className);
-				//loops forever if button isn't there
-			}
-		}
-		return results.get(index);
+		context("NATIVE_APP");
 	}
 	
 	public void clickByXpath(String xPath, int waitSecs)
 	{
-		myWaitXPath(xPath, waitSecs);
-		try {
-			WebElement elem = findByXPath(xPath, false, this);
-			elem.click();
-		}catch(NullPointerException e){
-			System.out.println("Failed to find XPath: " + xPath);
+		if(myWaitXPath(xPath, waitSecs))
+		{
+			try 
+			{
+				WebElement elem = findByXPath(xPath, false, this);
+				elem.click();
+			}
+			catch(NullPointerException e)
+			{
+				System.out.println("Failed to find XPath: " + xPath);
+			}
 		}
+		
 	}
 	
 	//TODO discuss if boolean return based on success/failure of element grab is appropriate. probably not. Have a new method for that like isDisplayed
 	public boolean myWaitXPath(String xPath, int waitSecs) 
 	{
 		boolean success = true;
-		try {
+		try 
+		{
 			WebDriverWait wait = new WebDriverWait(this, waitSecs);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xPath)));
-		}catch (TimeoutException e) {
+		}
+		catch (TimeoutException e) 
+		{
 			System.out.println("XPath Failed: " + xPath);
 			System.out.println("Timed out after " + waitSecs + " second(s)");
 			success = false;
@@ -152,9 +125,9 @@ public class FrigiDriver extends AndroidDriver
 	
 	/**
 	 * Checks is an element is displayed. Verified Method.
-	 * @param xPath
-	 * @param waitSecs
-	 * @return
+	 * @param xPath String: gathered from with the app that points to the desired element
+	 * @param waitSecs int: time to wait for the desired element to load before throwing an exception
+	 * @return boolean: determines whether or not desired element was found
 	 */
 	public boolean xPathIsDisplayed(String xPath, int waitSecs) 
 	{
@@ -186,33 +159,6 @@ public class FrigiDriver extends AndroidDriver
 		}
 	}
 	
-//	public WebElement findByID(String id, boolean looping, AndroidDriver d)
-//	{
-//		WebElement result = null;
-//		if(looping == true) {
-//			while(looping) {
-//				try
-//				{
-//					result = d.findElementById("com.ELXSmart:id/"+id);
-//				}
-//				catch(Exception e)
-//				{
-//					print("Failed to find Element with ID:" + id);
-//				}
-//			}
-//		}else {
-//			try
-//			{
-//				result = d.findElementById("com.ELXSmart:id/"+id);
-//			}
-//			catch(Exception e)
-//			{
-//				print("Failed to find Element with ID:" + id);
-//			}
-//		}
-//		return result;
-//		
-//	}
 	
 	//Old findByXPath that David made. It's bad code but the new method can't run without it. 
 	public WebElement findByXPath(String xpath, boolean looping, AndroidDriver d)
@@ -246,10 +192,13 @@ public class FrigiDriver extends AndroidDriver
 	public WebElement findByXPath(String xPath, int waitSecs)
 	{
 		myWaitXPath(xPath, waitSecs);
-		try {
-			WebElement elem = findByXPath(xPath, false, this);//replacing this line with AppiumDriver method instead of FrigiDriver method didn't work. TODO fix this later.
+		try 
+		{
+			WebElement elem = super.findElementByXPath(xPath);
 			return elem;
-		}catch(NullPointerException e){
+		}
+		catch(NullPointerException e)
+		{
 			System.out.println("Failed to find XPath: " + xPath);
 		}
 		return null;
@@ -285,15 +234,8 @@ public class FrigiDriver extends AndroidDriver
 		}
 	}
 	
-	private void Sleep(int milli)
-	{
-		try {
-			Thread.sleep(milli);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-	private void print(String msg)
+	
+	public void print(String msg)
 	{
 		System.out.println(msg);
 	}
@@ -327,57 +269,20 @@ public class FrigiDriver extends AndroidDriver
 		}catch(Exception e){
 			System.out.println("Thinking not found");
 		}
-//		System.out.println(1);
-//		myWaitXPath(MyXPath.thinking,30);
-//		System.out.println(2);
-//		try {
-//			WebElement thinking = findElementByXPath(MyXPath.thinking);
-//			System.out.println(3);
-//			WebDriverWait wait = new WebDriverWait(driver, 60);
-//			System.out.println(4);
-//			wait.until(ExpectedConditions.invisibilityOf(thinking));
-//			System.out.println(5);
-//		}catch(Exception e) {
-//			System.out.println(6);
-//			e.getMessage();
-//			System.out.println("CAUGHT ERROR: Thinking Stale Reference");
-//		}
-//		System.out.println(7);
 	}
 	
-//	//REDESIGNED METHOD
-//	//TODO There is potential for designing an abstract button class with code that comes with each button. Either that or add stuff to the tap methods
-//	/**
-//	 * Stops the driver while the app is thinking
-//	 */
-//	public void thinkWait() 
-//	{
-//		System.out.println("before");
-//		if(myWaitXPath(MyXPath.thinking,1)) {
-//			System.out.println("THINKING");
-//			WebElement thinking = findByXPath(MyXPath.thinking, false, driver);
-//			try {
-//				WebDriverWait wait = new WebDriverWait(driver, 10);
-//				wait.until(ExpectedConditions.invisibilityOf(thinking));
-//				System.out.println("FINISHED THIKNING");
-//			}catch(Exception e) {
-//				e.getMessage();
-//				System.out.println("CAUGHT ERROR: Thinking Stale Reference");
-//			}
-//		}
-//		System.out.println("after");
-//	}
-	
-	//same as xpath?
 	//TODO Check for usage and delete
 	public boolean searchForXPath(String xPath, int wait) 
 	{
 		boolean result = false;
-		try {
+		try 
+		{
 			myWaitXPath(xPath, wait);
 			WebElement elem = findByXPath(xPath, false, this);
 			result = true;
-		}catch(WebDriverException e) {
+		}
+		catch(WebDriverException e) 
+		{
 			e.getMessage();
 			System.out.println("XPath not found: " + xPath);
 			System.out.println("Did that print twice?");
@@ -410,35 +315,43 @@ public class FrigiDriver extends AndroidDriver
 	}
 
 	/**
-	 * Tap 
-	 * @param xPath
-	 * @param waitSecs
+	 * Tap: performs a tap action on the element at the specified XPath 
+	 * @param xPath string: gathered from with the app that points to the desired element
+	 * @param waitSecs int: time to wait for the desired element to load before throwing an exception
 	 */
 	public void tapByXPath(String xPath, int waitSecs) {
 		thinkWait();
 		myWaitXPath(xPath, waitSecs);
 		WebElement elem = null;
-		try {
+		try 
+		{
 			elem = findByXPath(xPath, false, this); //TODO: this bugs me. why won't it work without this fallback?
-		}catch(NullPointerException e){
+		}
+		catch(NullPointerException e)
+		{
 			System.out.println("Failed to find XPath: " + xPath);
 		}
-		if(elem != null) {
+		if(elem != null) 
+		{
 			tapOnElement(elem);
-		} else {
+		} 
+		else 
+		{
 			System.out.println("Problem tapping xpath: " + xPath);
 		}
 	}
 	
 	/**
 	 * Overloaded tapByXPath(String, String)
-	 * @param xPath
+	 * @param xPath String: gathered from with the app that points to the desired element
 	 */
-	public void tapByXPath(String xPath) {
+	public void tapByXPath(String xPath) 
+	{
 		tapByXPath(xPath, BUTTON_WAIT);
 	}
 	
-	public void tapOnElement(WebElement element){
+	private void tapOnElement(WebElement element)
+	{
 		float[] elementLocation = getElementCenter(element);
 		int elementCoordinateX, elementCoordinateY; 
 		elementCoordinateX = Math.round(elementLocation[0]);
@@ -448,13 +361,6 @@ public class FrigiDriver extends AndroidDriver
 		useWebContext();
 	}
 
-	//testing
-	public String getInnerHTML(String xpath) {
-		WebElement element = (WebElement)findElementsByXPath(xpath).get(0);
-		String result = element.getAttribute("innerHTML");
-		System.out.println("THE INNER HTML" + result);
-		return result;
-	}
 	
 	//My changes: offset
 	public float[] getElementCenter(WebElement element){
@@ -490,7 +396,8 @@ public class FrigiDriver extends AndroidDriver
 		float[] elementLocation = {elementCenterActualX, elementCenterActualY};
 		
 		//Print Debug info
-		if(false) {
+		if(!false) 
+		{
 			System.out.println("webview width: " + webviewWidth);
 			System.out.println("webview height: " + webviewHeight);
 			System.out.println("elementLocationX: " + elementLocationX);
@@ -507,7 +414,8 @@ public class FrigiDriver extends AndroidDriver
 	/**
 	 * Tap until password show button is successfully tapped. Find the median in an array of successful taps and set the offset to this median. 
 	 */
-	public void calculateOffset() {
+	public void calculateOffset() 
+	{
 		System.out.println("Calculating Offset");
 		boolean foundRange = false;
 		boolean passwordShowing = false;
@@ -553,22 +461,27 @@ public class FrigiDriver extends AndroidDriver
 			}		
 		}		
 		System.out.println("ARRAY: " + successfulTaps);
-		for(int j = 0; j < (successfulTaps.size()-1); j++) {
+		for(int j = 0; j < (successfulTaps.size()-1); j++) 
+		{
 			System.out.println(successfulTaps.get(j) + ", ");
 		}
 		System.out.println(successfulTaps.get(successfulTaps.size()-1));
 		
 		double median;
-		if (successfulTaps.size() % 2 == 0) {
+		if (successfulTaps.size() % 2 == 0) 
+		{
 		    median = ((double)successfulTaps.get(successfulTaps.size()/2) + (double)successfulTaps.get(successfulTaps.size()/2 - 1))/2;
-		}else {
+		}
+		else 
+		{
 		    median = (double) successfulTaps.get(successfulTaps.size()/2);
 		}
 		offset = (int) median;
 		System.out.println("OFFSET: " + offset);
 	}
 	
-	public void myScroll() {
+	public void myScroll() 
+	{
 //		WebElement appliancesLabel = findByXPath(MyXPath.appliancesLabel);
 //		WebElement supportLabel = findByXPath(MyXPath.supportLabel);
 //		
@@ -590,14 +503,11 @@ public class FrigiDriver extends AndroidDriver
 	}
 	
 	//how-to-scroll-with-appium
-	public void scroll(int fromX, int fromY, int toX, int toY) {
+	public void scroll(int fromX, int fromY, int toX, int toY) 
+	{
 	    TouchAction touchAction = new TouchAction(this);
 	    touchAction.longPress(PointOption.point(fromX, fromY)).moveTo(PointOption.point(toX, toY)).release().perform();
 	}
 
 	
-	public AndroidDriver getDriver() 
-	{
-		return this;
-	}
 }

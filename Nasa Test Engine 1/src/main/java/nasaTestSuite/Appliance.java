@@ -77,10 +77,8 @@ public class Appliance {
 	{
 		//TODO implement map navigation
 		//Tap Back
-		d.tapOnElement(d.findByXPath(MyXPath.backButton, d.BUTTON_WAIT)); 
-		//Tap Strombo in list
-		d.tapOnElement(d.findByXPath(MyXPath.getListApplianceName(applianceName), d.BUTTON_WAIT));
-//		tapOnElement(findByXPath(MyXPath.plainPowerButton, BUTTON_WAIT));trying to get power to work
+		d.tapByXPath(MyXPath.backButton, d.BUTTON_WAIT);
+		d.tapByXPath(MyXPath.getListApplianceName(applianceName), d.BUTTON_WAIT);
 		
 	}
 }

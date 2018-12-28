@@ -36,6 +36,7 @@ public class StromboliSettingsTest
 	public static Stromboli strombo = null;
 	public static Appliance app = null;
 	public static TestFunctions test = null;
+	
 	@BeforeClass//("^This code opens the app$")
 	public static void launchMyTest()
 	{

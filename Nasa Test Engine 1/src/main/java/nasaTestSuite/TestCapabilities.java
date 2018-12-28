@@ -80,7 +80,7 @@ public class TestCapabilities
 		String appPath = new File("").getAbsolutePath();
 		if(appPath.contains("Users"))
 		{
-			appPath = appPath.concat("\\src\\main\\resources\\Android_AppUITesting.apk");
+			appPath = appPath.concat("\\src\\main\\resources\\Android_v4.0.3_Test.apk");
 			System.out.println(appPath);
 			DesiredCapabilities appiumSettings = new DesiredCapabilities();
 			appiumSettings.setCapability("platform", this.GetPlatform().toString());
