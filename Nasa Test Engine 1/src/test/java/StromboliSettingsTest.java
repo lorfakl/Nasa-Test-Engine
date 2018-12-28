@@ -52,7 +52,7 @@ public class StromboliSettingsTest
 		frigi.useWebContext();
 		
 		//Sign in
-		strombo.tapSignInButton1();
+		frigi.tapByXPath(MyXPath.signInOne);
 	    strombo.signIn("eluxtester1@gmail.com", "123456");
 		System.out.println("PASS: Sign In");
 //		strombo.isPowerOn();

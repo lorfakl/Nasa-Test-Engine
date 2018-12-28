@@ -7,6 +7,7 @@ import main.java.nasaTestSuite.MyXPath;
 import main.java.nasaTestSuite.Stromboli;
 import main.java.nasaTestSuite.TestCapabilities;
 import main.java.nasaTestSuite.TestFunctions;
+import main.java.nasaTestSuite.TestServers;
 
 import static org.junit.Assert.fail;
 
@@ -42,8 +43,9 @@ public class SignInTest
 	public static void setup()
 	{
 		//Starting the app and pressing the first button
-		try {
-			frigi = new FrigiDriver(new URL("http://localhost:4723/wd/hub"), new TestCapabilities().AssignAppiumCapabilities(), 150); //was from 540-890
+		try {		
+
+			frigi = new FrigiDriver(TestServers.LocalServer(), new TestCapabilities().AssignAppiumCapabilities(), 150); //was from 540-890
 			System.out.println("temporarily removed update");
 			frigi.useWebContext();	
 			boolean calculatingOffset = false;
@@ -52,8 +54,8 @@ public class SignInTest
 			if(calculatingOffset) {
 				frigi.tapByXPath(MyXPath.signInOne, frigi.BUTTON_WAIT);
 				frigi.calculateOffset();				
-			} else {
-				app.tapSignInButton1();				
+			} else {	
+				frigi.tapByXPath(MyXPath.signInOne);
 			}
 			System.out.println("OFFSET: " + frigi.offset); //change offset back to protected later
 		} catch (Exception e) {

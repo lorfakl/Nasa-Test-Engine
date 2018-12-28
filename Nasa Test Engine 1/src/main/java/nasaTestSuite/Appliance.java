@@ -24,13 +24,6 @@ public class Appliance {
 		System.out.println("UNIMPLEMENTED");
 	}
 	
-	public void tapSignInButton1() 
-	{
-	    WebElement signInButton = d.findByXPath(MyXPath.signInOne, BUTTON_WAIT);
-	    d.tapOnElement(signInButton);
-	    System.out.println("sign in button pressed");
-	}
-	
 	public void typeField(String xpath, String text) 
 	{		
 		WebElement elem = d.findByXPath(xpath, BUTTON_WAIT);
@@ -46,19 +39,12 @@ public class Appliance {
 		elem.sendKeys(password);
 	}
 	
-	public void tapSignInButton2() 
-	{
-	    WebElement signInButton = d.findByXPath(MyXPath.signInTwo, BUTTON_WAIT);
-	    d.tapOnElement(signInButton);
-	    System.out.println("sign in button pressed");
-	}
-	
 	public void signIn(String email, String password) 
 	{
 		//TODO move the email.clear into here
 		typeField(MyXPath.emailField, email);
 		typePassword(password);
-		tapSignInButton2();		
+		d.tapByXPath(MyXPath.signInTwo);	
 		System.out.println("Signed into " + email);
 	}
 	
